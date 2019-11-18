@@ -3143,7 +3143,252 @@ f.defer(1000)(1, 2); // shows 3 after 1 sec
 
 ## 原型方法
 
-```html
-fetch("http://localhost:8080/clubkatene/gasswreq4m/gasSwReq4mInput.do", {"credentials":"include","headers":{"accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9","accept-language":"zh-CN,zh;q=0.9","cache-control":"max-age=0","content-type":"application/x-www-form-urlencoded","sec-fetch-mode":"navigate","sec-fetch-site":"same-origin","sec-fetch-user":"?1","upgrade-insecure-requests":"1"},"referrer":"http://localhost:8080/clubkatene/gasswreq4m/gasSwReq4mInput.html?kid=1103440099401&org.apache.struts.taglib.html.TOKEN=38c8bc1aaeca06da742bfaff277b50ba&current.page=L2dhc3JlcWxpc3QvZ2FzUmVxTGlzdFN3Lmh0bWw%3D","referrerPolicy":"no-referrer-when-downgrade","body":"org.apache.struts.taglib.html.TOKEN=b156d70aa919e467c303e0b8db4e5ea7&current.page=L2dhc3N3cmVxNG0vZ2FzU3dSZXE0bUlucHV0Lmh0bWw%2Fa2lkPTExMDM0NDAwOTk0MDE%3D&displayKid=110-3440-09-94-01&juyoBasyoPostCd=456-0013&juyoBasyoAddress=%E6%84%9B%E7%9F%A5%E7%9C%8C%E3%80%80%E5%90%8D%E5%8F%A4%E5%B1%8B%E5%B8%82%E7%86%B1%E7%94%B0%E5%8C%BA%E3%80%80%E5%A4%96%E5%9C%9F%E5%B1%85%E7%94%BA%E3%80%80%EF%BC%99%EF%BC%8D%EF%BC%93%EF%BC%8D&keyakuMeigi=%E3%82%AA%E3%80%80%E3%81%A6%E3%81%99%E3%81%A8%E3%82%81%E3%81%84%E3%81%8E&keyakuMeigiKana=%E3%82%AA%E3%82%AB%E3%82%BF%E3%80%80%E3%83%86%E3%82%B9%E3%83%88%E3%83%A1%E3%82%A4%E3%82%AE&keiyakuShubetsuName=%E6%9A%AE%E3%82%89%E3%81%97%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88%E3%82%BB%E3%83%83%E3%83%88&keiyakuYoryo=30%EF%BC%A1&mail=xieyun0929%40test.com&by=&initFlg=1&gasAppliAgree1=1&gasMeigiRadioBtn=1&gasMeigi=%E3%82%AA%E3%80%80%E3%81%A6%E3%81%99%E3%81%A8%E3%82%81%E3%81%84%E3%81%8E&gasMeigiKana=%E3%82%AA%E3%82%AB%E3%82%BF%E3%80%80%E3%83%86%E3%82%B9%E3%83%88%E3%83%A1%E3%82%A4%E3%82%AE&gasID1=23&gasID2=2342&gasID3=2342&tohoGasKeiyakuShubetsu=010&gasAddressRadioBtn=1&gasPostCd3=&gasPostCd4=&gasSiteAddrTdfkn=1&gasSiteAddrSkgncsn=&gasSiteAddrOazts=&gasSiteAddrAzcm=&gasHouseNo=&gasRoomNo=&attentionCheck1=1&attentionCheck2=1&gasKeiyakuShubetsu=00100000&relationship=1&telBasyo=1&tel1=456&tel2=3453&tel3=4534&emergencyTelBasyo=1&czJzdHJ1dHMuQkFTRTY0X0ZPUk1BVDpzMnN0cnV0cy5BQ1RJT05fRVhQUkVTU0lPTj0lMjMlN0JnYXNzd3JlcTRtX2dhc1N3UmVxNG1JbnB1dEFjdGlvbi5kb05leHQlN0Q%3D=","method":"POST","mode":"cors"});
+对原型的操作
+
+```js
+let animal = {
+  eats: true
+};
+
+// 以 animal 为原型创建一个新对象
+let rabbit = {{c1::Object.create(animal)}};
+//Object.create 有一个可选的第二参数：属性描述。我们可以给新对象提供额外的属性，就像这样：
+{{c1::
+    let rabbit = Object.create(animal, {
+      jumps: {
+        value: true
+      }
+    });
+}}
+
+alert(rabbit.eats); // true
+alert({{c1::Object.getPrototypeOf(rabbit)}} === animal); // 获取 rabbit 的原型
+
+{{c1::Object.setPrototypeOf(rabbit, {});}} // 将 rabbit 的原型更改为 {}
 ```
+
+### 我们可以利用 `Object.create` 来实现比 `for..in` 循环赋值属性方式更强大的对象复制功能：
+
+```javascript
+// obj 对象的浅复制
+let clone = {{c1::
+	Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
+}}
+```
+
+### 获取所有属性
+
+- [Object.keys(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/keys) / [Object.values(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/values) / [Object.entries(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/entries) – 返回一个数组，包含所有可枚举字符串属性名称/值/键值对。这些方法只会列出**可枚举**属性，而且它们**键名为字符串形式**。
+
+如果我们想要 symbol 属性：
+
+- [Object.getOwnPropertySymbols(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols) —— 返回包含所有 symbol 属性名称的数组。
+
+如果我们想要非可枚举属性：
+
+- [Object.getOwnPropertyNames(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames) —— 返回包含所有字符串属性名的数组。
+
+如果我们想要**所有**属性：
+
+- [Reflect.ownKeys(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Reflect/ownKeys) —— 返回包含所有属性名称的数组。
+
+-  如果我们想要区分继承属性，有一个内置方法 [obj.hasOwnProperty(key)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty)：如果 `obj` 有名为 `key` 的自身属性（而非继承），返回值为 `true`。 
+
+### 给字典对象添加 `toString `方法
+
+有一个对象 `dictionary`，通过 `Object.create(null)` 创建，用来存储任意键值对。
+
+为该对象添加方法 `dictionary.toString()`，返回所有键的列表，用逗号隔开。你的 `toString` 方法不能对该对象使用 `for...in`。
+
+以下是它的运行例子：
+
+```javascript
+let dictionary = Object.create(null);
+
+// 添加 dictionary.toString 方法的代码
+
+// 添加一些数据
+dictionary.apple = "Apple";
+dictionary.__proto__ = "test"; // __proto__ 在这里是正常参数
+
+// 只有 apple 和 __proto__ 在循环内
+for(let key in dictionary) {
+  alert(key); // "apple"，然后 "__proto__"
+}
+
+// your toString in action
+alert(dictionary); // "apple,__proto__"
+```
+
+{{c1::
+
+可以使用 `Object.keys` 列出所有可枚举键值，然后输出。
+
+为了使 `toString` 不可枚举，我们使用属性描述器来定义它。`Object.create` 语法允许我们为一个对象提供属性描述器作为第二参数。
+
+```javascript
+let dictionary = Object.create(null, {
+  toString: { // 定义 toString 方法
+    value() { // value 是一个函数
+      return Object.keys(this).join();
+    }
+  }
+});
+
+dictionary.apple = "Apple";
+dictionary.__proto__ = "test";
+
+// apple 和 __proto__ 在循环内
+for(let key in dictionary) {
+  alert(key); // "apple"，然后 "__proto__"
+}
+
+// 通过 toString 得到逗号分隔的属性值
+alert(dictionary.toString()); // "apple,__proto__"
+```
+
+当我们使用描述器创建一个属性，它的标识默认是 `false`。因此在以上代码中，`dictonary.toString` 是不可枚举的。
+
+}}
+
+### 调用方式的差异
+
+让我们创建一个新的 `rabbit` 对象：
+
+```javascript
+function Rabbit(name) {
+  this.name = name;
+}
+Rabbit.prototype.sayHi = function() {
+  alert(this.name);
+};
+
+let rabbit = new Rabbit("Rabbit");
+```
+
+以下调用得到的结果是否相同？
+
+```javascript
+rabbit.sayHi();
+Rabbit.prototype.sayHi();
+Object.getPrototypeOf(rabbit).sayHi();
+rabbit.__proto__.sayHi();
+```
+
+---
+
+{{c1::
+
+第一个调用中 `this == rabbit`，其他的 `this` 等同于 `Rabbit.prototype`，因为它是逗号之前的对象。
+
+因此只有第一个调用显示 `Rabbit`，其他的都是 `undefined`：
+
+```javascript
+function Rabbit(name) {
+  this.name = name;
+}
+Rabbit.prototype.sayHi = function() {
+  alert( this.name );
+}
+
+let rabbit = new Rabbit("Rabbit");
+
+rabbit.sayHi();                        // Rabbit
+Rabbit.prototype.sayHi();              // undefined
+Object.getPrototypeOf(rabbit).sayHi(); // undefined
+rabbit.__proto__.sayHi();              // undefined
+```
+
+}}
+
+# 类
+
+## Class基本语法
+
+### Class基本语法
+
+然后通过 `new MyClass()` 来创建具有上述列出的所有方法的新对象。
+
+通过 `new` 关键词创建的对象会自动调用{{c1:: `constructor()` }}方法，因此我们可以在{{c1:: `constructor()` }}里初始化对象。
+
+```javascript
+class MyClass {
+  {{c1::
+  prop = value;}} // field
+
+  {{c2::
+  constructor(...) {   }}// 构造器
+    // ...
+  }
+
+  {{c3::
+  method(...) {} // 方法
+  }}
+  {{c4::
+  get something(...) {} }}// getter 方法
+  {{c5::
+  set something(...) {} }}// setter 方法
+  {{c6::
+  [Symbol.iterator]() {} }}// 计算 name/symbol 名方法
+  // ...
+}
+```
+
+### 通过class声明的对象与通过function声明的对象之间的差异？
+
+1.  通过 `class` 创建的函数是由特殊内部属性标记的 `[[FunctionKind]]:"classConstructor"`。所以，相较于手动创建它还是有点不同的。 
+2.  类方法不可枚举。 对于 `"prototype"` 中的所有方法，类定义将 `enumerable` 标记设为 `false。 
+3.  类默认使用 `use strict`。 在类构造函数中的所有方法自动使用严格模式。 
+
+### [类表达式（Class Expression）
+
+{{c1::
+
+```javascript
+// “命名类表达式”
+// （规范中没有这样的术语，但是它和命名函数表达式类似）
+let User = class MyClass {
+  sayHi() {
+    alert(MyClass); // MyClass 仅在其内部可见
+  }
+};
+
+new User().sayHi(); // 正常运行，显示 MyClass 中定义的内容
+
+alert(MyClass); // 错误，MyClass 在外部不可见
+```
+
+ }}
+
+### JS中类的继承
+
+ `extends` **允许后接任何表达式** 
+
+```javascript
+// 通过指定“extends Animal”让 Rabbit 继承自 Animal
+class Rabbit extends Animal {
+  hide() {
+    alert(`${this.name} hides!`);
+  }
+}
+```
+
+### `super` 关键字
+
+- 执行 `super.method(...)` 调用父类方法。
+- 执行 `super(...)` 调用父类构造函数（只能在子类的构造函数中运行）。
+
+###  **箭头函数没有** `super` 
+
+箭头函数中的 `super` 与 `stop()` 中的是相同的，所以它能按预期工作。如果我们在这里指定一个“普通”函数，那么将会抛出错误：
+
+```javascript
+// Unexpected super
+setTimeout(function() { super.stop() }, 1000);
+```
+
+### 普通的构造函数与重写的构造函数之间的区别
+
+- 当一个普通构造函数执行时，它会创建一个空对象作为 `this` 并继续执行。
+- 但是当继承的构造函数执行时，它并不会做这件事。它期望父类的构造函数来完成这项工作。
 
