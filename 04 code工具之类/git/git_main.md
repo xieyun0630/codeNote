@@ -1,3 +1,5 @@
+## 环境
+
 ### 在Windows上安装Git
 
 下载地址： https://gitforwindows.org/ 
@@ -12,6 +14,8 @@ git config --global user.email "136412052@qq.com"
 ```
 
 }}
+
+## Git初始化
 
 ### 初始化一个版本库
 
@@ -84,6 +88,8 @@ $ {{c1::  git config core.autocrlf }}
 
 当 `core autocrlf`为true时，**还有一个需要慎重的地方**，{{c2::当你上传一个二进制文件，Git可能会将二进制文件误以为是文本文件，从而也会修改你的二进制文件，从而产生隐患。}}
 
+## 版本管理
+
 ### `git log`命令
 
 - `git log`:以列表的方式查看当前版本库的历史纪录
@@ -116,6 +122,8 @@ Git是分布式的系统，为了避免与其他人的版本冲突，GIT 的comm
 - 版本库：{{c1::.git是Git的版本库，不算工作区。}}
 - 暂存区：{{c1::保存还没有提交到创库的修改。}}
 
+## 文件修改
+
 ### 管理修改
 
 ```shell
@@ -129,9 +137,133 @@ Git是分布式的系统，为了避免与其他人的版本冲突，GIT 的comm
 
 ### 撤销修改的3种场景
 
-场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令{{c3:: `git checkout -- file`。}}
+场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令{{c1:: `git checkout -- file`。}}
 
-场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令{{c3:: `git reset HEAD `，}}就回到了场景1，第二步按场景1操作。
+场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令{{c2:: `git reset HEAD `，}}就回到了场景1，第二步按场景1操作。
 
 场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，{{c3::`git reset HEAD^`}}，不过前提是没有推送到远程库。
+
+### 删除操作：
+
+- 普通删除：在资源管理器中删除或者使用了`rm`命令:
+
+- 从版本库中删除：{{c1:: 
+
+   ```shell  
+  $ git rm test
+  ```
+	}}
+
+- 从版本库撤销普通删除：
+{{c1:: 
+  
+  ```shell
+  $ git checkout -- test.txt
+  ```
+}}
+
+## 版本库推送
+
+### 在用户主目录中创建SSH KEY
+
+{{c1:: 
+
+```shell
+ssh-keygen -t rsa -C "136412052@qq.com"
+```
+
+}}
+
+- `id_rsa`文件：{{c1:: 私钥}}
+- `id_rsa.pub`文件：{{c1:: 公钥，目前用于添加到GitHub上用于推送，标识自己的计算机。}}
+
+### 将本地项目推送到GitHub上
+
+- 第一步：{{c1::在GitHub上创建一个仓库。}}
+
+- 第二步：{{c1::使用命令关联到GitHub
+
+  ```shell
+  git remote add origin git@github.com:xieyun/codeNote
+  ```
+
+  }}
+
+- 
+  第三步：{{c1::第一次推送推送(将当前分支推送到远程库上)
+
+  ```shell
+  #第一次推送加上-u，Git会把本地的master分支与github上的关联起来
+  git push -u origin master
+  ```
+
+  }}
+
+- 第四步：之后的推送
+
+  ```shell
+  #把本地的master分支的最新修改推送到GitHub
+  {{c1::git push origin master}}
+  ```
+
+### 从远程克隆库
+
+{{c1::
+
+```shell
+git clone git@github.com:alibaba/easyexcel.git
+```
+
+- Git支持多种协议，包括https，但是通过SSH支持的原生git协议最快。}}
+
+## 分支
+
+### 分支创建与切换
+
+```shell 
+#git checkout命令加上-b参数标识创建并切换
+git checkout -b name
+#相当于
+#创建
+git branch name
+#切换
+git checkout name
+#查看当前分支
+git branch
+```
+
+### 分支的合并与删除
+
+```shell
+#将指定分支合并到当前分支上
+git merge name
+#删除分支
+git branch -d name
+```
+
+### 查看分支的合并情况
+
+```shell 
+git log --graph --pretty=oneline --abbrev-commit
+```
+
+### Fast Forward
+
+- 当前分支合并到另一分支时，如果没有分歧解决，就会直接移动文件指针,合并后没有历史记录。
+- 命令：`git merge name`
+
+### No Fast Forward
+
+- 当前分支合并到另一分支时会新创建一个版本，合并后的历史有分支
+- 命令：`git merge -no-ff name`
+
+### 工作现场的保留与恢复
+
+```shell
+
+```
+
+
+
+
 

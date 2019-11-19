@@ -591,7 +591,7 @@ new User(); // function User { ... }
 
 }}
 
-### task:JS构造函数 Return返回的是什么?
+### task: 构造函数 Return返回的是什么?
 
 是否可以创建函数 `A` 和 `B`，如 `new A()==new B()`？
 
@@ -605,9 +605,11 @@ let b = new B;
 alert( a == b ); // true
 ```
 
-如果可以，请提供他们的代码示例。
+如果可以，请提供他们的代码示例?
 
-带有对象的 `return` 返回该对象，在所有其他情况下返回 `this`。
+ {{c1::   
+
+**带有对象的 `return` 返回该对象**，在所有其他情况下返回 `this`。
 
 ```javascript
 let obj = {};
@@ -618,67 +620,29 @@ function B() { return obj; }
 alert( new A() == new B() ); // true
 ```
 
-#### 创建 new Calculator
-
-创建一个构造函数使用3种方法创建对象的 `Calculator`：
-
-- `read()` 使用 `prompt` 请求两个值并在对象属性中记住它们。
-- `sum()` 返回这些属性的总和。
-- `mul()` 返回这些属性的乘积。
-
-例如：
-
-```javascript
-let calculator = new Calculator();
-calculator.read();
-
-alert( "Sum=" + calculator.sum() );
-alert( "Mul=" + calculator.mul() );
-```
-
----
-
-```javascript
-function Calculator() {
-
-  this.read = function() {
-    this.a = +prompt('a?', 0);
-    this.b = +prompt('b?', 0);
-  };
-
-  this.sum = function() {
-    return this.a + this.b;
-  };
-
-  this.mul = function() {
-    return this.a * this.b;
-  };
-}
-
-let calculator = new Calculator();
-calculator.read();
-
-alert( "Sum=" + calculator.sum() );
-alert( "Mul=" + calculator.mul() );
-```
+}}
 
 ## 数据类型
 
 ### 在 JavaScript 中有 6 种基本类型：
 
+ {{c1::   
+
 - `string`、`number`、`boolean`、`symbol`、`null` 和 `undefined`。
+
+  }}
 
 ### 基本类型的包装对象
 
 极其不推荐使用构造函数 `String/Number/Boolean`，为什么？
 
-特殊的基本类型 `null` 和 `undefined` 是个例外。他们没有相应的“包装对象”，
+特殊的基本类型 {{c1::    `null` 和 `undefined` }}是个例外。他们没有相应的“包装对象”，
 
-基本类型不是对象。
+基本类型不是{{c1::    对象。}}
 
-基本类型不能存储数据。
+基本类型{{c1:: 不能存储数据。}}
 
-所有的属性/方法操作都是在临时对象的帮助下执行的。
+所有的属性/方法操作都是在{{c1:: 临时对象}}的帮助下执行的。
 
 ---
 
@@ -698,19 +662,27 @@ if (zero) { // zero is true, because it's an object
 
 ```js
 //数字简写
-1e-3 = 1 / 1000 (=0.001)
-1.23e-6 = 1.23 / 1000000 (=0.00000123)
+1e-3 ={{c1:: 1 / 1000 (=0.001)}}
+1.23e-6 ={{c1:: 1.23 / 1000000 (=0.00000123) }}
 //16进制
+{{c1::
 alert( 0xff ); // 255
 alert( 0xFF ); // 255 (the same, case doesn't matter)
+ }}
 //2进制
+{{c1::
 let a = 0b11111111; // binary form of 255
+}}
 //8进制
+{{c1::
 let b = 0o377; // octal form of 255
+ }}
 alert( a == b ); // true, the same number 255 at both sides
 ```
 
 ### `num.toString(base)`
+
+{{c1::
 
 ```javascript
 let num = 255;
@@ -722,8 +694,12 @@ alert( num.toString(2) );   // 11111111
 常见的用例如下：
 
 - **base=16** 用于十六进制颜色，字符编码等，数字可以是 `0..9` 或 `A..F`。
+
 - **base=2** 主要用于调试按位操作，数字可以是 `0` 或 `1`。
+
 - **base=36** 是最大值，数字可以是 `0..9` 或 `A..Z`。整个拉丁字母用来表示一个数字。对于 `36` 来说，一个有趣而有用的例子是，当我们需要将一个较长的数字标识符变成较短的时候，例如做一个简短的URL。可以简单地用基数为 `36` 的数字系统表示：
+
+  }}
 
 ### 数字调用方法的两个点
 
@@ -733,31 +709,35 @@ alert( 123456..toString(36) ); // 2n9c
 
 ---
 
-请注意 `123456..toString(36)` 中的两个点不是拼写错误。如果我们想直接在一个数字上调用一个方法，比如上面例子中的 `toString`，那么我们需要在它后面放置两个点 `..`。
+{{c1::请注意 `123456..toString(36)` 中的两个点不是拼写错误。如果我们想直接在一个数字上调用一个方法，比如上面例子中的 `toString`，那么我们需要在它后面放置两个点 `..`。
 
 如果我们放置一个点：`123456.toString(36)`，那么会出现错误，因为 JavaScript 语法暗示了第一个点之后的小数部分。如果我们再放一个点，那么 JavaScript 知道小数部分是空的，现在进入方法。
 
-也可以写 `(123456).toString(36)`。
+也可以写 `(123456).toString(36)`。}}
 
 ### `Math.trunc`方法
 
-删除小数点后的所有内容而不舍入：`3.1` 变成 `3`，`-1.1` 变成 `-1`。
+{{c1::
 
-### ` toFixed(n)`方法
+删除小数点后的所有内容而不舍入：`3.1` 变成 `3`，`-1.1` 变成 `-1`。}}
 
-函数 [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) 将点数后的数字四舍五入到 `n` 个数字并返回结果的**字符串**表示。
+### ` num.toFixed(n)`方法
+
+{{c1::函数 [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) 将点数后的数字**四舍五入到 `n` 个数字**并返回结果的**字符串**表示。}}
 
 ```javascript
 let num = 12.34;
-alert( num.toFixed(1) ); // "12.3"
+alert( num.toFixed(1) ); {{c1::// "12.3"}}
 
 let num = 12.36;
-alert( num.toFixed(1) ); // "12.4"
+alert( num.toFixed(1) ); {{c1::// "12.4"}}
 ```
 
-### 如何解决js数字精度丢失问题
+### 如何解决`javascript`数字精度丢失问题
 
 我们能解决这个问题吗？当然，有很多方法：
+
+{{c1::
 
 1. 我们可以在特定函数的帮助下对结果进行四舍五入 [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)：
 
@@ -783,22 +763,27 @@ alert( num.toFixed(1) ); // "12.4"
 
 3. 如果我们在与一家商店打交道，那么最激进的解决方案就是将所有价格存储在美分中，并且根本不使用分数。但是，如果我们应用 30％ 的折扣呢？在实践中，完全回避分数是很难实现的，所以上述解决方案有助于避免这种缺陷。
 
-### 测试：`isFinite` 和` isNaN`
+   }}
 
-- `isNaN(value)` 将其参数转换为数字，然后测试它是否为 `NaN`：
+   
 
-  ```javascript
-  alert( isNaN(NaN) ); // true
-  alert( isNaN("str") ); // true
-  ```
+### `js`中`isNaN`和`Number.isNaN`的区别
 
-  但是我们需要这个功能吗？我们不能只使用比较 `=== NaN` 吗？对不起，但答案是否定的。值 “NaN” 是独一无二的，它不等于任何东西，包括它本身：
+{{c1::
 
-  ```javascript
-  alert( NaN === NaN ); // false
-  ```
+`Number.isNaN`与`isNaN`最的区别是，`Number.isNaN` 不存在类型转换的行为。
 
-- `isFinite(value)` 将其参数转换为数字，如果是常规数字，则返回 `true`，而不是 `NaN / Infinity / -Infinity`：
+```java
+console.log(isNaN('测试')) //true
+console.log(Number.isNaN('测试')) //false
+alert( NaN === NaN ); // false
+```
+
+}}
+
+### 测试：`isFinite`
+
+- `isFinite(value)`: {{c1::将其参数转换为数字，如果是常规数字，则返回 `true`，而不是 `NaN / Infinity / -Infinity`：
 
   ```javascript
   alert( isFinite("15") ); // true
@@ -806,11 +791,17 @@ alert( num.toFixed(1) ); // "12.4"
   alert( isFinite(Infinity) ); // false, because a special value: Infinity
   ```
 
-- `Object.is`可以比较 `===` 等值，但对于两种边缘情况更可靠：
+  }}
+
+- `
+  Object.is`可以比较 `===` 等值，但对于两种边缘情况更可靠：{{c1::
+  
   1. 它适用于 `NaN`： `Object.is（NaN，NaN）=== true`，这是件好事。
-  2. 值 `0` 和 `-0` 是不同的：`Object.is（0，-0）=== false`，它不是很重要，但这些值在技术上是不同的。
+  2. 值 `0` 和 `-0` 是不同的：`Object.is（0，-0）=== false`，它不是很重要，但这些值在技术上是不同的。}}
 
 ### `parseInt` 和` parseFloat`
+
+{{c1::
 
 使用加号 `+` 或 `Number()` 的数字转换是严格的。如果一个值不完全是一个数字，就会失败：
 
@@ -831,9 +822,13 @@ alert( parseFloat('12.3.4') ); // 12.3, the second point stops the reading
 alert( parseInt('a123') ); // NaN, the first symbol stops the process
 ```
 
+}}
+
 ## 字符串
 
 ### 3种字符串类型：
+
+{{c1::
 
 在 JavaScript 中，字符串不可更改。改变字符是不可能的。
 
@@ -842,11 +837,14 @@ alert( parseInt('a123') ); // NaN, the first symbol stops the process
 ```javascript
 let single = 'single-quoted';
 let double = "double-quoted";
-
 let backticks = `backticks`;
 ```
 
+}}
+
 ### 可以使用 `for..of` 遍历字符：
+
+{{c1::
 
 ```javascript
 for (let char of "Hello") {
@@ -854,7 +852,11 @@ for (let char of "Hello") {
 }
 ```
 
-### 按位（bitwise）NOT 技巧
+}}
+
+### 按位（bitwise）NOT 使用`indexOf`的技巧
+
+{{c1::
 
 ```javascript
 let str = "Widget";
@@ -864,7 +866,11 @@ if (~str.indexOf("Widget")) {
 }
 ```
 
+}}
+
 ### `str.includes(substr, pos)`
+
+{{c1::
 
 更现代的方法 [str.includes(substr, pos)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/String/includes) 取决于 `str` 是否包含 `substr` 来返回 `true/false`。
 
@@ -875,27 +881,33 @@ alert( "Midget".includes("id") ); // true
 alert( "Midget".includes("id", 3) ); // false, 位置 3 没有“id”
 ```
 
+}}
+
 ### JavaScript 中有三种获取字符串的方法：`substring`、`substr` 和 `slice`。
 
-| 方法                    | 选择方式……                                | 负号参数            |
-| :---------------------- | :---------------------------------------- | :------------------ |
-| `slice(start, end)`     | 从 `start` 到 `end` (不含 `end`)          | 允许                |
-| `substring(start, end)` | `start` 与 `end` 之间                     | 负值代表 `0`        |
-| `substr(start, length)` | 从 `start` 开始获取长为 `length` 的字符串 | 允许 `start` 为负数 |
+| 方法                    | 选择方式……                                         | 负号参数            |
+| :---------------------- | -------------------------------------------------- | :------------------ |
+| `slice(start, end)`     | **{{c1:: 从** `start` 到 `end` (不含 `end`)}}      | 允许                |
+| `substring(start, end)` | `{{c1:: start` 与 `end` 之间}}                     | 负值代表 `0`        |
+| `substr(start, length)` | {{c1:: 从 `start` 开始获取长为 `length` 的字符串}} | 允许 `start` 为负数 |
 
 ## 数组
 
 ### 创建一个空数组有两种语法：
+
+{{c1::
 
 ```javascript
 let arr = new Array();
 let arr = [];
 ```
 
+}}
+
 ### 数组可以存储任何类型的元素。
 
-- 数组和对象一样，都可以在末尾冗余一个逗号。
-- 数组是一种特殊的对象。使用方括号来访问属性 `arr[0]` 实际上是来自于对象的语法。这个数字被用作键值。他们扩展了对象，提供了特殊的方法来处理有序的数据集合，还添加了 `length` 属性。但是核心还是一个对象。
+- 数组和对象一样，{{c1:: 都可以在末尾冗余一个逗号。}}
+- 数组是一种特殊的对象。{{c1:: 使用方括号来访问属性 `arr[0]` 实际上是来自于对象的语法。这个数字被用作键值。他们扩展了对象，提供了特殊的方法来处理有序的数据集合，还添加了 `length` 属性。但是核心还是一个对象。}}
 - 数组有自己的 `toString` 方法的实现，会返回以逗号隔开的元素列表。
 
 ```javascript
@@ -911,10 +923,11 @@ arr[3](); // hello
 
 ### pop/push, shift/unshift 方法
 
-- `push` 在末端添加一个元素.
-- `shift` 取出队列最前端的一个元素，整个队列往前移，这样原先排第二的元素现在排在了第一。
-- `pop` 从末端取出一个元素.
-- `unshift` 在数组的前端添加元素：![1571887679989](javascript_info.assets/1571887679989.png)
+- `push` {{c1:: 在末端添加一个元素。}}
+- `shift` {{c1:: 取出队列最前端的一个元素，整个队列往前移，这样原先排第二的元素现在排在了第一。}}
+- `pop` {{c1:: 从末端取出一个元素。}}
+- `unshift` {{c1:: 在数组的前端添加元素。![1571887679989](javascript_info.assets/1571887679989.png)
+}}
 
 ### 数组误用的几种方式:
 
@@ -922,17 +935,16 @@ arr[3](); // hello
 - 制造空洞，比如：添加 `arr[0]` 后添加 `arr[1000]` (它们中间什么都没有)。
 - 以倒序填充数组, 比如 `arr[1000]`，`arr[999]` 等等。
 
-### 2种简化for循环的格式
+### 2种简化for循环的格式区别：
 
-`for..in`:遍历对象的属性名
+- `for..in`： {{c1::  遍历对象的属性名。}}
+- `for..of `： {{c1::  遍历数据元素。}}
 
-`for..of `：遍历数据元素。
+### 关于 `length`
 
-### 关于 “length” [》](https://zh.javascript.info/array#guan-yu-length)
+当我们修改数组的时候，`length` 属性会自动更新。准确来说，它实际上不是数组里元素的个数，{{c1::  而是最大的数字索引值加一。}}
 
-当我们修改数组的时候，`length` 属性会自动更新。准确来说，它实际上不是数组里元素的个数，而是最大的数字索引值加一。
-
-`length` 属性的另一个有意思的点是它是可写的。
+`length` 属性的另一个有意思的点是 {{c1::它是可写的。}}
 
 ```javascript
 let arr = [1, 2, 3, 4, 5];
@@ -944,35 +956,25 @@ arr.length = 5; // 又把 length 加回来
 alert( arr[3] ); // undefined: 被截断的那些数值并没有回来
 ```
 
-所以，清空数组最好的方法就是：`arr.length = 0;`。
+所以，清空数组最好的方法就是： {{c1::  ``arr.length = 0;``   }}。
 
 ## 数组方法
 
 ### `arr.splice(index[, deleteCount, elem1, ..., elemN])`
 
-从 `index` 开始：删除 `deleteCount` 元素并在当前位置插入 `elem1, ..., elemN`。最后返回已删除元素的数组。
+ {{c1:: 从 `index` 开始：删除 `deleteCount` 元素并在当前位置插入 `elem1, ..., elemN`。最后返回已删除元素的数组。 }}
 
 **允许负向索引**
 
-```javascript
-// from index -1 (one step from the end)
-// delete 0 elements,
-// then insert 3 and 4
-//它们从数组末尾计算位置
-arr.splice(-1, 0, 3, 4);
-```
-
 ### `arr.slice(start, end)`
 
-它从所有元素的开始索引 `"start"` 复制到 `"end"` (不包括 `"end"`) 返回一个新的数组。
+  {{c1:: 它从所有元素的开始索引 `"start"` 复制到 `"end"` (不包括 `"end"`) 返回一个新的数组。 }} 
 
 ### `arr.concat(arg1, arg2...)`
 
-它接受任意数量的参数 — 数组或值。
+结果是一个{{c1:: 包含`arr`，`arg1`，`arg2`等元素的新数组。}}
 
-结果是一个包含`arr`，`arg1`，`arg2`等元素的新数组。
-
-如果参数是一个数组或具有 `Symbol.isConcatSpreadable` 属性，则其所有元素都将被复制。否则，复制参数本身。
+如果参数是一个数组或具有 `Symbol.isConcatSpreadable` 属性， {{c1:: 则其所有元素都将被复制。否则，复制参数本身。
 
 ```javascript
 let arr = [1, 2];
@@ -995,50 +997,50 @@ let arrayLike = {
 alert( arr.concat(arrayLike) ); // 1,2,something,else
 ```
 
+ }}
+
 ### `indexOf` `lastIndexOf ` `includes`
 
-- `arr.indexOf(item, from)` 从索引 `from` 查询 `item`，如果找到返回索引，否则返回 `-1`。
-- `arr.lastIndexOf(item, from)` — 和上面相同，只是从尾部开始查询。
-- `arr.includes(item, from)` — 从索引 `from` 查询 `item`，如果找到则返回 `true`。
+- `arr.indexOf(item, from)` {{c1:: 从索引 `from` 查询 `item`，如果找到返回索引，否则返回 `-1`。}}
+- `arr.lastIndexOf(item, from)` — {{c1:: 和上面相同，只是从尾部开始查询。}}
+- `arr.includes(item, from)` — {{c1:: 从索引 `from` 查询 `item`，如果找到则返回 `true`。}}
 
-### `find` 和`findIndex`
+### JS数组中使用lambda表达式的方法
 
-```javascript
-let result = arr.find(function(item, index, array) {
-  // 如果查询到返回 true
-});
+| [filter()](https://www.runoob.com/jsref/jsref-filter.html)   | {{c1::检测数值元素，并返回符合条件所有元素的数组。}}         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [find()](https://www.runoob.com/jsref/jsref-find.html)       | {{c2::返回符合传入测试（函数）条件的数组元素。}}             |
+| [findIndex()](https://www.runoob.com/jsref/jsref-findindex.html) | {{c3::返回符合传入测试（函数）条件的数组元素索引。}}         |
+| [forEach()](https://www.runoob.com/jsref/jsref-foreach.html) | {{c4::数组每个元素都执行一次回调函数。}}                     |
+| [map()](https://www.runoob.com/jsref/jsref-map.html)         | {{c5::通过指定函数处理数组的每个元素，并返回处理后的数组。}} |
+``` js
+//参数函数
+{{c1:: 
+    let func=function(item, index, array) {
+      // 如果查询到返回 true
+    };
+}}
+    let result = arr.find(func);
+
+//箭头函数版
+{{c1:: 
+    let someUsers = users.filter(item => item.id < 3);
+}}
+    alert(someUsers.length); // 2
 ```
 
-- `item` 是元素。
+- {{c1:: `item` 是元素。
 - `index` 是它的索引。
-- `array` 是数组本身。
+- `array` 是数组本身。}}
 
-与 [arr.findIndex](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex) 方法本质上是相同的，但它返回找到元素的索引而不是元素本身。
-
-### `arr.filter`
-
-```javascript
-let users = [
-  {id: 1, name: "John"},
-  {id: 2, name: "Pete"},
-  {id: 3, name: "Mary"}
-];
-// 返回前两个用户的数组
-let someUsers = users.filter(item => item.id < 3);
-alert(someUsers.length); // 2
-```
-
-### `arr.map`
-
-```javascript
-let result = arr.map(function(item, index, array) {
-  // 返回新值而不是当前元素
-})
-```
 
 ### `arr.sort(fn)`
 
 **默认情况下按字符串排序。**
+
+自定义排序例子：
+
+  {{c1::  
 
 ```javascript
 function compareNumeric(a, b) {
@@ -1054,42 +1056,41 @@ arr.sort(compareNumeric);
 alert(arr);  // 1, 2, 15
 ```
 
+}}
+
 ### `arr.reverse`
+
+  {{c1::  
 
 [arr.reverse](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse) 方法颠倒 `arr` 中元素的顺序。
 
+}}
+
 ### `str.split `和`arr.join`
 
-```javascript
-let names = 'Bilbo, Gandalf, Nazgul';
-let arr = names.split(', ');
-for (let name of arr) {
-  alert( `A message to ${name}.` ); // A message to Bilbo  (and other names)
-}
+`str.split `:  {{c1::  分割字符串为一个数组。}}
 
-//arr.join(str) 与 split 相反。它会在它们之间创建一串由 str 粘合的 arr 项。
-let arr = ['Bilbo', 'Gandalf', 'Nazgul'];
-let str = arr.join(';');
-alert( str ); // Bilbo;Gandalf;Nazgul
-```
+`arr.join`:  {{c1::  将数据拼接成字符串}}
 
-### `arr.reduce/arr.reduceRight`
+### `arr.reduce()`与`reduceRight()`
 
-```javascript
+| [reduce()](https://www.runoob.com/jsref/jsref-reduce.html)   | {{c1::将数组元素计算为一个值（从左到右）。}} |
+| ------------------------------------------------------------ | :------------------------------------------- |
+| [reduceRight()](https://www.runoob.com/jsref/jsref-reduceright.html) | {{c1::将数组元素计算为一个值（从右到左）。}} |
+
+**参数列表示例**：
+ {{c1::  
+
+```js
 let value = arr.reduce(function(previousValue, item, index, arr) {
   // ...
 }, initial);
 ```
-
-### `arr.forEach`
-
-```javascript
-arr.forEach(function(item, index, array) {
-  // ... do something with item
-});
-```
+}}
 
 ### `Array.isArray`
+
+ {{c1::  
 
 数组基于对象。不构成单独的语言类型。
 
@@ -1101,9 +1102,11 @@ alert(Array.isArray({})); // false
 alert(Array.isArray([])); // true
 ```
 
+}}
+
 ### `thisArg`的含义
 
-几乎所有调用函数的数组方法 – 比如 `find`，`filter`，`map`，与带有 `sort` 的不同，他们接受一个可选的附加参数 `thisArg`。
+thisArg为当前函数的运行环境
 
 ```javascript
 let user = {
@@ -1125,9 +1128,13 @@ let youngerUsers = users.filter(user.younger, user);
 alert(youngerUsers.length); // 2
 ```
 
+ {{c1::  
+
 在上面我们使用 `user.younger` 作为过滤器，并提供 `user` 作为它的上下文。如果我们没有提供上下文，`users.filter(user.younger)` 会调用`user.younger` 作为一个独立的函数，这时 `this=undefined`。
 
-### 数组方法备忘录：
+}}
+
+### 数组方法总结
 
 - 添加/删除元素：
   - `push(...items)` — 从结尾添加元素，
@@ -1170,10 +1177,12 @@ alert(youngerUsers.length); // 2
 
 ### 可迭代对象概念
 
-- `obj[Symbol.iterator]` 的结果被称为**迭代器**。由它处理更深入的迭代过程。
-- 一个迭代器必须有 `next()` 方法，它返回一个 `{done: Boolean, value: any}`，这里 `done:true` 表明迭代结束，否则 `value` 就是下一个值。
+- `obj[Symbol.iterator]` 方法返回的结果被称为   {{c1::   **迭代器**}}。由它处理更深入的迭代过程。
+- 一个迭代器必须有    {{c1::   `next()` 方法}}，它返回一个    {{c1::   `{done: Boolean, value: any}`，这里 `done:true` 表明迭代结束，否则 `value` 就是下一个值。}}
 
 ### `Symbol.iterator` 的实现例子
+
+第一种情况：{{c1::  每次调用`obj[Symbol.iterator]`都返回一个实现了next()方法的新对象
 
 ```javascript
 let range = {
@@ -1207,7 +1216,9 @@ for (let num of range) {
 }
 ```
 
-第二种
+}}
+
+第二种：{{c2::   每次调用`obj[Symbol.iterator]`都返回`this`,对象本身实现了next方法
 
 ```javascript
 let range = {
@@ -1233,49 +1244,50 @@ for (let num of range) {
 }
 ```
 
-### 显式调用迭代器
+}}
+
+### 显式调用字符串的迭代器
 
 ```javascript
 let str = "Hello";
-
-// 和下面代码完成的功能一致
+// 要和下面代码完成的功能一致
 // for (let char of str) alert(char);
-
+{{c1:: 
 let iterator = str[Symbol.iterator]();
-
 while (true) {
   let result = iterator.next();
   if (result.done) break;
   alert(result.value); // 一个一个输出字符
 }
+}}
 ```
 
-### 可迭代对象和类数组对象
+### 类数组对象
 
-- **Iterables** 是应用于 `Symbol.iterator` 方法的对象，像上文所述。
-- **Array-likes** 是有索引和 `length` 属性的对象，所以它们很像数组。
+**Array-likes** 是有{{c1:: 索引和 `length` 属性}}的对象，所以它们很像数组。
 
 ```javascript
+{{c1:: 
 let arrayLike = { // 有索引和长度 => 类数组对象
   0: "Hello",
   1: "World",
   length: 2
 };
-
+}}
 // 错误（没有 Symbol.iterator）
 for (let item of arrayLike) {}
 ```
 
 ### `Array.from`
 
-有一个全局方法 [Array.from](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Array/from) 可以以一个**可迭代对象**或者**类数组对象**作为参数并返回一个真正的 `Array` 数组。
+有一个全局方法 [Array.from](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Array/from) 可以以一个{{c1::  **可迭代对象**或者**类数组对象**}}作为参数并返回一个真正的 `Array` 数组。
 
 ```javascript
 Array.from(obj[, mapFn, thisArg])
 ```
 
--  `mapFn` 应是一个在元素被添加到数组前，施加于每个元素的方法
-- `thisArg` 允许设置方法的 `this` 对象
+-  `mapFn` {{c1::  应是一个在元素被添加到数组前，施加于每个元素的方法 }}
+- `thisArg` {{c1:: 允许设置方法的 `this` 对象 }}
 
 ```javascript
 let arrayLike = {
@@ -1294,22 +1306,24 @@ alert(arr.pop()); // World（pop 方法生效）
 
 [Map](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Map) 是一个键值对的集合，很像 `Object`。但主要的区别是，`Map` 允许所有数据类型作为键。。
 
-`NaN` 也可以作为键
+`NaN`{{c1::  也可以作为键}}
 
 主要的方法包括：
 
-- `new Map()` – 创建 map。
-- `map.set(key, value)` – 根据键（key）存储值（value），**可以链式调用**。
-- `map.get(key)` – 根据键返回值，如果 map 中该键不存在，返回 `undefined`。
-- `map.has(key)` – 如果键存在，返回 `true`，否则返回 `false`。
-- `map.delete(key)` – 移除该键的值。
-- `map.clear()` – 清空 map
-- `map.size` – 返回当前元素个数。
-- `map.forEach` – 遍历map
+- `new Map()` –{{c1::  创建 map。}}
+- `map.set(key, value)` – {{c1:: 根据键（key）存储值（value），**可以链式调用**。}}
+- `map.get(key)` – {{c1:: 根据键返回值，如果 map 中该键不存在，返回 `undefined`。}}
+- `map.has(key)` – {{c1:: 如果键存在，返回 `true`，否则返回 `false`。}}
+- `map.delete(key)` – {{c1:: 移除该键的值。}}
+- `map.clear()` – {{c1:: 清空 map。}}
+- `map.size` – {{c1:: 返回当前元素个数。}}
+- `map.forEach` – {{c1:: 遍历map。}}
 
 ###  `Object.entries(obj)`
 
-它可以返回一个对象的键值对数组
+{{c1:: 它可以返回一个对象的键值对数组}}
+
+{{c1:: 
 
 ```javascript
 let map = new Map(Object.entries({
@@ -1318,9 +1332,13 @@ let map = new Map(Object.entries({
 }));
 ```
 
-这里，`Object.entries` 返回了键值对数组：`[ ["name","John"], ["age", 30] ]`
+}}
+
+这里，`Object.entries` 返回了键值对数组：{{c1:: `[ ["name","John"], ["age", 30] ]`}}
 
 ### 有三种方法可以循环遍历 `map`：
+
+{{c1:: 
 
 - `map.keys()` – 返回键的迭代器，
 - `map.values()` – 返回值的迭代器，
@@ -1328,29 +1346,30 @@ let map = new Map(Object.entries({
 
 注意：map的迭代顺序是值的插入顺序。
 
+}}
+
 ### Set
 
 `Set` 是一个值的集合，这个集合中所有的值仅出现一次。
 
 主要方法包括：
 
-- `new Set(iterable)` – 创建 set，利用数组来创建是可选的（任何可迭代对象都可以）。
-- `set.add(value)` – 添加值，返回 set 自身。
-- `set.delete(value)` – 删除值，如果该 `value` 在调用方法的时候存在则返回 `true` ，否则返回 `false`。
-- `set.has(value)` – 如果 set 中存在该值则返回 `true` ，否则返回 `false`。
-- `set.clear()` – 清空 set。
-- `set.size` – 元素个数。
+- `new Set(iterable)` – {{c1:: 创建 set，利用数组来创建是可选的（任何可迭代对象都可以）。}}
+- `set.add(value)` – {{c1:: 添加值，返回 set 自身。}}
+- `set.delete(value)` –{{c1::  删除值，如果该 `value` 在调用方法的时候存在则返回 `true` ，否则返回 `false`。}}
+- `set.has(value)` – {{c1:: 如果 set 中存在该值则返回 `true` ，否则返回 `false`。}}
+- `set.clear()` –{{c1::  清空 set。}}
+- `set.size` – {{c1:: 元素个数。}}
 
-我们可以使用 `for..of` 或者 `forEach` 来循环查看 set
+我们可以使用 {{c1:: `for..of` 或者 `forEach` }}来循环查看 set
 
 ### `WeakMap`和 `WeakSet`
 
-- `WeakMap` —— `Map` 的一个变体，仅允许对象作为键，并且当对象由于其他原因不可引用的时候将其删除。
-- 它不支持整体的操作：没有 `size` 属性，没有 `clear()` 方法，没有迭代器。
-  
-- `WeakSet` —— 是 `Set` 的一个变体，仅存储对象，并且当对象由于其他原因不可引用的时候将其删除。
+- `WeakMap` ——  {{c1:: `Map` 的一个变体，仅允许对象作为键，并且当对象由于其他原因不可引用的时候将其删除。
+  - 它不支持整体的操作：没有 `size` 属性，没有 `clear()` 方法，没有迭代器。}}
 
-  - 同样不支持 `size/clear()` 和迭代器。
+- `WeakSet` ——  {{c1::  `Set` 的一个变体，仅存储对象，并且当对象由于其他原因不可引用的时候将其删除。
+- 同样不支持 `size/clear()` 和迭代器。}}
 
 ### task:过滤 anagrams
 
@@ -1377,7 +1396,7 @@ alert( aclean(arr) ); // "nap,teachers,ear" or "PAN,cheaters,era"
 对于所有的 anagram 组，需要保留任意一个单词。
 
 ---
-
+ {{c1:: 
 ```javascript
 function aclean(arr) {
   let map = new Map();
@@ -1414,110 +1433,26 @@ let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
 
 alert( aclean(arr) );
 ```
+}}
 
-### task:存储 "unread" 标识
 
-这里有一个 messages 数组：
-
-```javascript
-let messages = [
-    {text: "Hello", from: "John"},
-    {text: "How goes?", from: "John"},
-    {text: "See you soon", from: "Alice"}
-];
-```
-
-你的代码可以访问它，但是消息被其他代码管理。这段代码有规律的添加新消息，删除旧消息，而且你不知道这些操作发生的时间。
-
-现在，你应该是用什么数据结构来保存消息是否已读这个信息？这个结构必须很适合给出当前已知的消息对象是否已读的答案。
-
-附：当消息被从 `messages` 中移除的时候，它应该也从你的数据结构中消失。
-
-附：我们不能直接修改消息对象。如果它们被其他代码管理，那么给他们添加额外的属性可能导致不好的后果。
-
----
-
-明智的选择是 `WeakSet`：
-
-```javascript
-let messages = [
-    {text: "Hello", from: "John"},
-    {text: "How goes?", from: "John"},
-    {text: "See you soon", from: "Alice"}
-];
-
-let readMessages = new WeakSet();
-
-// 两个消息已读
-readMessages.add(messages[0]);
-readMessages.add(messages[1]);
-// readMessages 包含两个元素
-
-// ...让我们再读一遍第一条消息！
-readMessages.add(messages[0]);
-// readMessages 仍然有两个不重复的元素
-
-// 回答：message[0] 已读？
-alert("Read message 0: " + readMessages.has(messages[0])); // true
-
-messages.shift();
-// 现在 readMessages 有一个元素（技术上来说内存可能稍后被清理）
-```
-
-`WeakSet` 允许存储一系列的消息并且很容易就能检查它包含的消息是否还存在。
-
-它会自动清理自身。但是作为交换，我们不能对它进行迭代。我们不能直接获取所有已读消息。但是我们可以通过迭代所有消息然后找出存在于 set 的那些消息来完成这个功能。
-
-附：如果消息被其他代码管理，那么仅为了自己的功能给每个消息添加一个属性也许会很危险，但是我们可以将它改为 symbol 来规避冲突。
-
-像这样：
-
-```javascript
-// the symbolic property is only known to our code
-let isRead = Symbol("isRead");
-messages[0][isRead] = true;
-```
-
-现在即使其他人的代码使用 `for..in` 循环消息的属性，我们的秘密标识也不会出现。
 
 ## 对象的键、值、项
 
 ### `Object.keys、values、entries` 三个方法
 
-举个例子：
-
-```javascript
-let user = {
-  name: "John",
-  age: 30
-};
-```
-
-- `Object.keys(user) = [name, age]`
-
-- `Object.values(user) = ["John", 30]`
-
-- `Object.entries(user) = [ ["name","John"], ["age",30] ]`
-
-  
-
-- [Object.keys(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/keys) —— 返回一个包含该对象全部的键的**数组**。
-- [Object.values(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/values) —— 返回一个包含该对象全部的值的**数组**。
-- [Object.entries(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/entries) —— 返回一个包含该对象全部 [key, value] 键值对的**数组**。
+- [Object.keys(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/keys) ——  {{c1:: 返回一个包含该对象全部的键的**数组**。}}
+- [Object.values(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/values) —— {{c1::  返回一个包含该对象全部的值的**数组**。}}
+- [Object.entries(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/entries) ——  {{c1:: 返回一个包含该对象全部 [key, value] 键值对的**数组**。}}
 
 跟 map 的区别：
 
-|          | Map          | Object                                  |
-| :------- | :----------- | :-------------------------------------- |
-| 调用语法 | `map.keys()` | `Object.keys(obj)`，而不是 `obj.keys()` |
-| 返回值   | 可迭代项     | 「真正的」数组                          |
+|          | Map                  | Object                                          |
+| :------- | :------------------- | :---------------------------------------------- |
+| 调用语法 | `{{c1::map.keys()`}} | {{c1::`Object.keys(obj)`，而不是 `obj.keys()`}} |
+| 返回值   | {{c1::可迭代项}}     | {{c1::「真正的」数组}}                          |
 
-## `Object.keys/values/entries` 忽略 Symbol 类型的属性
-
-就像 `for..in` 循环，这些方法会忽略使用 `Symbol(...)` 作为键的属性。
-
-- 通常这很方便。但是如果我们也想要获得 Symbol 类型的键，那么有另外不同的方法 [Object.getOwnPropertySymbols](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols)， 它会返回一个只包含 Symbol 类型的键的数组。
-- [Reflect.ownKeys(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Reflect/ownKeys) 方法会返回「所有」键。
+`Object.keys/values/entries` 忽略  {{c1:: Symbol 类型}}的属性
 
 ## 解构赋值
 
@@ -1525,110 +1460,39 @@ let user = {
 
 ```javascript
 // 有一个存放了名字和姓氏的数组
-let arr = ["Ilya", "Kantor"]
+ {{c1:: let arr = ["Ilya", "Kantor"] }}
 // 解构赋值
-let [firstName, surname] = arr;
+ {{c1:: let [firstName, surname] = arr; }}
 //与 split 函数（或其他返回值是数组的函数）结合使用时
-let [firstName, surname] = "Ilya Kantor".split(' ');
+ {{c1:: let [firstName, surname] = "Ilya Kantor".split(' '); }}
 // 不需要第一个和第二个元素
-let [, , title] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
+ {{c1:: let [, , title] = ["Julius", "Caesar", "Consul", "of the Roman Republic"]; }}
 //用于等号右侧的任何可迭代对象
-let [a, b, c] = "abc"; // ["a", "b", "c"]
-let [one, two, three] = new Set([1, 2, 3]);
+ {{c1:: let [a, b, c] = "abc"; // ["a", "b", "c"] }}
+ {{c1:: let [one, two, three] = new Set([1, 2, 3]); }}
 //赋值给等号左侧的任何类型
-let user = {};
-[user.name, user.surname] = "Ilya Kantor".split(' ');
+ {{c1:: let user = {}; }}
+[user.name, user.surname] = "Ilya Kantor".split(' '); }}
 //剩余的 ‘…’
 //rest 变量的值就是数组中剩下的元素组成的数组。
-let [name1, name2, ...rest] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
+ {{c1:: let [name1, name2, ...rest] = ["Julius", "Caesar", "Consul", "of the Roman Republic"]; }}
 ```
 
-### 解构赋值的默认值
-
-```javascript
-let [firstName, surname] = [];
-alert(firstName); // undefined
-
-// 默认值
-let [name = "Guest", surname = "Anonymous"] = ["Julius"];
-alert(name);    // Julius (来自数组的值)
-alert(surname); // Anonymous (默认值被使用了)
-```
-
-### 对象解构
-
-```javascript
-let options = {
-  title: "Menu"
-};
-
-//等号左侧的模式可以更加复杂，并给属性和变量之间指定一个映射关系。
-//对于可能缺失的属性，我们可以使用 "=" 来指定默认值
-let {width: w = 100, height: h = 200, title} = options;
-alert(title);  // Menu
-alert(w);      // 100
-alert(h);      // 200
-```
-
-### 剩余操作符
-
-```javascript
-let options = {
-  title: "Menu",
-  height: 200,
-  width: 100
-};
-
-let {title, ...rest} = options;
-
-// now title="Menu", rest={height: 200, width: 100}
-alert(rest.height);  // 200
-alert(rest.width);   // 100
-```
-
-### 嵌套解构
-
-```javascript
-let options = {
-  size: {
-    width: 100,
-    height: 200
-  },
-  items: ["Cake", "Donut"],
-  extra: true    // 一些不会被解构的额外属性
-};
-
-// 为了清晰起见，解构赋值语句被写成多行
-let {
-  size: { // 把 size 赋值到这里
-    width,
-    height
-  },
-  items: [item1, item2], // 把 items 赋值到这里
-  title = "Menu" // 在对象中不存在的属性（会使用默认值）
-} = options;
-
-alert(title);  // Menu
-alert(width);  // 100
-alert(height); // 200
-alert(item1);  // Cake
-alert(item2);  // Donut
-```
-
-### 智能函数参数
+### 在方法参数列表中使用解构赋值
 
 ```javascript
 let options = {
   title: "My menu",
   items: ["Item1", "Item2"]
 };
-
+{{c1:: 
 function showMenu({
   title = "Untitled",
   width: w = 100,  // width 赋值给 w
   height: h = 200, // height 赋值给 h
   items: [item1, item2] // items 第一个元素赋值给 item1, 第二个元素赋值给 item2
-}) {
+}) 
+}}{
   alert( `${title} ${w} ${h}` ); // My Menu 100 200
   alert( item1 ); // Item1
   alert( item2 ); // Item2
@@ -1637,70 +1501,61 @@ function showMenu({
 showMenu(options);
 ```
 
-我们可以通过指定空对象 `{}` 为整个函数参数的默认值：
+我们可以通过指定空对象 `{}` 为整个函数参数的默认值。
 
-```javascript
-// 清晰起见，精简了部分参数
-function showMenu({ title = "Menu", width = 100, height = 200 } = {}) {
-  alert( `${title} ${width} ${height}` );
-}
-
-showMenu(); // Menu 100 200
-```
-
-### 总结
+### 解构赋值总结
 
 - 解构赋值允许将对象或数组立即映射到多个变量上。
 
 - 解构对象的语法：
 
   ```javascript
-  let {prop : varName = default, ...} = object
+  {{c1:: let {prop : varName = default, ...} = object }}
   ```
 
-  这表示属性 `prop` 会被赋值给变量 `varName`，如果没有这个属性的话，就会使用 `default` 的值。
+  {{c1:: 这表示属性 `prop` 会被赋值给变量 `varName`，如果没有这个属性的话，就会使用 `default` 的值。}}
 
 - 解构数组的语法：
 
   ```javascript
-  let [item1 = default, item2, ...rest] = array
+  {{c1:: let [item1 = default, item2, ...rest] = array }}
   ```
 
-  数组的第一个元素赋值给 `item1`，第二个元素赋值给 `item2`，剩下的所有组成另一个数组 `rest`。
+  {{c1::  数组的第一个元素赋值给 `item1`，第二个元素赋值给 `item2`，剩下的所有组成另一个数组 `rest`。}}
 
 - 更多复杂的案例情况下，等号左侧必须和等号右侧有相同的结构。
 
 ## 日期和时间
 
-### 日期构造函数
+### 日期对象
+
+构造函数：
 
 `new Date()`
 
-不带参数 —— 创建一个表示当前日期和时间的 `Date` 对象：
+{{c1:: 不带参数 —— 创建一个表示当前日期和时间的 `Date` 对象：}}
 
 `new Date(milliseconds)`
 
-创建一个 `Date` 对象，参数是从 1970-01-01 00:00:00 UTC+0 开始所经过的毫秒（一秒的千分之一）数。
+{{c1:: 创建一个 `Date` 对象，参数是从 1970-01-01 00:00:00 UTC+0 开始所经过的毫秒（一秒的千分之一）数。}}
 
 `new Date(datestring)`
 
-如果只有一个参数，并且是字符串，那么该参数会通过 `Date.parse` 算法解析（下面会提到）。
+{{c1:: 如果只有一个参数，并且是字符串，那么该参数会通过 `Date.parse` 算法解析（下面会提到）。}}
 
 `new Date(year, month, date, hours, minutes, seconds, ms)`
 
-创建一个 Date 对象，参数是当地时区的日期组合信息。只有前两个参数是必须的。
+{{c1:: 创建一个 Date 对象，参数是当地时区的日期组合信息。只有前两个参数是必须的。}}
 
+常用函数：
 
+`Date.now()`:返回当前的时间戳。
 
-### Date.now()
+`Date.parse()`:会转化一个特定格式的字符串，返回一个时间戳（自 1970-01-01 00:00:00 起的毫秒数），如果格式不正确，返回 `NaN`。
 
-如果我们仅仅想要度量时间间隔，我们不需要整个 `Date` 对象。
+### 日期字符串格式（年-月-日 T 小时：分钟：秒：毫秒）
 
-有一个特殊的方法 `Date.now()`，它会返回当前的时间戳。
-
-### 对一个字符串使用 Date.parse
-
-[Date.parse(str)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Date/parse) 方法可以从一个字符串中读取日期。
+{{c1:: 
 
 字符串的格式是：`YYYY-MM-DDTHH:mm:ss.sssZ`，其中：
 
@@ -1711,25 +1566,28 @@ showMenu(); // Menu 100 200
 
 简短形式也是可以的，比如 `YYYY-MM-DD` 或者 `YYYY-MM` 又或者 `YYYY`。
 
-`Date.parse(str)` 方法会转化一个特定格式的字符串，返回一个时间戳（自 1970-01-01 00:00:00 起的毫秒数），如果格式不正确，返回 `NaN`。
+}}
 
-### 小结
+###  JavaScript 日期对象小结
 
-- 在 JavaScript 中，日期和时间使用 [Date](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Date) 对象来表示。不能只创建日期，或者只创建时间，`Date` 对象总是两个都创建。
-- 月份从 0 开始计数（对，一月是 0）。
-- 一周的某一天 `getDay()` 同样从 0 开始计算（0 代表星期天）。
-- 当超出范围的信息被设置时，`Date` 会做自我校准。这一点对于日/月/小时 的加减很有效。
-- 日期可以相减，得到的是两者的差值，用毫秒表示。因为当转化为数字时，`Date` 对象变为时间戳。
-- 使用 `Date.now()` 可以更快地得到当前时间的时间戳。
+- 在 JavaScript 中，日期和时间使用 [Date](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Date) 对象来表示{{c1:: 。不能只创建日期，或者只创建时间，`Date` 对象总是两个都创建。}}
+- 月份从 {{c2:: 0 开始计数（对，一月是 0）。}}
+- 一周的某一天 `getDay()` 同样从{{c3::  0 开始计算（0 代表星期天）。}}
+- 当超出范围的信息被设置时，{{c4:: `Date` 会做自我校准。这一点对于日/月/小时 的加减很有效。}}
+- 日期可以相减{{c5:: ，得到的是两者的差值，用毫秒表示。因为当转化为数字时，`Date` 对象变为时间戳。}}
 
 ## JSON 方法，toJSON
 
 ### JSON 编码的对象与对象字面量有几个重要的区别：
 
-- 字符串使用双引号。JSON 中没有单引号或反引号。所以 `'John'` 转成 `"John"`。
-- 对象属性名称也是双引号的。这是强制性的。所以 `age:30` 转成 `"age":30`。
+{{c1::
 
-### `JSON.stringify`
+- 字符串使用双引号。JSON 中没有单引号或反引号。所以 `'John'` 转成 `"John"`。
+- JSON对象属性名称也是双引号的。这是强制性的。所以 `age:30` 转成 `"age":30`。
+
+}}
+
+### js中将对象转换为字符串
 
 ```javascript
 let student = {
@@ -1739,11 +1597,11 @@ let student = {
   courses: ['html', 'css', 'js'],
   wife: null
 };
-
+{{c1::
 let json = JSON.stringify(student);
 
 alert(typeof json); // we've got a string!
-
+ }
 alert(json);
 /* JSON-encoded object:
 {
@@ -1758,9 +1616,13 @@ alert(json);
 
 ### JSON 是跨语言的纯数据规范，因此一些特定于 JavaScript 的对象属性被 `JSON.stringify` 跳过。
 
-- 函数属性（方法）。
-- Symbolic 属性。
-- 存储 `undefined` 的属性。
+- {{c1::函数属性（方法）。}}
+
+- {{c1::Symbolic 属性。}}
+
+- {{c1::存储 `undefined` 的属性。}}
+
+{{c1::
 
 ```javascript
 let user = {
@@ -1773,10 +1635,14 @@ let user = {
 alert( JSON.stringify(user) ); // {} (empty object)
 ```
 
+}}
+
 ### `JSON.stringify` 完整语法是：
 
+{{c1::
+
 ```javascript
-let json = JSON.stringify(value[, replacer, space])
+let json = JSON.stringify(value, replacer, space)
 ```
 
 - value
@@ -1791,56 +1657,39 @@ let json = JSON.stringify(value[, replacer, space])
 
   文本添加缩进、空格和换行符
 
-  这里 `spacer = 2` 告诉 JavaScript 在多行上显示嵌套对象，并在对象中缩进2个空格：
+  这里 `spacer = 2` 告诉 JavaScript 在多行上显示嵌套对象，并在对象中缩进2个空格。
+  
 
-### ` “toJSON()”`方法
+}}
+
+### 对象中的` toJSON()`方法
+
+{{c1::
 
 像 `toString` 进行字符串转换，对象可以提供 `toJSON` 方法来进行 JSON 转换。如果可用，`JSON.stringify` 会自动调用它。
 
-```javascript
-let room = {
-  number: 23,
-  toJSON() {
-    return this.number;
-  }
-};
+}}
 
-let meetup = {
-  title: "Conference",
-  room
-};
-
-alert( JSON.stringify(room) ); // 23
-
-alert( JSON.stringify(meetup) );
-/*
-  {
-    "title":"Conference",
-    "room": 23
-  }
-*/
-```
-
-### ` JSON.parse(str, reviver);` :reviver 用法
+### ` JSON.parse(str, reviver);` :reviver参数例子：
 
 ```javascript
 let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
 //将JSON中的属性为“date"的字符串转换成成日期对象
-let meetup = JSON.parse(str, function(key, value) {
-  if (key == 'date') return new Date(value);
-  return value;
-});
+let meetup = JSON.parse(str,{{c1:: function(key, value) {
+                                      if (key == 'date') return new Date(value);
+                                      return value;
+                                   }}});
 
 alert( meetup.date.getDate() ); // now works!
 ```
 
 ### Rest 参数（剩余参数）`...`
 
-**Rest 参数必须放到参数列表的末尾**
-
-Rest参数
+**Rest 参数必须{{c1:: 放到参数列表的末尾}}**
 
 下面的例子即把前两个参数定义为变量，同时把剩余的参数收集到 `titles` 数组中：
+
+{{c1::
 
 ```javascript
 function showName(firstName, lastName, ...titles) {
@@ -1855,112 +1704,46 @@ function showName(firstName, lastName, ...titles) {
 showName("Julius", "Caesar", "Consul", "Imperator");
 ```
 
-### arguments” 变量
+}}
 
-函数的上下文会提供一个非常特殊的类数组且可遍历对象 `arguments`，所有的参数被按序放置。
+### arguments变量
 
-```javascript
-function showName() {
-  alert( arguments.length );
-  alert( arguments[0] );
-  alert( arguments[1] );
-  // 它是可遍历的
-  // for(let arg of arguments) alert(arg);
-}
+- 函数的上下文会提供一个非常特殊的{{c1::类数组且可遍历对象 `arguments`，所有的参数被按序放置。}}
 
-// 依次弹出提示：2，Julius，Caesar
-showName("Julius", "Caesar");
+- 即使 `arguments` 是一个类数组且可遍历的变量，但它终究{{c1::不是数组。它没有数组原型链上的函数，我们没法直接调用诸如 `arguments.map(...)` 等这样的函数,而Rest 参数可以}}
 
-// 依次弹出提示：1，Ilya，undefined（不存在第二个参数）
-showName("Ilya");
-```
 
-即使 `arguments` 是一个类数组且可遍历的变量，但它终究不是数组。它没有数组原型链上的函数，我们没法直接调用诸如 `arguments.map(...)` 等这样的函数,而Rest 参数可以
+###  `Array.from(obj)` 和 `[...obj]` 的2点差别：
 
-### **箭头函数是没有** `"arguments"` **的**
-
-如果我们在箭头函数中访问 `arguments`，此时的 `arguments` 并不属于箭头函数，而是属于箭头函数外部的“普通”函数。
-
-请看下例
-
-```javascript
-function f() {
-  let showArg = () => alert(arguments[0]);
-  showArg();
-}
-
-f(1); // 1
-```
-
-我们已经知道箭头函数自身是没有 `this` 的，现在我们更进一步还知道它缺少 `arguments` 这个特殊的对象。
-
-### 使用 `Array.from(obj)` 和使用 `[...obj]` 还是存在细微差别：
-
-- `Array.from` 同时适用于类数组对象和可遍历对象。
-- Spread 操作符只能操作可遍历对象。
+- {{c1::`Array.from` 同时适用于类数组对象和可遍历对象。}}
+- {{c1::Spread 操作符只能操作可遍历对象。}}
 
 ### Rest参数与Spread操作符的区分
 
-- 若 `...` 出现在函数的参数列表，那它表示的就是 Rest 参数，它会把函数多余的实参收集到一个数组中。
-- 若 `...` 出现在函数调用或类似的表达式中，那它就是 Spread 操作符，它会把一个数组展开为逗号分隔的元素列表。
+- {{c1::若 `...` 出现在函数的参数列表，那它表示的就是 Rest 参数，它会把函数多余的实参收集到一个数组中。}}
+- {{c1::若 `...` 出现在函数调用或类似的表达式中，那它就是 Spread 操作符，它会把一个数组展开为逗号分隔的元素列表。}}
 
-### `var` 声明变量有两点主要区别：
+### `var` 声明的变量与`let`声明的变量有两点主要区别：
 
-1. 变量没有块作用域，它们在最小函数级可见。
-2. 变量声明在函数开头处理。
+- {{c1::变量没有块作用域，它们在最小函数级可见。}}
+- {{c1::变量声明在函数开头处理。}}
 
 ## 全局对象
 
-### 浏览器：“window” 对象
+###  `<script type="module">  `的作用？
 
- 除了扮演全局对象的角色之外，它还提供“浏览器窗口”功能。 
+可以将作用域与顶级作用域（window对象）分开。
 
- 顶级 `var` 变量和函数声明后自动成为 `window` 的属性。 
-
- 所有脚本共享相同的全局作用域，因此在某一个 `<script>` 中声明的变量在其他的里面也可见 
-
- 全局范围内 `this` 的值是 `window`。 
-
-###  `<script type="module">  `
-
- **使用 `<script type="module">  `后，通过将顶级作用域与 window分开的方式来修复语言的设计缺陷。** 
+`<script>` 与页面中的`JS`中的作用域默认为顶级作用域。
 
 ## 函数对象
 
-### 函数对象的 `name`属性
+### 函数对象的属性
 
-```javascript
-let user = {
+- name:{{c1::该函数的名字}}
+- length:{{c1::该函数的参数个数}}
 
-  sayHi() {
-    // ...
-  },
-
-  sayBye: function() {
-    // ...
-  }
-
-}
-
-alert(user.sayHi.name); // sayHi
-alert(user.sayBye.name); // sayBye
-```
-
-### 函数对象的`length`属性 
-
- 内置属性 “length”，它返回函数入参的个数 , 余参不参与计数。 
-
-```javascript
-function f1(a) {}
-function f2(a, b) {}
-function many(a, b, ...more) {}
-
-alert(f1.length); // 1
-alert(f2.length); // 2
-alert(many.length); // 2
-```
-
-### 函数对象自定义属性
+- 自定义属性{{c1::
 
 ```javascript
 function sayHi() {
@@ -1976,10 +1759,21 @@ sayHi(); // Hi
 
 alert( `调用了 ${sayHi.counter} 次` ); // 调用了 2 次
 ```
+}}
 
 ## 命名函数表达式（NFE）
 
+{{c1::
+
  如果函数是通过函数表达式被声明的（不是在主代码流里），它附带了名字，那么它被称为命名的函数表达式。可以用来在函数内部引用自己，或者递归调用等诸如此类场景。 
+
+```javascript
+let sayHi = function func(who) {
+  alert(`Hello, ${who}`);
+};
+```
+
+}}
 
 ### task: 为 `counter` 添加 `set` 和 `decrease` 方法
 
