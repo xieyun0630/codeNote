@@ -1,18 +1,18 @@
-** `如果设置了** `src` **属性，**`script` **标签内容将会被忽略。**
+如果设置了`src` 属性，`script `标签内容将会被忽略。
 
 ### 与用户交互的 3 个浏览器指定的函数：
 
 我们使用浏览器作为工作环境，所以基本的 UI 功能将是：
 
-- [`prompt(question[, default])`](https://developer.mozilla.org/zh/docs/Web/API/Window/prompt)
+-  {{c1::  prompt(question[, default])}}
 
   询问一个问题，并返回访问者输入的内容，如果他按下「取消」则返回 `null`。
 
-- [`confirm(question)`](https://developer.mozilla.org/zh/docs/Web/API/Window/confirm)
+-  {{c1::  confirm(question)}}
 
   提出一个问题，并建议在确定和取消之间进行选择。该选项以 `true/false` 形式返回。
 
-- [`alert(message)`](https://developer.mozilla.org/zh/docs/Web/API/Window/alert)
+-  {{c1::  alert(message)}}
 
   输出一个 `消息`。
 
@@ -20,24 +20,23 @@
 
 ### 使用幂运算符
 
+ {{c1::  
+
 ```javascript
 alert( 2 ** 2 ); // 4  (2 * 2)
 alert( 2 ** 3 ); // 8  (2 * 2 * 2) 
 alert( 2 ** 4 ); // 16 (2 * 2 * 2 * 2)
 ```
 
+}}
+
 ### 函数表达式 vs 函数声明
 
-例如下面的代码会正常工作：
+ {{c1::  
 
-```js
-sayHi("John"); // Hello, John
-function sayHi(name) {
-  alert( `Hello, ${name}` );
-}
-```
+**严格模式下，当一个函数声明在一个代码块内运行时，它在该块内的任何地方都是可见的。但块外则相反。**
 
-如果它是一个函数表达式，它就不会工作：
+函数表达式需要执行到以后才会生效。
 
 ```js
 sayHi("John"); // error!
@@ -46,9 +45,9 @@ let sayHi = function(name) {  // (*) no magic any more
 };
 ```
 
-**严格模式下，当一个函数声明在一个代码块内运行时，它在该块内的任何地方都是可见的。但块外则相反。**
+}}
 
-### 用箭头函数重写 [ ](https://zh.javascript.info/function-expressions-arrows#yong-jian-tou-han-shu-zhong-xie)
+### 用箭头函数重写 
 
 用箭头函数重写下面的函数表达式：
 
@@ -67,6 +66,8 @@ ask(
 
 ---
 
+ {{c1::  
+
 ```js
 function ask(question, yes, no) {
   if (confirm(question)) yes()
@@ -80,7 +81,11 @@ ask(
 );
 ```
 
+}}
+
 ### `typeof` 运算符返回值的类型，但有两个例外：
+
+ {{c1::  
 
 ```javascript
 typeof null == "object" // 语言的设计错误
@@ -89,9 +94,11 @@ typeof function(){} == "function" // 函数被特殊对待
 
 引用：[变量](https://zh.javascript.info/variables) 和 [数据类型](https://zh.javascript.info/types)。
 
+}}
+
 ### “switch” 结构
 
-“switch” 结构可以替代多个 `if` 检查，它内部使用 `===`（严格相等）进行比较。
+“switch” 结构可以替代多个 `if` 检查，它内部使用 {{c1::   `===`}}（严格相等）进行比较。
 
 例如：
 
@@ -100,7 +107,7 @@ let age = prompt('Your age?', 18);
 
 switch (age) {
   case 18:
-    alert("Won't work"); // 提示的结果是一个字符串，而不是数字
+    alert("Won't work");
 
   case "18":
     alert("This works!");
@@ -111,7 +118,11 @@ switch (age) {
 }
 ```
 
+ //{{c1::   提示的结果是一个字符串，而不是数字}}
+
 ### Debugger 命令 [>](https://zh.javascript.info/debugging-chrome#debugger-ming-ling)
+
+{{c1::  
 
 我们也可以使用 `debugger` 命令来暂停代码，像这样：
 
@@ -127,16 +138,24 @@ function hello(name) {
 
 当我们在一个代码编辑器中并且不想切换到浏览器在开发者工具中查找脚本来设置断点时，这真的是非常方便啦。
 
+}}
+
 ## Objects（对象）：基础知识 [》](https://zh.javascript.info/object-basics)
 
 ### 可以用下面两种语法的任一种来创建一个空的对象（“空柜子”）：
+
+{{c1::  
 
 ```javascript
 let user = new Object(); // “构造函数” 的语法
 let user = {};  // “字面量” 的语法
 ```
 
-### 可以用多字词语来作为属性名，但是他们必须加上引号：
+}}
+
+### 可以用多字词语来作为属性名：
+
+{{c1::  
 
 ```javascript
 let user = {
@@ -159,7 +178,11 @@ user["likes birds"] = true;
 alert(user["likes birds"]); // true
 ```
 
-### 计算属性
+}}
+
+### 什么是计算属性？
+
+{{c1::  
 
 ```javascript
 let fruit = prompt("Which fruit to buy?", "apple");
@@ -171,11 +194,11 @@ let bag = {
 alert( bag.apple ); // 5 如果 fruit="apple"
 ```
 
+}}
+
 ### 用存在的变量当做属性名时的简写
-
+{{c1::  
 我们可以把简写方式和正常方式混用：
-
-___
 
 ```javascript
 let user = {
@@ -183,23 +206,30 @@ let user = {
   age: 30
 };
 ```
+}}
 
 ### 对象的存在值检查
 
 ```javascript
 let user = {};
-alert( user.noSuchProperty === undefined ); // true 意思是没有这个属性
+{{c1::  
+alert( user.noSuchProperty === undefined ); }}// true 意思是没有这个属性
 
 //同样也有一个特别的操作符 "in" 来检查是否属性存在。
-"key" in object
-//注意 in 的左边必须是属性名。通常是一个字符串，如果不用字符串，那就是一个字符串变量。
+{{c1::  
+"key" in object 
+//注意 in 的左边必须是属性名。通常是一个字符串，如果不用字符串，那就是一个字符串变量。}}
 ```
 
 ### 对象属性的顺序？
 
-”有特别的顺序“：整数属性有顺序，其他的是按照创建的顺序排序。
+{{c1::  
+
+”有特别的顺序“：整数属性有顺序，其他的是按照创建的顺序排序。}}
 
 ### 整数属性是什么？
+
+{{c1::  
 
 ```javascript
 //“49” 是一个整数属性名，因为我们把它转换成整数，再转换回来，它还是一样。但是 “+49” 和 “1.2” 就不行了：
@@ -209,7 +239,9 @@ alert( String(Math.trunc(Number("+49"))) ); // "49"，不同于 "+49" ⇒ 不是
 alert( String(Math.trunc(Number("1.2"))) ); // "1"，不同于 "1.2" ⇒ 不是整数属性
 ```
 
-### `Object.assign()`的使用
+}}
+
+### ` Object.assign()`的使用
 
 ```javascript
 let user = { name: "John" };
@@ -218,10 +250,11 @@ let permissions1 = { canView: true };
 let permissions2 = { canEdit: true };
 
 // 把 permissions1 和 permissions2 的所有属性都拷贝给 user
+{{c1::  
 Object.assign(user, permissions1, permissions2);
-
+ }}
 // 现在 user = { name: "John", canView: true, canEdit: true }
-// 如果接收的对象（user）已经有了同样属性名的属性，前面的会被覆盖：
+// 如果接收的对象（user）已经有了同样属性名的属性，{{c1:: 前面的会被覆盖}}
 ```
 
 
@@ -229,17 +262,13 @@ Object.assign(user, permissions1, permissions2);
 ### 按下面的要求写代码：
 
 1. 创建一个空的 `user` 对象.
-
 2. 为这个对象增加一个属性，键是 `name` 值是 `John`。
-
 3. 再增加一个属性键`surname`值 `Smith`。
-
 4. 把 `name` 属性的值改成 `Pete`。
-
 5. 从对象中删除 `name` 属性
 
 ---
-
+{{c1::  
 ```js
 let user={};
 user.name="John";
@@ -247,22 +276,23 @@ user.surname="Smith";
 user.name="pete";
 delete user.name;
 ```
+}}
 
 ### Symbol类型
 
-Symbol 总是不同的值，即使它们有相同的名称。如果我们希望同名 Symbol 相等，那么我们应该使用全局注册表：`Symbol.for(key)` 返回（如果需要的话创建）一个以 `key` 作为名称的全局 Symbol。`Symbol.for` 的多次调用完全返回相同的 Symbol。
+Symbol 总是不同的值，即使它们有相同的名称。如果我们希望同名 Symbol 相等，那么{{c1::  我们应该使用全局注册表：`Symbol.for(key)` 返回（如果需要的话创建）一个以 `key` 作为名称的全局 Symbol。`Symbol.for` 的多次调用完全返回相同的 Symbol。}}
 
-Symbol 不是 100% 隐藏的。有一个内置方法 [Object.getOwnPropertySymbols(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols) 允许我们获取所有的 Symbol。还有一个名为 [Reflect.ownKeys(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Reflect/ownKeys) 返回**所有**键，包括 Symbol。
+Symbol 不是 100% 隐藏的。有一个内置方法 {{c1::  [Object.getOwnPropertySymbols(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols) }}允许我们获取所有的 Symbol。还有一个名为{{c1::   [Reflect.ownKeys(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Reflect/ownKeys) }}返回**所有**键，包括 Symbol。
 
 ### 对象方法与 "this"
 
-this总是指向该方法所属的对象。
+this总是指向{{c1::  该方法所属的对象。}}
 
-从不同的对象中调用同一个函数可能会有不同的 “this” 值：
-
-非严格模式下，函数中的`this` 将会是**全局对象**（浏览器中的 `window`）。
+非严格模式下，函数中(没有定义在对象中的函数)的`this` 将会是{{c1::  **全局对象**（浏览器中的 `window`）。}}
 
 ### 箭头函数没有自己的 “this”
+
+{{c1::  
 
 箭头函数的this指向当前函数内的this。
 
@@ -278,6 +308,8 @@ let user = {
 user.sayHi(); // Ilya
 ```
 
+}}
+
 ### 这段代码的结果是什么？
 
 ```javascript
@@ -291,9 +323,9 @@ let user = {
 
 ---
 
-**出现此错误是因为在 user = {...} 之后遗漏了一个分号。**
+**{{c1::  出现此错误是因为在 user = {...} 之后遗漏了一个分号。}}**
 
-### 在对象字面量中使用 "this
+### 在对象字面量中使用 "this"
 
 这里 `makeUser` 函数返回了一个对象。
 
@@ -314,40 +346,11 @@ alert( user.ref.name ); // What's the result?
 
 ---
 
+{{c1::  
 1. 这里的this实际上取得的是window对象，也就是说user.ref.name被看作成window的属性。
 2. 严格模式下的这里的 `this` 值为 `undefined`
 3. 在方法中的this返回的是该方法所属的对象。
-
-### 创建一个计算器（对象）
-
-创建一个有三个方法的 `calculator` 对象：
-
-- `read()` 提示输入两个值，将其保存为对象属性。
-- `sum()` 返回保存的值的和。
-- `mul()` 将保存的值相乘并返回其结果。
-
----
-
-```js
-let calculator = {
-    first:null,
-    second:null,
-    read:function () {
-        this.first=+prompt("第一个值：");
-        this.second=+prompt("第二个值：");
-    },
-    sum:function(){
-        return this.first + this.second;
-    },
-    mul:function(){
-        return this.first*this.second;
-    }
-};
-calculator.read();
-alert( calculator.sum() );
-alert( calculator.mul() );
-})
-```
+}}
 
 ### 链式（调用)
 
@@ -377,9 +380,8 @@ ladder.up().up().down().showStep(); // 1
 此种方法在 JavaScript 库中被广泛使用。
 
 ---
-
+{{c1::  
 ```js
-
 let ladder = {
     step: 0,
     up() {
@@ -396,18 +398,22 @@ let ladder = {
 };
 ladder.up().up().down().showStep(); // 1
 ```
+}}
 
 ### `Symbol.toPrimitive` 对象原始值转换的使用？
 
 ```javascript
 //第一种方式
 let obj={};
+{{c1::  
 obj[Symbol.toPrimitive] = function(hint) {
   // 返回一个原始值
   // hint = "string"，"number" 和 "default" 中的一个
 }
+}}
 
 //第二种方式
+{{c1::  
 let user = {
   name: "John",
   money: 1000,
@@ -417,6 +423,7 @@ let user = {
     return hint == "string" ? `{name: "${this.name}"}` : this.money;
   }
 };
+}}
 
 // 转换演示：
 alert(user); // hint: string -> {name: "John"}
@@ -426,6 +433,8 @@ alert(user + 500); // hint: default -> 1500
 
 ### 为了进行转换，JavaScript 尝试查找并调用三个对象方法：
 
+{{c1::  
+
 1. 调用 `obj[Symbol.toPrimitive](hint)` 如果这个方法存在的话，
 
 2. 否则如果暗示是"string"
@@ -433,7 +442,11 @@ alert(user + 500); // hint: default -> 1500
 3. 否则，如果暗示"number"或者"default"
    - 尝试 `obj.valueOf()` 和 `obj.toString()`，无论哪个存在。
 
+}}
+
 ### 对象中方法定义的简写
+
+{{c1::  
 
 ```javascript
 // 方法简写看起来更好，对吧？
@@ -444,19 +457,20 @@ let user = {
 };
 ```
 
+}}
+
 ### 使用this的好处
+
+{{c1::  
 
 ```javascript
 let user = {
   name: "John",
   age: 30,
-
   sayHi() {
     alert( user.name ); // 导致错误
   }
-
 };
-
 
 let admin = user;
 user = null; // 覆盖让其更易懂
@@ -464,29 +478,7 @@ user = null; // 覆盖让其更易懂
 admin.sayHi(); // 噢哟！在 sayHi() 使用了旧的变量名。错误！
 ```
 
-### JS中的引用类型
-
-```javascript
-let user = {
-  name: "John",
-  hi() { alert(this.name); },
-  bye() { alert("Bye"); }
-};
-
-user.hi(); // John (the simple call works)
-
-// 现在我们要判断 name 属性，来决定调用 user.hi 或是 user.bye。
-(user.name == "John" ? user.hi : user.bye)(); // Error!
-```
-
-1. 为了让 `user.hi() `有效，JavaScript 用一个技巧 —— 这个 '.' 点返回的不是一个函数，而是一种特殊的引用类型的值。
-2. `hi = user.hi` 赋值等其他的操作，将引用类型作为一个整体丢弃，只获取 `user.hi`（一个函数）的值进行传递。
-
-```javascript
-//引用类型的值是三点的结合 (base, name, strict)，如下
-// 引用类型值
-(user, "hi", true)
-```
+}}
 
 ### 解释 "this" 的值
 
@@ -514,6 +506,8 @@ obj.go();               // (1) [object Object]
 
 这里是解释。
 
+{{c1::  
+
 1. 它是一个常规的方法调用。
 
 2. 同样，括号没有改变执行的顺序，点总是首先执行。
@@ -531,7 +525,13 @@ obj.go();               // (1) [object Object]
 
 要解释 `(3)` 和 `(4)` 的原因，我们需要回顾一下属性访问器（点或方括号）返回的值是引用类型的。
 
+}}
+
+{{c2::  
+
 除了方法调用之外的任何操作（如赋值 `=` 或 `||` 等）把它变为了一个没有设定 `this` 信息的普通值。
+
+}}
 
 ## 构造函数
 
@@ -539,20 +539,28 @@ obj.go();               // (1) [object Object]
 
 构造函数在技术上是常规函数。不过有两个约定：
 
----
+{{c1::  
 
 1. 他们首先用大写字母命名。
 2. 它们只能用 `new` 操作符来执行。
 
+}}
+
 ### 当一个函数作为 `new User(...)`执行时，它执行以下步骤
+
+{{c1::  
 
 1. 一个新的空对象被创建并分配给 `this`。
 2. 函数体执行。通常它会修改 `this`，为其添加新的属性。
 3. 返回 `this` 的值。
 
-从技术上讲，任何函数都可以用作构造函数。即：任何函数都可以运行 `new`，它会执行上面的算法。
+}}
+
+从技术上讲，**任何函数都可以用作构造函数**。即：任何函数都可以运行 `new`，它会执行上面的算法。
 
 如果没有参数我们 `new` 可以省略括号：
+
+{{c2::  
 
 ```javascript
 let user = new User; // <-- no parentheses
@@ -561,7 +569,13 @@ let user = new User();
 //这里省略括号不被认为是一种“好风格”，但是规范允许使用该语法。
 ```
 
-### 双语法构造函数：`new.target`
+}}
+
+### 双语法构造函数：`new.target`的含义?
+
+ {{c1::   
+
+**`new.target`**属性允许你检测函数或构造方法是否是通过[new](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/new)运算符被调用的。在通过[new](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/new)运算符被初始化的函数或构造方法中，`new.target`返回一个指向构造方法或函数的引用。在普通的函数调用中，`new.target` 的值是[`undefined`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/undefined)。
 
 ```javascript
 function User() {
@@ -575,28 +589,9 @@ User(); // undefined
 new User(); // function User { ... }
 ```
 
-这可以使 `new` 和常规语法的工作原理相同：
+}}
 
-```javascript
-function User(name) {
-  if (!new.target) { // 如果你没有运行 new
-    return new User(name); // ...会为你添加 new
-  }
-
-  this.name = name;
-}
-
-let john = User("John"); // 重新调用 new User
-alert(john.name); // John
-```
-
-### 构造函数 Return
-
-带有对象的 `return` 返回该对象，在所有其他情况下返回 `this`。
-
-### 问题：
-
-#### Two functions – one object
+### task:JS构造函数 Return返回的是什么?
 
 是否可以创建函数 `A` 和 `B`，如 `new A()==new B()`？
 
@@ -612,7 +607,7 @@ alert( a == b ); // true
 
 如果可以，请提供他们的代码示例。
 
----
+带有对象的 `return` 返回该对象，在所有其他情况下返回 `this`。
 
 ```javascript
 let obj = {};
