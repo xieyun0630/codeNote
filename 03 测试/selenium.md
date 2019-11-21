@@ -1,4 +1,4 @@
-# ``环境配置
+# 环境配置
 
 ## maven依赖
 
@@ -16,12 +16,13 @@
 
 ![image-20191113220518189](selenium.assets/image-20191113220518189.png)
 
-## helloworld程序
+## hello world程序
 
 ```java
 public static void main(String[] args) {
     //chromedriver驱动应用程序的地址
-    System.setProperty("webdriver.chrome.driver","D:\\myChromeDriver\\chromedriver.exe");
+    System.setProperty("webdriver.chrome.driver"
+                     		,"D:\\myChromeDriver\\chromedriver.exe");
     WebDriver driver = new ChromeDriver();
     driver.get("http://localhost:8080/");
     String title = driver.getTitle();
@@ -104,81 +105,7 @@ System.setProperty("webdriver.chrome.driver","D:\\myChromeDriver\\chromedriver.e
     }
 ```
 
-
-
-
-
 # 详解介绍Selenium常用API的使用--Java语言（完整版）
-
-##  Selenium提供了8种定位方式
-
-假如我们有一个Web页面，通过前端工具（如，Firebug）查看到一个元素的属性是这样的。
-
-```html
-<html>
-  <head>
-  <body link="#0000cc">
-    <a id="result_logo" href="/" οnmοusedοwn="return c({'fm':'tab','tab':'logo'})">
-    <form id="form" class="fm" name="f" action="/s">
-      <span class="soutu-btn"></span>
-      <input id="kw" class="s_ipt" name="wd" value="" maxlength="255" autocomplete="off">
-```
-
-我们的目的是要定位input标签的输入框。
-
-- 通过id定位：
-
-  ```java
-  driver.findElement(By.id("kw"))
-  ```
-
-- 通过name定位：
-
-  ```java
-  driver.findElement(By.name("wd"))
-  ```
-
-- 通过class name定位：
-
-  ```java
-  driver.findElement(By.className("s_ipt"))
-  ```
-
-- 通过tag name定位：
-
-  ```java
-  driver.findElement(By.tagName("input"))
-  ```
-
-- 通过`xpath`定位，`xpath`定位有N种写法，这里列几个常用写法：
-
-  ```java
-  driver.findElement(By.xpath("//*[@id='kw']"))driver.findElement(By.xpath("//*[@name='wd']"))driver.findElement(By.xpath("//input[@class='s_ipt']"))driver.findElement(By.xpath("/html/body/form/span/input"))driver.findElement(By.xpath("//span[@class='soutu-btn']/input"))driver.findElement(By.xpath("//form[@id='form']/span/input"))driver.findElement(By.xpath("//input[@id='kw' and @name='wd']"))
-  ```
-
-- 通过`css`定位，`css`定位有N种写法，这里列几个常用写法：
-
-  ```java
-  driver.findElement(By.cssSelector("#kw")driver.findElement(By.cssSelector("[name=wd]")driver.findElement(By.cssSelector(".s_ipt")driver.findElement(By.cssSelector("html > body > form > span > input")driver.findElement(By.cssSelector("span.soutu-btn> input#kw")driver.findElement(By.cssSelector("form#form > span > input")
-  ```
-
-接下来，我们的页面上有一组文本链接。
-
-```java
-<a class="mnav" href="http://news.baidu.com" name="tj_trnews">新闻</a><a class="mnav" href="http://www.hao123.com" name="tj_trhao123">hao123</a>
-```
-
-- 通过link text定位：
-
-  ```java
-  driver.findElement(By.linkText("新闻")driver.findElement(By.linkText("hao123")
-  ```
-
-- 通过`partialLink` text定位：
-
-  ```java
-  driver.findElement(By.partialLinkText("新")driver.findElement(By.partialLinkText("hao")
-  ```
 
 ## 控制浏览器窗口大小
 
@@ -220,21 +147,6 @@ driver.manage().window().setSize(new Dimension(480, 800));
 driver.navigate().refresh();
 ```
 
-## WebDriver 常用方法
-
-下面先来认识 `WebDriver` 中` WebElement `类中最常用的几个方法：
-
-- `clear()` 清除文本。
-- `sendKeys(*value) ` 模拟按键输入。
-- `click() `单击元素
-
-- `submit()` 用于提交表单。 例如，在搜索框输入关键字之后的“回车” 操作， 就可以通过 submit()方法模拟.
-
-- `getSize() `返回元素的尺寸。
-- `getText()` 获取元素的文本。
-- `getAttribute(name) `获得属性值。
-- `isDisplayed() `设置该元素是否用户可见。
-
 ## 模拟鼠标操作
 
 现在的Web产品中提供了更丰富的鼠标交互方式， 例如鼠标右击、双击、悬停、甚至是鼠标拖动等功能。在WebDriver中，将这些关于鼠标操作的方法封装在`ActionChains`类提供。
@@ -250,14 +162,10 @@ Actions 类提供了鼠标操作的常用方法：
 **使用方法：**
 
 ```java
-	WebDriver driver = new ChromeDriver();
-    driver.get("https://www.baidu.com/");
- 
-    WebElement search_setting = driver.findElement(By.linkText("设置"));
+	WebElement search_setting = driver.findElement(By.linkText("设置"));
     Actions action = new Actions(driver);
-	//模拟鼠标悬停操作
+		//模拟鼠标悬停操作
     action.clickAndHold(search_setting).perform();
-
     Actions action = new Actions(driver);
     // 鼠标右键点击指定的元素
     action.contextClick(driver.findElement(By.id("element"))).perform();
@@ -277,43 +185,9 @@ Actions 类提供了鼠标操作的常用方法：
 ## 模拟键盘操作
 
 ```java
-
-public class Keyboard {
-  public static void main(String[] args)throws InterruptedException {
-    WebDriver driver = new ChromeDriver();
-    driver.get("https://www.baidu.com");
-    WebElement input = driver.findElement(By.id("kw"));
- 
-    //输入框输入内容
-    input.sendKeys("seleniumm");
-    Thread.sleep(2000);
- 
-    //删除多输入的一个 m
-    input.sendKeys(Keys.BACK_SPACE);
-    Thread.sleep(2000);
- 
-    //输入空格键+“教程”
-    input.sendKeys(Keys.SPACE);
-    input.sendKeys("教程");
-    Thread.sleep(2000);
- 
-    //ctrl+a 全选输入框内容
-    input.sendKeys(Keys.CONTROL,"a");
-    Thread.sleep(2000);
- 
-    //ctrl+x 剪切输入框内容
-    input.sendKeys(Keys.CONTROL,"x");
-    Thread.sleep(2000);
- 
-    //ctrl+v 粘贴内容到输入框
-    input.sendKeys(Keys.CONTROL,"v");
-    Thread.sleep(2000);
- 
-    //通过回车键盘来代替点击操作
-    input.sendKeys(Keys.ENTER);
-    Thread.sleep(2000);
-    driver.quit();
-  }
+//ctrl+a 全选输入框内容
+input.sendKeys(Keys.CONTROL,"a");
+Thread.sleep(2000);
 ```
 
  以下为常用的键盘操作：
@@ -331,102 +205,38 @@ public class Keyboard {
   ……
   `sendKeys(Keys.F12) `键盘 F12 
 
-## 获取断言信息
-
--  `driver.getTitle()`： 用于获得当前页面的title。
--  `driver.getCurrentUrl()` ： 用户获得当前页面的URL。
--  `webElement.getText() `: 它用于获取标签对之间的文本信息 
-
 ## 设置元素等待
 
- WebDriver提供了两种类型的等待：显式等待和隐式等待。 
-
-## 显示等待(todo:看视频理解)
+### 显示等待
 
 WebDriver提供了显式等待方法，专门针对某个元素进行等待判断。
 
 ```java
-
-  public static void main(String[]args) throws InterruptedException {
- 
-    WebDriver driver = new ChromeDriver();
-    driver.get("https://www.baidu.com");
- 
-    //显式等待， 针对某个元素等待
+		//显式等待， 针对某个元素等待
     WebDriverWait wait = new WebDriverWait(driver,10,1);
- 
     wait.until(new ExpectedCondition<WebElement>(){
       @Override
       public WebElement apply(WebDriver text) {
             return text.findElement(By.id("kw"));
           }
     }).sendKeys("selenium");
- 
-    driver.findElement(By.id("su")).click();
-    Thread.sleep(2000);
- 
-    driver.quit();
-  }
 ```
 
-`WebDriverWait`类是由`WebDirver`提供的等待方法。在设置时间内，默认每隔一段时间检测一次当前页面元素是否存在，如果超过设置时间检测不到则抛出异常。具体格式如下：
-`WebDriverWait(driver, 10, 1)`
-driver： 浏览器驱动。 10： 最长超时时间， 默认以秒为单位。 1： 检测的的间隔（步长） 时间， 默认为 0.5s。
+`WebDriverWait`类是由`WebDirver`提供的等待方法。在设置时间内，默认每隔一段时间检测一次当前页面元素是否存在，如果超过设置时间检测不到则抛出异常。具体格式如下：`WebDriverWait(driver, 10, 1)`
 
-## 隐式等待
+- driver： 浏览器驱动。 
+- 10： 最长超时时间， 默认以秒为单位。 
+- 1： 检测的的间隔（步长） 时间， 默认为 0.5s。
+
+### 隐式等待
 
 WebDriver 提供了几种方法来等待元素。
 
 - `implicitlyWait`。识别对象时的超时时间。过了这个时间如果对象还没找到的话就会抛出NoSuchElement异常。
 - `setScriptTimeout`。异步脚本的超时时间。WebDriver可以异步执行脚本，这个是设置异步执行脚本脚本返回结果的超时时间。
 - `pageLoadTimeout`。页面加载时的超时时间。因为WebDriver会等页面加载完毕再进行后面的操作，所以如果页面超过设置时间依然没有加载完成，那么WebDriver就会抛出异常。
+- 语法：![image-20191120175741694](selenium.assets/image-20191120175741694.png)
 
-```java
-  public static void main(String[] args){
-    WebDriver driver = new ChromeDriver();
-    //页面加载超时时间设置为 5s
-    driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
-    driver.get("https://www.baidu.com/");
-      
-    //定位对象时给 10s 的时间, 如果 10s 内还定位不到则抛出异常
-    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-    driver.findElement(By.id("kw")).sendKeys("selenium");
-    
-    //异步脚本的超时时间设置成 3s
-    driver.manage().timeouts().setScriptTimeout(3, TimeUnit.SECONDS);
-    driver.quit();
-  }
-```
-
-## 定位一组元素
-
-我们已经学习了8种定位方法， 那8种定位方法是针对单个元素定位的， WebDriver还提供了另外8种用于定位一组元素的方法。 
-
-```java
-import org.openqa.selenium.By;
-......
-findElements(By.id())
-findElements(By.name())
-findElements(By.className())
-findElements(By.tagName())
-findElements(By.linkText())
-findElements(By.partialLinkText())
-findElements(By.xpath())
-findElements(By.cssSelector())
-```
-
-**使用：**
-
-```java
-//匹配第一页搜索结果的标题， 循环打印
-List<WebElement> search_result = driver.findElements(By.xpath("//div/div/h3"));
-//打印元素的个数
-System.out.println(search_result.size());
-// 循环打印搜索结果的标题
-for(WebElement result : search_result){
-    System.out.println(result.getText());
-}
-```
 
 ## 多表单切换
 
@@ -603,6 +413,15 @@ System.out.println(coo);
  document.getElementById("moreMerchant").scrollIntoView() 
 ```
 
+### 执行JS
+
+```JS
+       String js = "window.scrollTo(100,450);";
+        ((JavascriptExecutor) driver).executeScript(js);
+```
+
+
+
 ##  获取窗口截图 
 
 自动化用例是由程序去执行，因此有时候打印的错误信息并不十分明确。如果在脚本执行出错的时候能对当前窗口截图保存，那么通过图片就可以非常直观地看出出错的原因。 WebDriver提供了截图函数`getScreenshotAs()`来截取当前窗口。
@@ -623,3 +442,7 @@ System.out.println(coo);
   }
 
 ```
+
+# Selenium 常用类解释 与 常见问题处理
+
+## `WebDriver`类

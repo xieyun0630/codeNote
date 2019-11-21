@@ -1,4 +1,4 @@
-如果设置了`src` 属性，`script `标签内容将会被忽略。
+{{c1::如果设置了`src` 属性，`script `标签内容将会被忽略。
 
 ### 与用户交互的 3 个浏览器指定的函数：
 
@@ -1798,11 +1798,11 @@ alert( counter() ); // 10
 - `counter.set(value)` 应该设置 `count` 为 `value`。
 - `counter.decrease(value)` 应该把 `count` 减 1。
 
-查看沙箱代码获取完整使用示例。
-
 P.S. 你也可以使用闭包或者函数属性来保持当前的计数，或者两者的变体
 
 ---
+
+{{c1::
 
  该解在局部变量中使用 `count`，但是在 `counter` 中直接添加了方法。它们共享同一个外部词法环境，并且可以访问当前 `count`。 
 
@@ -1834,6 +1834,8 @@ P.S. 你也可以使用闭包或者函数属性来保持当前的计数，或者
     alert( counter() ); // 10
 ```
 
+}}
+
 ### task:任意多个括号求和 *
 
 写一个函数 `sum`，它有这样的功能：
@@ -1846,7 +1848,7 @@ sum(6)(-1)(-2)(-3) == 0
 sum(0)(1)(2)(3)(4)(5) == 15
 ```
 
----
+{{c1::
 
 1. **无论**整体如何工作，`sum` 的结果必须是函数。
 2. 这个函数必须在内存里保留调用之间的当前值。
@@ -1881,9 +1883,13 @@ alert( sum(0)(1)(2)(3)(4)(5) ); // 15
 
 然后，接下来的每一次调用，`f` 都会把自己的参数加到求和 `currentSum` 上，然后返回自己。
 
+}}
+
 ## new Function 语法
 
 ###  使用 `new Function` 创建函数 
+
+{{c1::
 
 语法：
 
@@ -1901,7 +1907,11 @@ new Function('a,b', 'return a + b'); // 逗号分隔
 new Function('a , b', 'return a + b'); // 逗号和空格分隔
 ```
 
+}}
+
 ###  new Function 语法的闭包
+
+{{c1::
 
 使用 `new Function` 创建函数，函数的 `[[Environment]]` 并不指向当前的词法环境，而是指向全局环境。 
 
@@ -1917,9 +1927,13 @@ function getFunc() {
 getFunc()(); // "test"，变量值取自 getFunc 的词法环境
 ```
 
+}}
+
 ## 调度：`setTimeout`和`setInterval`
 
 ### `setTimeout`
+
+{{c1::
 
 用法：
 
@@ -1935,13 +1949,23 @@ let timerId = setTimeout(func|code, delay[, arg1, arg2...])
 
 `arg1`，`arg2`… ：要传入被执行函数（或代码字符串）的参数列表（IE9 以下不支持）
 
+}}
+
+调用例子：
+
+ {{c1:: 
+
 ```javascript
 setTimeout(sayHi, 1000, "Hello", "John"); // Hello, John
 ```
 
-**要函数，但不要执行函数**
+**要函数，但不要执行函数**}}
+
+
 
 ### `clearTimeout `
+
+ {{c1:: 
 
 `setTimeout` 在调用时会返回一个“定时器 id”—— 例子中为变量 `timerId` 持有，接下来用它取消调度。
 
@@ -1952,7 +1976,11 @@ let timerId = setTimeout(...);
 clearTimeout(timerId);
 ```
 
+}}
+
 ### `setInterval`
+
+ {{c1:: 
 
 `setInterval` 方法和 `setTimeout` 的用法是相同的：
 
@@ -1964,6 +1992,8 @@ let timerId = setInterval(func|code, delay[, arg1, arg2...])
 
 想要阻止后续调用，我们需要调用 `clearInterval(timerId)`。
 
+}}
+
 ### 递归版` setTimeout`
 
 ```javascript
@@ -1971,15 +2001,19 @@ let timerId = setInterval(func|code, delay[, arg1, arg2...])
 let timerId = setInterval(() => alert('tick'), 2000);
 */
 //递归版` setTimeout`
+{{c1:: 
 let timerId = setTimeout(function tick() {
   alert('tick');
   timerId = setTimeout(tick, 2000); // (*)
 }, 2000);
+}}
 ```
 
  **递归版 `setTimeout` 能保证每次执行间的延时都是准确的，`setInterval` 却不能够。** 
 
 ### `setTimeout(…,0)`
+
+ {{c1:: 
 
 还有一种特殊的用法：`setTimeout(func, 0)`。
 
@@ -1992,34 +2026,13 @@ setTimeout(() => alert("World"), 0);
 alert("Hello");
 ```
 
+}}
+
 ###  用 `setTimeout` 分割 CPU 高占用任务的技巧。 
 
-```javascript
-let i = 0;
+**给浏览器渲染的机会**
 
-let start = Date.now();
-
-function count() {
-
-  // 先完成一部分任务(*)
-  do {
-    i++;
-  } while (i % 1e6 != 0);
-
-  if (i == 1e9) {
-    alert("Done in " + (Date.now() - start) + 'ms');
-  } else {
-    setTimeout(count, 0); // 安排下一次任务 (**)
-  }
-
-}
-
-count();
-```
-
-### 给浏览器渲染的机会
-
-```markup
+```js
 <div id="progress"></div>
 
 <script>
@@ -2027,16 +2040,17 @@ count();
 
   function count() {
 
-    // 每次只完成一部分 (*)
-    do {
-      i++;
-      progress.innerHTML = i;
-    } while (i % 1e3 != 0);
+	    // 每次只完成一部分 (*)
+     {{c1:: 
+      do {
+        i++;
+        progress.innerHTML = i;
+      } while (i % 1e3 != 0);
 
-    if (i < 1e9) {
-      setTimeout(count, 0);
-    }
-
+      if (i < 1e9) {
+        setTimeout(count, 0);
+      }
+    }}
   }
 
   count();
@@ -2045,11 +2059,13 @@ count();
 
 ## 浏览器内部的定时器会因各种原因而出现降速情况，譬如：
 
+ {{c1:: 
+
 - CPU 过载。
 - 浏览器页签切换到了后台模式。
 - 笔记本电脑用的是电池供电（译者注：使用电池会以降低性能为代价提升续航）。
 
-如果出现以上情况，定时器的最高精度（最高精确延时）可能会降到 300 毫秒，甚至是 1000 毫秒，具体以浏览器及其设置为准。
+如果出现以上情况，定时器的最高精度（最高精确延时）可能会降到 300 毫秒，甚至是 1000 毫秒，具体以浏览器及其设置为准。}}
 
 ## 装饰和转发，call/apply
 
@@ -2066,6 +2082,7 @@ function cachingDecorator(func) {
   let cache = new Map();
 
   return function(x) {
+    {{c1:: 
     if (cache.has(x)) { // 如果结果在 map 里
       return cache.get(x); // 返回它
     }
@@ -2074,6 +2091,7 @@ function cachingDecorator(func) {
 
     cache.set(x, result); // 然后把结果缓存起来
     return result;
+    }}
   };
 }
 
@@ -2092,6 +2110,8 @@ alert( "Again: " + slow(2) ); // 也是一样
 
 语法如下：
 
+ {{c1:: 
+
 ```javascript
 func.call(context, arg1, arg2, ...)
 ```
@@ -2109,6 +2129,8 @@ sayHi.call( user ); // this = John
 sayHi.call( admin ); // this = Admin
 ```
 
+}}
+
 ### 使用 `“func.call” `实现装饰器
 
 ```javascript
@@ -2125,13 +2147,16 @@ let worker = {
 
 function cachingDecorator(func) {
   let cache = new Map();
+  
   return function(x) {
-    if (cache.has(x)) {
-      return cache.get(x);
-    }
-    let result = func.call(this, x); // "this" 现在被正确的传递了
-    cache.set(x, result);
-    return result;
+    {{c1:: 
+      if (cache.has(x)) {
+        return cache.get(x);
+      }
+      let result = func.call(this, x); // "this" 现在被正确的传递了
+      cache.set(x, result);
+      return result;
+    }}
   };
 }
 
@@ -2150,16 +2175,22 @@ alert( worker.slow(2) ); // 生效了, 不会调用原始的函数了。被缓�
 ```javascript
 let args = [1, 2, 3];
 
-func.call(context, ...args); // 使用 spread 运算符将数组作为参数列表传递
-func.apply(context, args);   // 与使用 apply 相同
+func.call({{c1:: context, ...args}}); // 使用 spread 运算符将数组作为参数列表传递
+func.apply({{c1:: context, args}});   // 与使用 apply 相同
 ```
 
-### 那 `func.call` 和 `func.apply` 细微的差别。
+###  `func.call` 和 `func.apply` 细微的差别。
+
+{{c1:: 
 
 - 扩展运算符 `...` 允许将 **可迭代的** `参数列表` 作为列表传递给 `call`。
 - `apply` 只接受 **类似数组一样的** `参数列表`。
 
+}}
+
 ### `apply` 最重要的用途之一是将调用传递给另一个函数，如下所示：
+
+{{c1:: 
 
 ```javascript
 let wrapper = function() {
@@ -2169,38 +2200,7 @@ let wrapper = function() {
 
 这叫做 **呼叫转移**。`wrapper` 传递它获得的所有内容：上下文 `this` 和 `anotherFunction` 的参数并返回其结果。
 
-### 方法借用* : 从常规数组 `[].join` 中获取（借用）连接方法 
-
-```javascript
-function hash() {
-  alert( [].join.call(arguments) ); // 1,2
-}
-
-hash(1, 2);
-```
-
-### task:间谍装饰器(todo：[接下来的道题]( https://zh.javascript.info/call-apply-decorators ))
-
-创建一个装饰器 `spy(func)`，它应该返回一个包装器，它在 `calls` 属性中保存所有函数调用。
-
-每个调用都保存为一个参数数组。
-
-例如：
-
-```javascript
-function work(a, b) {
-  alert( a + b ); // work 是一种任意的函数或方法
-}
-
-work = spy(work);
-
-work(1, 2); // 3
-work(4, 5); // 9
-
-for (let args of work.calls) {
-  alert( 'call:' + args.join() ); // "call:1,2", "call:4,5"
-}
-```
+}}
 
 ## 函数绑定
 
@@ -2222,6 +2222,8 @@ f();
 
 ---
 
+{{c1:: 
+
 答案：**John**.
 
 ```javascript
@@ -2237,6 +2239,10 @@ f(); // John
 `f.bind(...)` 返回的外来的 [绑定函数](https://tc39.github.io/ecma262/#sec-bound-function-exotic-objects) 对象仅在创建的时候记忆上下文（如果提供了参数）。
 
 一个函数不能作为重复边界。
+
+}}
+
+
 
 ### task:`bind` 过后的函数属性
 
@@ -2267,8 +2273,6 @@ alert( bound.test ); // 输出将会是什么？为什么？
 
 但是它导致了一个错误。为什么？
 
-修改高亮的行来让一切开始正常运行（其它行不用修改）。
-
 ```javascript
 function askPassword(ok, fail) {
   let password = prompt("Password?", '');
@@ -2293,6 +2297,8 @@ askPassword(user.loginOk, user.loginFail);
 ```
 
 ---
+
+{{c1:: 
 
 发生了错误是因为 `ask` 的参数是没有绑定对象的 `loginOk/loginFail` 函数。
 
@@ -2334,11 +2340,15 @@ askPassword(() => user.loginOk(), () => user.loginFail());
 
 通常情况下它也能正常运行，但是可能会在更复杂的场景下失效，例如在 asking 到运行 `() => user.loginOk()` 之间，`user` 可能会被重写。
 
+}}
+
 ## 柯里化和偏函数
 
 ### 利用 `bind`  实现偏函数
 
 `bind` 的完整语法：
+
+{{c1:: 
 
 ```javascript
 let bound = func.bind(context, arg1, arg2, ...);
@@ -2364,13 +2374,17 @@ alert( double(4) ); // = mul(2, 4) = 8
 alert( double(5) ); // = mul(2, 5) = 10
 ```
 
+}}
+
 ### 无上下文使用偏函数
 
 ```javascript
 function partial(func, ...argsBound) {
-  return function(...args) { // (*)
-    return func.call(this, ...argsBound, ...args);
-  }
+  {{c1:: 
+    return function(...args) { // (*)
+      return func.call(this, ...argsBound, ...args);
+    }
+  }}
 }
 
 // 用法：
@@ -2400,6 +2414,7 @@ user.sayNow("Hello");
  **柯里化（ Currying ）**是将 `f(a,b,c)` 可以被以 `f(a)(b)(c)` 的形式被调用的转化。JavaScript 实现版本通常保留函数被正常调用和在参数数量不够的情况下返回偏函数这两个特性。 
 
 ```javascript
+{{c1:: 
 function curry(func) {
   return function(a) {
     return function(b) {
@@ -2407,6 +2422,7 @@ function curry(func) {
     };
   };
 }
+}}
 
 // 用法
 function sum(a, b) {
@@ -2421,8 +2437,8 @@ alert( carriedSum(1)(2) ); // 3
 ### 高级柯里化实现
 
 ```javascript
+{{c1:: 
 function curry(func) {
-
   return function curried(...args) {
     if (args.length >= func.length) {
       return func.apply(this, args);
@@ -2432,8 +2448,8 @@ function curry(func) {
       }
     }
   };
-
 }
+}}
 
 function sum(a, b, c) {
   return a + b + c;
@@ -2451,50 +2467,6 @@ alert( curriedSum(1)(2,3) ); // 6
 alert( curriedSum(1)(2)(3) ); // 6
 ```
 
-### task:偏函数在登录中的应用
-
-这个任务是比 [为什么 this 会丢失](https://zh.javascript.info/task/question-use-bind) 略微复杂的变体。
-
-`user` 对象被修改了。现在不是两个函数 `loginOk/loginFail`，现在只有一个函数 `user.login(true/false)`。
-
-以下代码中，向 `askPassword` 传入什么参数，使得 `user.login(true)` 结果是 `ok`，`user.login(fasle)` 结果是 `fail`？
-
-```javascript
-function askPassword(ok, fail) {
-  let password = prompt("Password?", '');
-  if (password == "rockstar") ok();
-  else fail();
-}
-
-let user = {
-  name: 'John',
-
-  login(result) {
-    alert( this.name + (result ? ' logged in' : ' failed to log in') );
-  }
-};
-
-askPassword(?, ?); // ?
-```
-
-你只能更改高亮部分代码。
-
----
-
-1. 使用封装函数，箭头函数很简洁
-
-   ```javascript
-   askPassword(() => user.login(true), () => user.login(false));
-   ```
-
-   现在它从外部变量中获得 `user`，正常运行。
-
-2. 从 `user.login` 中创建偏函数，使用 `user` 作为上下文，并确定第一个参数：
-
-   ```javascript
-   askPassword(user.login.bind(user, true), user.login.bind(user, false));
-   ```
-
 ## 箭头函数
 
 ### `defer(f, ms)`函数演示：箭头函数没有 “arguments”例子
@@ -2502,12 +2474,13 @@ askPassword(?, ?); // ?
 例如，`defer(f, ms)` 得到一个函数，并返回一个包装函数，以 `毫秒` 为单位延迟调用：
 
 ```javascript
-function defer(f, ms) {
-  return function() {
-    setTimeout(() => f.apply(this, arguments), ms)
-  };
-}
-
+{{c1:: 
+  function defer(f, ms) {
+    return function() {
+      setTimeout(() => f.apply(this, arguments), ms)
+    };
+  }
+}}
 function sayHi(who) {
   alert('Hello, ' + who);
 }
@@ -2519,14 +2492,16 @@ sayHiDeferred("John"); // 2 秒后打印 Hello, John
 没有箭头功能的情况如下所示：
 
 ```javascript
-function defer(f, ms) {
-  return function(...args) {
-    let ctx = this;
-    setTimeout(function() {
-      return f.apply(ctx, args);
-    }, ms);
-  };
-}
+{{c2:: 
+  function defer(f, ms) {
+    return function(...args) {
+      let ctx = this;
+      setTimeout(function() {
+        return f.apply(ctx, args);
+      }, ms);
+    };
+  }
+}}
 ```
 
 在这里，我们必须创建额外的变量 `args` 和 `ctx`，以便 `setTimeout` 内部的函数可以接收它们。
@@ -2540,9 +2515,10 @@ let user = {
   name: "John"
 };
 
-let descriptor = Object.getOwnPropertyDescriptor(user, 'name');
+let descriptor ={{c1::  Object.getOwnPropertyDescriptor(user, 'name');}}
 
 alert( JSON.stringify(descriptor, null, 2 ) );
+
 /* property descriptor:
 {
   "value": "John",
@@ -2553,10 +2529,10 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 */
 ```
 
- [Object.getOwnPropertyDescriptor](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) 方法允许查询有关属性的**完整**信息。 
+{{c1::   [Object.getOwnPropertyDescriptor](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) 方法 }}允许查询有关属性的**完整**信息。
 
 ```javascript
-let descriptor = Object.getOwnPropertyDescriptor(obj, propertyName);
+let descriptor ={{c1::  Object.getOwnPropertyDescriptor(obj, propertyName);}}
 ```
 
 ### 修改属性的标志
@@ -2571,10 +2547,11 @@ Object.defineProperty(obj, propertyName, descriptor)
 
 ```javascript
 let user = {};
-
+{{c1:: 
 Object.defineProperty(user, "name", {
   value: "John"
 });
+}}
 
 let descriptor = Object.getOwnPropertyDescriptor(user, 'name');
 
@@ -2593,37 +2570,31 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 
 ### `Object.defineProperties`
 
-有一个方法 [Object.defineProperties(obj, descriptors)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties)，允许一次定义多个属性。
-
-语法是：
-
-```javascript
-Object.defineProperties(obj, {
-  prop1: descriptor1,
-  prop2: descriptor2
-  // ...
-});
-```
+有一个方法 {{c1:: [Object.defineProperties(obj, descriptors)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties)，}}允许一次定义多个属性。
 
 例如：
 
 ```javascript
-Object.defineProperties(user, {
-  name: { value: "John", writable: false },
-  surname: { value: "Smith", writable: false },
-  // ...
-});
+{{c1:: 
+  Object.defineProperties(user, {
+    name: { value: "John", writable: false },
+    surname: { value: "Smith", writable: false },
+    // ...
+  });
+}}
 ```
 
 ### `Object.getOwnPropertyDescriptors`
 
 要一次获取所有属性描述符，我们可以使用 [Object.getOwnPropertyDescriptors(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptors) 方法。
 
-与 `Object.defineProperties` 一起，它可以用作克隆对象的“标志感知”方式：
+与 `Object.defineProperties` 一起，它可以用作克隆对象的“标志感知”方式：{{c1:: 
 
 ```javascript
 let clone = Object.defineProperties({}, Object.getOwnPropertyDescriptors(obj));
 ```
+
+}}
 
 通常，当我们克隆一个对象时，我们使用赋值的方式来复制属性，如下所示：
 
@@ -2635,7 +2606,7 @@ for (let key in user) {
 
 …但是，这并不能复制标志。所以如果我们想要一个“更好”的克隆，那么 `Object.defineProperties` 是首选。
 
-另一个区别是 `for..in` 忽略了 symbolic 属性，但是 `Object.getOwnPropertyDescriptors` 返回包含 symbolic 属性在内的**所有**属性描述符。
+另一个区别是 `for..in` 忽略了 symbolic 属性，但是{{c1::  `Object.getOwnPropertyDescriptors` }}返回包含 symbolic 属性在内的**所有**属性描述符。
 
 ## 属性的 getter 和 setter
 
@@ -2645,14 +2616,14 @@ for (let key in user) {
 let user = {
   name: "John",
   surname: "Smith",
-
-  get fullName() {
-    return `${this.name} ${this.surname}`;
-  },
-
-  set fullName(value) {
-    [this.name, this.surname] = value.split(" ");
-  }
+  {{c1:: 
+    get fullName() {
+      return `${this.name} ${this.surname}`;
+    },
+    set fullName(value) {
+      [this.name, this.surname] = value.split(" ");
+    }
+	}}
 };
 
 // set fullName is executed with the given value.
@@ -2668,10 +2639,12 @@ alert(user.surname); // Cooper
 
 所以访问器描述符可能有：
 
+{{c1:: 
+
 - **`get`** —— 一个没有参数的函数，在读取属性时工作，
 - **`set`** —— 带有一个参数的函数，当属性被设置时调用，
 - **`enumerable`** —— 与数据属性相同，
-- **`configurable`** —— 与数据属性相同。
+- **`configurable`** —— 与数据属性相同。}}
 
  如果我们试图在同一个描述符中提供 `get` 和 `value`，则会出现错误 
 
@@ -2682,30 +2655,30 @@ let user = {
   name: "John",
   surname: "Smith"
 };
+{{c1:: 
+  Object.defineProperty(user, 'fullName', {
+    get() {
+      return `${this.name} ${this.surname}`;
+    },
 
-Object.defineProperty(user, 'fullName', {
-  get() {
-    return `${this.name} ${this.surname}`;
-  },
-
-  set(value) {
-    [this.name, this.surname] = value.split(" ");
-  }
-});
-
+    set(value) {
+      [this.name, this.surname] = value.split(" ");
+    }
+  });
+}}
 alert(user.fullName); // John Smith
 
 for(let key in user) alert(key); // name, surname
 ```
 
-#  [原型，继承](https://zh.javascript.info/prototypes) 
+#  原型，继承
 
 ## 原型继承
 
 ###  JS中的原型继承
 
-- `[[Prototype]]` 引用的对象称为“原型”。
-- 我们可以使用 `obj.__proto__` 进行访问（还有其他方法，但很快就会被覆盖）。
+- {{c1:: `[[Prototype]]` }}引用的对象称为“原型”。
+- 我们可以使用{{c1::  `obj.__proto__` }}进行访问（还有其他方法，但很快就会被覆盖）。
 
 ### 使用 `__proto__`
 
@@ -2718,13 +2691,17 @@ let animal = {
 };
 
 let rabbit = {
+  {{c1:: 
   jumps: true,
   __proto__: animal
+}}
 };
 
 let longEar = {
+  {{c1:: 
   earLength: 10,
   __proto__: rabbit
+	}}
 }
 
 // walk is taken from the prototype chain
@@ -2732,27 +2709,19 @@ longEar.walk(); // Animal walk
 alert(longEar.jumps); // true (from rabbit)
 ```
 
-![image-20191108173932272](javascript_info.assets/image-20191108173932272.png)
+### 原型的读写规则?
 
-### 原型的读写规则
+- {{c1:: 如果我们想要读取 `obj` 属性或者调用一个方法，而且它不存在，那么 JavaScript 就会尝试在原型中查找它。}}
 
-- 如果我们想要读取 `obj` 属性或者调用一个方法，而且它不存在，那么 JavaScript 就会尝试在原型中查找它。写/删除直接在对象上进行操作，它们不使用原型（除非属性实际上是一个 setter）。
+### 原型中方法的this引用哪个对象的值?
 
-### 原型中的this的值
+- {{c1:: 如果我们调用 `obj.method()`，而且 `method` 是从原型中获取的，`this` 仍然会引用 `obj`。因此方法总是与当前对象一起工作，即使它们是继承的。}}
 
-- 如果我们调用 `obj.method()`，而且 `method` 是从原型中获取的，`this` 仍然会引用 `obj`。因此方法重视与当前对象一起工作，即使它们是继承的。
-
-### task: [与原型一起工作](https://zh.javascript.info/prototype-inheritance#yu-yuan-xing-yi-qi-gong-zuo) 
+### task: 与原型一起工作
 
 如下创建一对对象的代码，然后对它们进行修改。
 
 过程中显示了哪些值？
-
-
-
-
-
-
 
 ```javascript
 let animal = {
@@ -2774,7 +2743,7 @@ delete animal.jumps;
 alert( rabbit.jumps ); // ? (3)
 ```
 
-应该有 3 个答案。
+应该有 3 个答案。{{c1:: 
 
 ---
 
@@ -2782,11 +2751,11 @@ alert( rabbit.jumps ); // ? (3)
 
 2. `null`，来自于 `animal`。
 
-3. `undefined`,不再有这样的属性存在。
+3. `undefined`,不再有这样的属性存在。}}
 
 ## 函数原型
 
-###  `F.prototype`的使用
+###  `F.prototype`的使用？
 
 ```javascript
 let animal = {
@@ -2796,43 +2765,34 @@ let animal = {
 function Rabbit(name) {
   this.name = name;
 }
-
+{{c1:: 
 Rabbit.prototype = animal;
-
 let rabbit = new Rabbit("White Rabbit"); //  rabbit.__proto__ == animal
-
+ }}
 alert( rabbit.eats ); // true
 ```
 
  `F.prototype`**仅用于**`new F`**时** 
 
-### 默认的函数原型，构造函数属性
+###  函数默认的 `"prototype"`?
 
- 函数默认的 `"prototype"` 是一个只有属性 `constructor` 的对象，它指向函数本身。 
+ 函数默认的 `"prototype"` 是{{c1::一个只有属性 `constructor` 的对象，它指向函数本身。 }}
 
 ```javascript
 function Rabbit() {}
+{{c1::
 /* default prototype
 Rabbit.prototype = { constructor: Rabbit };
 */
+ }}
 ```
 
 ### 函数原型总结
 
-- `F.prototype` 属性与 `[[Prototype]]` 不同。`F.prototype` 唯一的作用是：当 `new F()` 被调用时，它设置新对象的 `[[Prototype]]`。
-- `F.prototype` 的值应该是一个对象或 null：其他值将不起作用。
-- `"prototype"` 属性在设置为构造函数时仅具有这种特殊效果，并且用 `new` 调用。
+- `F.prototype` 属性与 `[[Prototype]]` 不同。`F.prototype` 唯一的作用是：{{c1::当 `new F()` 被调用时，它设置新对象的 `[[Prototype]]`。}}
+- `F.prototype` 的值应该是{{c1::一个对象或 null：其他值将不起作用。}}
 
-在常规对象上，`prototype` 没什么特别的：
-
-```javascript
-let user = {
-  name: "John",
-  prototype: "Bla-bla" // 没什么神秘的
-};
-```
-
-默认情况下，所有函数都有 `F.prototype = {constructor：F}`，所以我们可以通过访问它的 `"constructor"` 属性来获得对象的构造函数。
+  
 
 ### task:`new user.constructor('Pete')` 的工作原理是：
 
@@ -2852,6 +2812,8 @@ alert( user2.name ); // undefined
 
 ---
 
+{{c1::
+
 `new user.constructor('Pete')` 的工作原理是：
 
 1. 首先，它在 `user` 中寻找 `constructor`。什么也没有。
@@ -2860,12 +2822,14 @@ alert( user2.name ); // undefined
 
 最后，我们有 `let user2 = new Object('Pete')`。内置的 `Object` 构造函数忽略参数，它总是创建一个空对象 —— 这就是我们在 `user2` 中所拥有的东西。
 
+}}
+
 ## 原生的原型总结
 
 - 所有的内置对象都遵循一样的模式：
-  - 方法都存储在原型对象上（`Array.prototype`、`Object.prototype`、`Date.prototype` 等）。
-  - 对象本身只存储数据（数组元素、对象属性、日期）。
-- 基本数据类型同样在包装对象的原型上存储方法：`Number.prototype`、`String.prototype` 和 `Boolean.prototype`。只有 `undefined` 和 `null` 没有包装对象。
+  - 方法都存储在{{c1::原型对象上（`Array.prototype`、`Object.prototype`、`Date.prototype` 等）。}}
+  - 对象本身只存储{{c1::数据（数组元素、对象属性、日期）。}}
+- 基本数据类型同样在{{c1::包装对象的原型}}上存储方法：{{c1::`Number.prototype`、`String.prototype` 和 `Boolean.prototype`。只有 `undefined` 和 `null` 没有包装对象。}}
 - 内置对象的原型可以被修改或者被新的方法填充。但是这样做是不被推荐的。只有当添加一个还没有被 JavaScript 引擎支持的新方法的时候才可能允许这样做。
 
 ### task:给函数添加一个方法 “f.defer(ms)”
@@ -2883,6 +2847,7 @@ f.defer(1000); // 1 秒后显示 “Hello!”
 ```
 
 ---
+{{c1::
 
 ```javascript
 Function.prototype.defer = function(ms) {
@@ -2895,6 +2860,7 @@ function f() {
 
 f.defer(1000); // shows "Hello!" after 1 sec
 ```
+}}
 
 ### task:添加装饰器方法 “defer()” 到函数
 
@@ -2915,13 +2881,14 @@ f.defer(1000)(1, 2); // 1 秒钟后显示 3
 ---
 
 ```javascript
+{{c1::
 Function.prototype.defer = function(ms) {
   let f = this;
   return function(...args) {
     setTimeout(() => f.apply(this, args), ms);
   }
 };
-
+ }}
 // check it
 function f(a, b) {
   alert( a + b );
@@ -2967,21 +2934,21 @@ let clone = {{c1::
 
 ### 获取所有属性
 
-- [Object.keys(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/keys) / [Object.values(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/values) / [Object.entries(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/entries) – 返回一个数组，包含所有可枚举字符串属性名称/值/键值对。这些方法只会列出**可枚举**属性，而且它们**键名为字符串形式**。
+- {{c1::[Object.keys(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/keys) / [Object.values(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/values) / [Object.entries(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/entries) }}——返回一个数组，包含所有可枚举字符串属性名称/值/键值对。这些方法只会列出**可枚举**属性，而且它们**键名为字符串形式**。
 
 如果我们想要 symbol 属性：
 
-- [Object.getOwnPropertySymbols(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols) —— 返回包含所有 symbol 属性名称的数组。
+- {{c1::[Object.getOwnPropertySymbols(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols) }}—— 返回包含所有 symbol 属性名称的数组。
 
 如果我们想要非可枚举属性：
 
-- [Object.getOwnPropertyNames(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames) —— 返回包含所有字符串属性名的数组。
+- {{c1::[Object.getOwnPropertyNames(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames) }}—— 返回包含所有字符串属性名的数组。
 
 如果我们想要**所有**属性：
 
-- [Reflect.ownKeys(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Reflect/ownKeys) —— 返回包含所有属性名称的数组。
+- {{c1::[Reflect.ownKeys(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Reflect/ownKeys) }}—— 返回包含所有属性名称的数组。
 
--  如果我们想要区分继承属性，有一个内置方法 [obj.hasOwnProperty(key)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty)：如果 `obj` 有名为 `key` 的自身属性（而非继承），返回值为 `true`。 
+-  如果我们想要区分继承属性，有一个内置方法{{c1: [obj.hasOwnProperty(key)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty)}}：如果 `obj` 有名为 `key` 的自身属性（而非继承），返回值为 `true`。 
 
 ### 给字典对象添加 `toString `方法
 
@@ -3126,8 +3093,8 @@ class MyClass {
 ### 通过class声明的对象与通过function声明的对象之间的差异？
 
 1.  通过 `class` 创建的函数是由特殊内部属性标记的 `[[FunctionKind]]:"classConstructor"`。所以，相较于手动创建它还是有点不同的。 
-2.  类方法不可枚举。 对于 `"prototype"` 中的所有方法，类定义将 `enumerable` 标记设为 `false。 
-3.  类默认使用 `use strict`。 在类构造函数中的所有方法自动使用严格模式。 
+2.  类方法不可枚举。 {{c1:对于 `"prototype"` 中的所有方法，类定义将 `enumerable` 标记设为 `false。 }}
+3.  类默认使用{{c1: `use strict`。}} 在类构造函数中的所有方法自动使用严格模式。 
 
 ### [类表达式（Class Expression）
 
@@ -3164,20 +3131,11 @@ class Rabbit extends Animal {
 
 ### `super` 关键字
 
-- 执行 `super.method(...)` 调用父类方法。
-- 执行 `super(...)` 调用父类构造函数（只能在子类的构造函数中运行）。
-
-###  **箭头函数没有** `super` 
-
-箭头函数中的 `super` 与 `stop()` 中的是相同的，所以它能按预期工作。如果我们在这里指定一个“普通”函数，那么将会抛出错误：
-
-```javascript
-// Unexpected super
-setTimeout(function() { super.stop() }, 1000);
-```
+- 执行 {{c1:`super.method(...)` }}调用父类方法。
+- 执行{{c1: `super(...)` }}调用父类构造函数（只能在子类的构造函数中运行）。
 
 ### 普通的构造函数与重写的构造函数之间的区别
 
-- 当一个普通构造函数执行时，它会创建一个空对象作为 `this` 并继续执行。
-- 但是当继承的构造函数执行时，它并不会做这件事。它期望父类的构造函数来完成这项工作。
+- {{c1:当一个普通构造函数执行时，它会创建一个空对象作为 `this` 并继续执行。}}
+- {{c1:但是当继承的构造函数执行时，它并不会做这件事。它期望父类的构造函数来完成这项工作。}}
 
