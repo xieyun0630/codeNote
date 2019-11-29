@@ -1,5 +1,3 @@
-{{c1::如果设置了`src` 属性，`script `标签内容将会被忽略。
-
 ### 与用户交互的 3 个浏览器指定的函数：
 
 我们使用浏览器作为工作环境，所以基本的 UI 功能将是：
@@ -2506,7 +2504,7 @@ sayHiDeferred("John"); // 2 秒后打印 Hello, John
 
 在这里，我们必须创建额外的变量 `args` 和 `ctx`，以便 `setTimeout` 内部的函数可以接收它们。
 
-##  [属性的标志和描述符](https://zh.javascript.info/property-descriptors) 
+##  [属性的标志和描述符](https://zh.javascript.info/property-descriptors)     
 
 ### 获得属性的标志
 
@@ -3131,11 +3129,117 @@ class Rabbit extends Animal {
 
 ### `super` 关键字
 
-- 执行 {{c1:`super.method(...)` }}调用父类方法。
-- 执行{{c1: `super(...)` }}调用父类构造函数（只能在子类的构造函数中运行）。
+- 执行 {{c1::`super.method(...)` }}调用父类方法。
+- 执行{{c1:: `super(...)` }}调用父类构造函数（只能在子类的构造函数中运行）。
 
 ### 普通的构造函数与重写的构造函数之间的区别
 
-- {{c1:当一个普通构造函数执行时，它会创建一个空对象作为 `this` 并继续执行。}}
-- {{c1:但是当继承的构造函数执行时，它并不会做这件事。它期望父类的构造函数来完成这项工作。}}
+- {{c1::当一个普通构造函数执行时，它会创建一个空对象作为 `this` 并继续执行。}}
+- {{c1::但是当继承的构造函数执行时，它并不会做这件事。它期望父类的构造函数来完成这项工作。}}
 
+### 方法的内部工作：
+
+- 方法在内部{{c1:: `[[HomeObject]]` 属性}}中记住它们的类/对象。这就是 `super` 如何解析父类方法的。
+- 因此，将一个带有{{c1:: `super` 的方法}}从一个对象复制到另一个对象是不安全的。
+
+### task:创建实例时出错
+
+这里有一份代码，是 `Rabbit` 继承 `Animal`。
+
+不幸的是，`Rabbit` 对象无法被创建，是哪里出错了呢？请解决这个问题。
+
+```javascript
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+class Rabbit extends Animal {
+  constructor(name) {
+    this.name = name;
+    this.created = Date.now();
+  }
+}
+
+let rabbit = new Rabbit("White Rabbit"); // Error: this is not defined
+alert(rabbit.name);
+```
+
+---
+
+{{c1::
+
+这是因为子类的构造函数必须调用 `super()`。
+
+这里是正确的代码：
+
+```javascript
+class Animal {
+
+  constructor(name) {
+    this.name = name;
+  }
+
+}
+
+class Rabbit extends Animal {
+  constructor(name) {
+    super(name);
+    this.created = Date.now();
+  }
+}
+
+let rabbit = new Rabbit("White Rabbit"); // ok now
+alert(rabbit.name); // White Rabbit
+```
+
+}}
+
+### `“extends”` 语法会设置两个原型：
+
+{{c1::
+
+1. 在构造函数的 `"prototype"` 之间设置原型（为了获取实例方法）
+
+2. 在构造函数之间会设置原型（为了获取静态方法）
+
+   它意味着：
+
+   ```javascript
+   class Rabbit extends Object {}
+   
+   alert( Rabbit.prototype.__proto__ === Object.prototype ); // (1) true
+   alert( Rabbit.__proto__ === Object ); // (2) true
+   ```
+
+}}
+
+### `class Rabbit`与`class Rabbit extends Object`区别
+
+| class Rabbit                                      |                    class Rabbit extends Object |
+| :------------------------------------------------ | ---------------------------------------------: |
+| {{c1::–}}                                         | {{c1::needs to call `super()` in constructor}} |
+| {{c1::`Rabbit.__proto__ === Function.prototype`}} |          {{c1::`Rabbit.__proto__ === Object`}} |
+
+### `Rabbit extends Animal` 创建了两个 `[[Prototype]]` 的引用：
+
+1. `Rabbit` 方法原型继承自 `Animal` 方法。
+2. `Rabbit.prototype` 原型继承自 `Animal.prototype`。
+
+{{c1::结果就是，继承对于常规的和静态的方法都有效。
+
+这里，让我们通过代码来检验一下：
+
+```javascript
+class Animal {}
+class Rabbit extends Animal {}
+
+// 对于静态属性和静态方法
+alert(Rabbit.__proto__ === Animal); // true
+
+// 对于普通方法
+alert(Rabbit.prototype.__proto__ === Animal.prototype);
+```
+
+}}
