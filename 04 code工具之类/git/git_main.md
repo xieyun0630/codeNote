@@ -78,11 +78,12 @@ $ {{c1::  git config core.autocrlf }}
 
 此命令会有三个输出，“true”，“false”或者“input”
 
-为true时:{{c1:: Git会将你add的所有文件视为文本文件，将结尾的CRLF转换为LF，而checkout时会再将文件的LF格式转为CRLF格式。}}
+- 为true时:{{c1:: Git会将你add的所有文件视为文本文件，将结尾的CRLF转换为LF，而checkout时会再将文件的LF格式转为CRLF格式。}}
 
-为false时:{{c1:: line endings不做任何改变，文本文件保持其原来的样子。}}
+- 为false时:{{c1:: line endings不做任何改变，文本文件保持其原来的样子。}}
 
-为input时:{{c1:: add时Git会把CRLF转换为LF，而check时仍旧为LF，所以Windows操作系统不建议设置此值。}}
+- 为input时:{{c1:: add时Git会把CRLF转换为LF，而check时仍旧为LF，所以Windows操作系统不建议设置此值。}}
+
 
 当 `core autocrlf`为true时，**还有一个需要慎重的地方**，{{c2::当你上传一个二进制文件，Git可能会将二进制文件误以为是文本文件，从而也会修改你的二进制文件，从而产生隐患。}}
 
