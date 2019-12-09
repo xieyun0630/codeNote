@@ -50,14 +50,14 @@ git init
 ### Git常见操作
 
 ```shell
-# 查看工作区状态
-{{c1:: git status }}
-# 对比文件差异
-{{c2:: git diff }}
-# 查看版本历史
-{{c4:: git log }}
-# 以行为单位查看版本历史
-{{c5:: git log --pretty=oneline}}
+# 查看工作区状态 {{c1:: 
+git status }}
+# 对比文件差异 {{c2:: 
+git diff }}
+# 查看版本历史 {{c4:: 
+git log }}
+# 以行为单位查看版本历史 {{c5:: 
+git log --pretty=oneline }}
 ```
 
 ### 关于Git `warning：LF will be replaced by CRLF in readme.txt`问题的原因
@@ -73,7 +73,9 @@ Mac OS采用回车CR表示下一行{{c3:: （`CR：CarriageReturn`，中文意�
 ### 在Git中，可以通过以下命令来显示当前你的Git中采取哪种对待换行符的方式
 
 ```shell
-$ {{c1::  git config core.autocrlf }}
+#{{c1::  
+git config core.autocrlf 
+#}}
 ```
 
 此命令会有三个输出，“true”，“false”或者“input”
@@ -105,14 +107,14 @@ Git是分布式的系统，为了避免与其他人的版本冲突，GIT 的comm
 ### Git版本回退
 
 ```shell
-# 回退到上一个版本
-{{c1:: git reset --hard HEAD^ }}
-# 回退到前20版本
-{{c1:: git reset --hard HEAD~20 }}
-# 使用commit id（版本号）回退到指定的版本
-{{c1:: git reset --hard 3628164 }}
-# 查询历史命令记录
-{{c1:: git reflog }}
+# 回退到上一个版本{{c1:: 
+git reset --hard HEAD^ }}
+# 回退到前20版本{{c1::
+git reset --hard HEAD~20 }}
+# 使用commit id（版本号）回退到指定的版本{{c1:: 
+git reset --hard 3628164 }}
+# 查询历史命令记录{{c1:: 
+git reflog }}
 ```
 
 ### Git的一些名词解释:
@@ -126,12 +128,12 @@ Git是分布式的系统，为了避免与其他人的版本冲突，GIT 的comm
 ### 管理修改
 
 ```shell
-# 对比工作区和版本库中最新版本的区别
-{{c1:: git diff HEAD -- readme.txt }}
-# 让文件回到最近一次git commit或git add时的状态
-{{c2:: git checkout -- readme.txt}}
-# 将暂存区的修改撤消掉
-{{c3:: git reset HEAD readme.txt }}
+# 对比工作区和版本库中最新版本的区别{{c1:: 
+git diff HEAD -- readme.txt }}
+# 让文件回到最近一次git commit或git add时的状态{{c2:: 
+git checkout -- readme.txt}}
+# 将暂存区的修改撤消掉{{c3:: 
+git reset HEAD readme.txt }}
 ```
 
 ### 撤销修改的3种场景
@@ -220,30 +222,31 @@ git clone git@github.com:alibaba/easyexcel.git
 ### 分支创建与切换
 
 ```shell 
-#git checkout命令加上-b参数标识创建并切换
-{{c1:: git checkout -b name }}
+#git checkout命令加上-b参数标识创建并切换{{c1:: 
+git checkout -b name }}
 #相当于
-#创建
-{{c2:: git branch name }}
-#切换
-{{c3:: git checkout name }}
-#查看当前分支
-{{c4:: git branch }}
+#创建{{c2:: 
+git branch name }}
+#切换{{c3:: 
+git checkout name }}
+#查看当前分支{{c4:: 
+git branch }}
 ```
 
 ### 分支的合并与删除
 
 ```shell
-#将指定分支合并到当前分支上
-{{c1:: git merge name }}
-#删除分支
-{{c2:: git branch -d name }}
+#将指定分支合并到当前分支上{{c1:: 
+git merge name }}
+#删除分支{{c2:: 
+git branch -d name }}
 ```
 
 ### 查看分支的合并情况
 
 ```shell 
-{{c1:: git log --graph --pretty=oneline --abbrev-commit }}
+#{{c1:: 
+git log --graph --pretty=oneline --abbrev-commit }}
 ```
 
 ### 分支合并策略
@@ -258,14 +261,14 @@ git clone git@github.com:alibaba/easyexcel.git
 ### 工作现场的保留与恢复
 
 ```shell
-#把当前分支的工作现场储藏起来
-{{c1:: git stash }}
-#查看储藏的工作现场
-{{c2:: git stash list }}
-#恢复之前的工作现场,但是恢复后stash内容并不删除
-{{c3:: git stash apply }}
-#恢复之前的工作现场,同时删除stash的内容
-{{c4:: git stash pop }}
+#把当前分支的工作现场储藏起来{{c1::
+git stash }}
+#查看储藏的工作现场{{c2::
+git stash list }}
+#恢复之前的工作现场,但是恢复后stash内容并不删除{{c3::
+git stash apply }}
+#恢复之前的工作现场,同时删除stash的内容{{c4::
+git stash pop }}
 ```
 
 ### 删除分支
@@ -274,46 +277,43 @@ git clone git@github.com:alibaba/easyexcel.git
 #删除已被合并的分支
 git branch -d feature-test
 #无论是否合并强行删除分支
-git branch -d feature-test
+git branch -D feature-test
 ```
 
 ### 远程库管理
 
 ```shell
-#查看远程库的名字
-{{c1::
+#查看远程库的名字{{c1::
 git remote
 }}
-#查看远程库的详细信息，权限，地址等
-{{c2::
+#查看远程库的详细信息，权限，地址等{{c2::
 git remote -v
 }}
-#推送分支：将该分支上所有的本地提交推送到远程库
-{{c3::
+#推送分支：将该分支上所有的本地提交推送到远程库{{c3::
 git push origin master
 #如果推送其他分支
 git push origin dev
 }}
-#推送
+  
 ```
 
 ### 多人协作
 
 ```shell
-#从github上clone一个项目
-{{c1:: git clone git@github.com：alibaba/easyExcel }}
-#默认是master分支，现在切换到dev分支
-{{c2:: git checkout -b dev easyExcel/dev }}
-#完成修改后推送提交到远程
-{{c3:: git push easyExcel/dev }}
-#如果推送失败，则重新拉取最新版
-{{c4:: git pull }}
-#如果提示”no tracking information“则指定本地DEV分支与远程easyExcel/dev的链接
-{{c5:: git branch --set-upstream dev easyExcel/dev }}
-#再次拉取
-{{c6:: git pull }}
-#如果有冲突，解决冲突后再次推送
-{{c7:: git push easyExcel/dev  }}
+#从github上clone一个项目{{c1:: 
+git clone git@github.com：alibaba/easyExcel }}
+#默认是master分支，现在切换到dev分支{{c2:: 
+git checkout -b dev easyExcel/dev }}
+#完成修改后推送提交到远程{{c3:: 
+git push easyExcel/dev }}
+#如果推送失败，则重新拉取最新版{{c4::
+git pull }}
+#如果提示”no tracking information“则指定本地DEV分支与远程easyExcel/dev的链接{{c5:: 
+git branch --set-upstream dev easyExcel/dev }}
+#再次拉取{{c6:: 
+git pull }}
+#如果有冲突，解决冲突后再次推送{{c7:: 
+git push easyExcel/dev  }}
 ```
 
 ## 标签管理
@@ -321,31 +321,30 @@ git push origin dev
 ### 创建，查看，删除标签
 
 ```shell
-#创建标签
-{{c1:: git tag v1.0 }}
-#查看当前分支所有的标签
-{{c2:: git tag }}
-#为指定的版本打上标签
-{{c3:: git tag v0.9 commitId }}
-#查看指定标签的信息
-{{c4:: git show v0.9 }}
-#创建带有说明文字的标签
-{{c5:: git tag -a v0.1 -m "version 0.1 released"  3628164 }}
-#用私钥签名一个标签
-{{c6:: git tag -s tagname -m "blalbla....." 3628164 }}
-#删除标签
-{{c7:: git tag -d v0.1 }}
+#创建标签{{c1:: 
+git tag v1.0 }}
+#查看当前分支所有的标签{{c2:: 
+git tag }}
+#为指定的版本打上标签{{c3:: 
+git tag v0.9 commitId }}
+#查看指定标签的信息{{c4:: 
+git show v0.9 }}
+#创建带有说明文字的标签{{c5::
+git tag -a v0.1 -m "version 0.1 released"  3628164 }}
+#用私钥签名一个标签{{c6:: 
+git tag -s tagname -m "blalbla....." 3628164 }}
+#删除标签{{c7:: 
+git tag -d v0.1 }}
 ```
 
 ### 远程库标签管理
 
 ```shell
-#推送某个标签到远程
-{{c8:: git push origin v1.0 }}
-#一次性推送全部标签到远程
-{{c9:: git push origin --tags }}
-#删除已经推送到远程的标签
-{{c10::
+#推送某个标签到远程{{c8:: 
+git push origin v1.0 }}
+#一次性推送全部标签到远程{{c9:: 
+git push origin --tags }}
+#删除已经推送到远程的标签{{c10::
 #第一步：先删除本地标签
 git tag -d v0.9
 #第二步：
@@ -355,7 +354,7 @@ git push origin :refs/tags/v0.9
 
 ### 如何在GitHub上参与开源项目
 
-{{c10::
+{{c1::
 
 - 在感兴趣的项目上fork项目到自己的账户，从自己的clone到本地就可以直接推送了。
 - 如果直接在开源项目上clone将无法推送修改。
@@ -366,18 +365,17 @@ git push origin :refs/tags/v0.9
 
 ### 忽略特殊文件
 
-{{c10:
-
-GitHub的忽略特殊文件的模板地址：{{c10: https://github.com/github/gitignore }}
+GitHub的忽略特殊文件的模板地址：{{c1: https://github.com/github/gitignore }}
 
 ### 配置别名
 
 ```shell
+#{{c1::
 git comfig --global alias.st status
 git comfig --global alias.co checkout
 git comfig --global alias.ci commit
 git comfig --global alias.br branch
-
+}}
 #以后的提交
 git ci -m "bala bala bala...”
 #配置unstage命令：撤销暂存区的修改
