@@ -52,11 +52,11 @@ git init
 ```shell
 # 查看工作区状态 {{c1:: 
 git status }}
-# 对比文件差异 {{c2:: 
+# 对比文件差异 {{c1:: 
 git diff }}
-# 查看版本历史 {{c4:: 
+# 查看版本历史 {{c1:: 
 git log }}
-# 以行为单位查看版本历史 {{c5:: 
+# 以行为单位查看版本历史 {{c1:: 
 git log --pretty=oneline }}
 ```
 
@@ -66,9 +66,9 @@ git log --pretty=oneline }}
 
 `Uinx/Linux`采用换行符LF表示下一行{{c1:: （`LF：LineFeed`，中文意思是换行）；}}
 
-Dos和Windows采用回车+换行CRLF表示下一行{{c2:: （`CRLF：CarriageReturn LineFeed`，中文意思是回车换行）；}}
+Dos和Windows采用回车+换行CRLF表示下一行{{c1:: （`CRLF：CarriageReturn LineFeed`，中文意思是回车换行）；}}
 
-Mac OS采用回车CR表示下一行{{c3:: （`CR：CarriageReturn`，中文意思是回车）。}}
+Mac OS采用回车CR表示下一行{{c1:: （`CR：CarriageReturn`，中文意思是回车）。}}
 
 ### 在Git中，可以通过以下命令来显示当前你的Git中采取哪种对待换行符的方式
 
@@ -87,7 +87,7 @@ git config core.autocrlf
 - 为input时:{{c1:: add时Git会把CRLF转换为LF，而check时仍旧为LF，所以Windows操作系统不建议设置此值。}}
 
 
-当 `core autocrlf`为true时，**还有一个需要慎重的地方**，{{c2::当你上传一个二进制文件，Git可能会将二进制文件误以为是文本文件，从而也会修改你的二进制文件，从而产生隐患。}}
+当 `core autocrlf`为true时，**还有一个需要慎重的地方**，{{c1::当你上传一个二进制文件，Git可能会将二进制文件误以为是文本文件，从而也会修改你的二进制文件，从而产生隐患。}}
 
 ## 版本管理
 
@@ -130,9 +130,9 @@ git reflog }}
 ```shell
 # 对比工作区和版本库中最新版本的区别{{c1:: 
 git diff HEAD -- readme.txt }}
-# 让文件回到最近一次git commit或git add时的状态{{c2:: 
+# 让文件回到最近一次git commit或git add时的状态{{c1:: 
 git checkout -- readme.txt}}
-# 将暂存区的修改撤消掉{{c3:: 
+# 将暂存区的修改撤消掉{{c1:: 
 git reset HEAD readme.txt }}
 ```
 
@@ -140,9 +140,9 @@ git reset HEAD readme.txt }}
 
 场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令{{c1:: `git checkout -- file`。}}
 
-场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令{{c2:: `git reset HEAD `，}}就回到了场景1，第二步按场景1操作。
+场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令{{c1:: `git reset HEAD `，}}就回到了场景1，第二步按场景1操作。
 
-场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，{{c3::`git reset HEAD^`}}，不过前提是没有推送到远程库。
+场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，{{c1::`git reset HEAD^`}}，不过前提是没有推送到远程库。
 
 ### 删除操作：
 
@@ -225,11 +225,11 @@ git clone git@github.com:alibaba/easyexcel.git
 #git checkout命令加上-b参数标识创建并切换{{c1:: 
 git checkout -b name }}
 #相当于
-#创建{{c2:: 
+#创建{{c1:: 
 git branch name }}
-#切换{{c3:: 
+#切换{{c1:: 
 git checkout name }}
-#查看当前分支{{c4:: 
+#查看当前分支{{c1:: 
 git branch }}
 ```
 
@@ -238,7 +238,7 @@ git branch }}
 ```shell
 #将指定分支合并到当前分支上{{c1:: 
 git merge name }}
-#删除分支{{c2:: 
+#删除分支{{c1:: 
 git branch -d name }}
 ```
 
@@ -263,11 +263,11 @@ git log --graph --pretty=oneline --abbrev-commit }}
 ```shell
 #把当前分支的工作现场储藏起来{{c1::
 git stash }}
-#查看储藏的工作现场{{c2::
+#查看储藏的工作现场{{c1::
 git stash list }}
-#恢复之前的工作现场,但是恢复后stash内容并不删除{{c3::
+#恢复之前的工作现场,但是恢复后stash内容并不删除{{c1::
 git stash apply }}
-#恢复之前的工作现场,同时删除stash的内容{{c4::
+#恢复之前的工作现场,同时删除stash的内容{{c1::
 git stash pop }}
 ```
 
@@ -286,10 +286,10 @@ git branch -D feature-test
 #查看远程库的名字{{c1::
 git remote
 }}
-#查看远程库的详细信息，权限，地址等{{c2::
+#查看远程库的详细信息，权限，地址等{{c1::
 git remote -v
 }}
-#推送分支：将该分支上所有的本地提交推送到远程库{{c3::
+#推送分支：将该分支上所有的本地提交推送到远程库{{c1::
 git push origin master
 #如果推送其他分支
 git push origin dev
@@ -302,17 +302,17 @@ git push origin dev
 ```shell
 #从github上clone一个项目{{c1:: 
 git clone git@github.com：alibaba/easyExcel }}
-#默认是master分支，现在切换到dev分支{{c2:: 
+#默认是master分支，现在切换到dev分支{{c1:: 
 git checkout -b dev easyExcel/dev }}
-#完成修改后推送提交到远程{{c3:: 
+#完成修改后推送提交到远程{{c1:: 
 git push easyExcel/dev }}
-#如果推送失败，则重新拉取最新版{{c4::
+#如果推送失败，则重新拉取最新版{{c1::
 git pull }}
-#如果提示”no tracking information“则指定本地DEV分支与远程easyExcel/dev的链接{{c5:: 
+#如果提示”no tracking information“则指定本地DEV分支与远程easyExcel/dev的链接{{c1:: 
 git branch --set-upstream dev easyExcel/dev }}
-#再次拉取{{c6:: 
+#再次拉取{{c1:: 
 git pull }}
-#如果有冲突，解决冲突后再次推送{{c7:: 
+#如果有冲突，解决冲突后再次推送{{c1:: 
 git push easyExcel/dev  }}
 ```
 
@@ -323,26 +323,26 @@ git push easyExcel/dev  }}
 ```shell
 #创建标签{{c1:: 
 git tag v1.0 }}
-#查看当前分支所有的标签{{c2:: 
+#查看当前分支所有的标签{{c1:: 
 git tag }}
-#为指定的版本打上标签{{c3:: 
+#为指定的版本打上标签{{c1:: 
 git tag v0.9 commitId }}
-#查看指定标签的信息{{c4:: 
+#查看指定标签的信息{{c1:: 
 git show v0.9 }}
-#创建带有说明文字的标签{{c5::
+#创建带有说明文字的标签{{c1::
 git tag -a v0.1 -m "version 0.1 released"  3628164 }}
-#用私钥签名一个标签{{c6:: 
+#用私钥签名一个标签{{c1:: 
 git tag -s tagname -m "blalbla....." 3628164 }}
-#删除标签{{c7:: 
+#删除标签{{c1:: 
 git tag -d v0.1 }}
 ```
 
 ### 远程库标签管理
 
 ```shell
-#推送某个标签到远程{{c8:: 
+#推送某个标签到远程{{c1:: 
 git push origin v1.0 }}
-#一次性推送全部标签到远程{{c9:: 
+#一次性推送全部标签到远程{{c1:: 
 git push origin --tags }}
 #删除已经推送到远程的标签{{c10::
 #第一步：先删除本地标签
