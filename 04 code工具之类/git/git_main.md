@@ -1,6 +1,10 @@
-## 环境 [	](git_main_1576498712301)
+## git常用命令展示图 [	](git_main_20191219101334804)
 
-### 在Windows上安装Git [	](git_main_1576498712302)
+![image-20191219213439810](git_main.assets/image-20191219213439810.png)
+
+## 环境  [	](git_main_20191219101334806)
+
+### 在Windows上安装Git  [	](git_main_20191219101334808)
 
 下载地址： https://gitforwindows.org/ 
 
@@ -15,9 +19,9 @@ git config --global user.email "136412052@qq.com"
 
 }}
 
-## Git初始化 [	](git_main_1576498712303)
+## Git初始化  [	](git_main_20191219101334809)
 
-### 初始化一个版本库 [	](git_main_1576498712304)
+### 初始化一个版本库  [	](git_main_20191219101334811)
 
 在想要创建版本库的文件夹下输入以下命令：
 
@@ -29,7 +33,7 @@ git init
 
 }}
 
-### 把一个文件放到Git仓库需要两步： [	](git_main_1576498712305)
+### 把一个文件放到Git仓库需要两步：  [	](git_main_20191219101334813)
 
 {{c1::
 
@@ -47,7 +51,7 @@ git init
 
 }}
 
-### Git常见操作 [	](git_main_1576498712306)
+### Git常见操作 [	](git_main_20191220121129130)
 
 ```shell
 # 查看工作区状态 {{c1:: 
@@ -60,7 +64,7 @@ git log }}
 git log --pretty=oneline }}
 ```
 
-### 关于Git `warning：LF will be replaced by CRLF in readme.txt`问题的原因 [	](git_main_1576498712307)
+### 关于Git `warning：LF will be replaced by CRLF in readme.txt`问题的原因  [	](git_main_20191220070310161)
 
 首先问题出{{c1:: 在不同操作系统所使用的换行符是不一样的。}}
 
@@ -70,7 +74,7 @@ Dos和Windows采用回车+换行CRLF表示下一行{{c1:: （`CRLF：CarriageRet
 
 Mac OS采用回车CR表示下一行{{c1:: （`CR：CarriageReturn`，中文意思是回车）。}}
 
-### 在Git中，可以通过以下命令来显示当前你的Git中采取哪种对待换行符的方式 [	](git_main_1576498712308)
+### 在Git中，可以通过以下命令来显示当前你的Git中采取哪种对待换行符的方式 [	](git_main_20191220070310166)
 
 ```shell
 #{{c1::  
@@ -89,14 +93,14 @@ git config core.autocrlf
 
 当 `core autocrlf`为true时，**还有一个需要慎重的地方**，{{c1::当你上传一个二进制文件，Git可能会将二进制文件误以为是文本文件，从而也会修改你的二进制文件，从而产生隐患。}}
 
-## 版本管理 [	](git_main_1576498712309)
+## 版本管理  [	](git_main_20191219101334819)
 
-### `git log`命令 [	](git_main_1576498712310)
+### `git log`命令  [	](git_main_20191219101334821)
 
 - `git log`:以列表的方式查看当前版本库的历史纪录
 - `git log --pretty=oneline `:以行的方式查看当前版本库的历史纪录
 
-### GIT的commit id（版本号）含义 [	](git_main_1576498712311)
+### GIT的commit id（版本号）含义  [	](git_main_20191219101334823)
 
 {{c1:: 
 
@@ -104,7 +108,7 @@ Git是分布式的系统，为了避免与其他人的版本冲突，GIT 的comm
 
 }}
 
-### Git版本回退 [	](git_main_1576498712312)
+### Git版本回退  [	](git_main_20191219101334824)
 
 ```shell
 # 回退到上一个版本{{c1:: 
@@ -117,15 +121,72 @@ git reset --hard 3628164 }}
 git reflog }}
 ```
 
-### Git的一些名词解释: [	](git_main_1576498712313)
+### 文件对比 [	](git_main_20191219101334825)
+
+先列出两个版本间发生更改的文件列表{{c1:: 
+
+```shell
+git diff commit1 commit2 --stat --name-only
+```
+
+}}
+
+查看指定文件在两个版本间发生的变更{{c1:: 
+
+```shell
+git diff commit1 commit2 -- somefile.js
+```
+
+}}
+
+如果感觉这种显示不够直观，可以使用 `vimdiff `查看{{c1:: 
+
+```shell
+git difftool commit1 commit2 -- somefile.js
+```
+
+}}
+
+### git 回退单个文件 [	](git_main_20191219101334827)
+
+- 1.进入到文件所在文件目录，或者能找到文件的路径
+  ```shell
+  # {{c1:
+  $ git log MainActivity.java
+#}}
+  ```
+  
+- 2.回退到指定的版本
+  
+  ```shell
+  # {{c1:
+  $ git reset a4e215234aa4927c85693dca7b68e9976948a35e MainActivity.java
+  #}}
+  ```
+- 3.提交到本地参考，注意不需要git add。
+  
+  ```shell
+  # {{c1:
+  $ git commit -m ``"revert old file because yjl commmit have a bug"
+  #}}
+  ```
+- 4.更新到工作目录
+  
+  ```shell
+  # {{c1:
+  $ git checkout MainActivity.java
+  #}}
+  ```
+
+### Git的一些名词解释:  [	](git_main_20191219101334829)
 
 - 工作区：{{c1::当前项目中能看见的目录。}}
 - 版本库：{{c1::.git是Git的版本库，不算工作区。}}
 - 暂存区：{{c1::保存还没有提交到创库的修改。}}
 
-## 文件修改 [	](git_main_1576498712314)
+## 文件修改  [	](git_main_20191219101334832)
 
-### 管理修改 [	](git_main_1576498712315)
+### 管理修改  [	](git_main_20191219101334834)
 
 ```shell
 # 对比工作区和版本库中最新版本的区别{{c1:: 
@@ -136,7 +197,7 @@ git checkout -- readme.txt}}
 git reset HEAD readme.txt }}
 ```
 
-### 撤销修改的3种场景 [	](git_main_1576498712316)
+### 撤销修改的3种场景  [	](git_main_20191219101334835)
 
 场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令{{c1:: `git checkout -- file`。}}
 
@@ -144,7 +205,7 @@ git reset HEAD readme.txt }}
 
 场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，{{c1::`git reset HEAD^`}}，不过前提是没有推送到远程库。
 
-### 删除操作： [	](git_main_1576498712317)
+### 删除操作：  [	](git_main_20191219101334837)
 
 - 普通删除：在资源管理器中删除或者使用了`rm`命令:
 
@@ -163,9 +224,9 @@ git reset HEAD readme.txt }}
   ```
 }}
 
-## 版本库推送 [	](git_main_1576498712318)
+## 版本库推送  [	](git_main_20191219101334838)
 
-### 在用户主目录中创建SSH KEY [	](git_main_1576498712319)
+### 在用户主目录中创建SSH KEY  [	](git_main_20191219101334840)
 
 {{c1:: 
 
@@ -178,7 +239,7 @@ ssh-keygen -t rsa -C "136412052@qq.com"
 - `id_rsa`文件：{{c1:: 私钥}}
 - `id_rsa.pub`文件：{{c1:: 公钥，目前用于添加到GitHub上用于推送，标识自己的计算机。}}
 
-### 将本地项目推送到GitHub上 [	](git_main_1576498712320)
+### 将本地项目推送到GitHub上  [	](git_main_20191219101334842)
 
 - 第一步：{{c1::在GitHub上创建一个仓库。}}
 
@@ -207,7 +268,7 @@ ssh-keygen -t rsa -C "136412052@qq.com"
   {{c1::git push origin master}}
   ```
 
-### 从远程克隆库 [	](git_main_1576498712321)
+### 从远程克隆库  [	](git_main_20191219101334844)
 
 {{c1::
 
@@ -217,9 +278,9 @@ git clone git@github.com:alibaba/easyexcel.git
 
 - Git支持多种协议，包括https，但是通过SSH支持的原生git协议最快。}}
 
-## 分支 [	](git_main_1576498712322)
+## 分支  [	](git_main_20191219101334846)
 
-### 分支创建与切换 [	](git_main_1576498712323)
+### 分支创建与切换  [	](git_main_20191219101334847)
 
 ```shell 
 #git checkout命令加上-b参数标识创建并切换{{c1:: 
@@ -233,7 +294,7 @@ git checkout name }}
 git branch }}
 ```
 
-### 分支的合并与删除 [	](git_main_1576498712324)
+### 分支的合并与删除  [	](git_main_20191219101334848)
 
 ```shell
 #将指定分支合并到当前分支上{{c1:: 
@@ -242,14 +303,14 @@ git merge name }}
 git branch -d name }}
 ```
 
-### 查看分支的合并情况 [	](git_main_1576498712325)
+### 查看分支的合并情况  [	](git_main_20191219101334849)
 
 ```shell 
 #{{c1:: 
 git log --graph --pretty=oneline --abbrev-commit }}
 ```
 
-### 分支合并策略 [	](git_main_1576498712326)
+### 分支合并策略  [	](git_main_20191219101334851)
 
 - Fast Forward
   1. {{c1::当前分支合并到另一分支时，如果没有冲突，就会直接移动文件指针,合并后没有历史记录。 }}
@@ -258,7 +319,7 @@ git log --graph --pretty=oneline --abbrev-commit }}
   1. {{c1:: 当前分支合并到另一分支时会新创建一个版本，合并后的历史有分支 }}
   2. 命令：{{c1:: `git merge -no-ff name` }}
 
-### 工作现场的保留与恢复 [	](git_main_1576498712327)
+### 工作现场的保留与恢复  [	](git_main_20191219101334853)
 
 ```shell
 #把当前分支的工作现场储藏起来{{c1::
@@ -271,7 +332,7 @@ git stash apply }}
 git stash pop }}
 ```
 
-### 删除分支 [	](git_main_1576498712328)
+### 删除分支  [	](git_main_20191219101334855)
 
 ```shell
 #删除已被合并的分支
@@ -280,7 +341,7 @@ git branch -d feature-test
 git branch -D feature-test
 ```
 
-### 远程库管理 [	](git_main_1576498712329)
+### 远程库管理  [	](git_main_20191219101334856)
 
 ```shell
 #查看远程库的名字{{c1::
@@ -297,7 +358,7 @@ git push origin dev
   
 ```
 
-### 多人协作 [	](git_main_1576498712330)
+### 多人协作  [	](git_main_20191219101334857)
 
 ```shell
 #从github上clone一个项目{{c1:: 
@@ -316,9 +377,9 @@ git pull }}
 git push easyExcel/dev  }}
 ```
 
-## 标签管理 [	](git_main_1576498712331)
+## 标签管理  [	](git_main_20191219101334859)
 
-### 创建，查看，删除标签 [	](git_main_1576498712332)
+### 创建，查看，删除标签  [	](git_main_20191219101334861)
 
 ```shell
 #创建标签{{c1:: 
@@ -337,7 +398,7 @@ git tag -s tagname -m "blalbla....." 3628164 }}
 git tag -d v0.1 }}
 ```
 
-### 远程库标签管理 [	](git_main_1576498712333)
+### 远程库标签管理  [	](git_main_20191219101334863)
 
 ```shell
 #推送某个标签到远程{{c1:: 
@@ -352,7 +413,7 @@ git push origin :refs/tags/v0.9
 }}
 ```
 
-### 如何在GitHub上参与开源项目 [	](git_main_1576498712334)
+### 如何在GitHub上参与开源项目  [	](git_main_20191219101334865)
 
 {{c1::
 
@@ -361,13 +422,13 @@ git push origin :refs/tags/v0.9
 
 }}
 
-## 全局配置 [	](git_main_1576498712335)
+## 全局配置  [	](git_main_20191219101334868)
 
-### 忽略特殊文件 [	](git_main_1576498712336)
+### 忽略特殊文件  [	](git_main_20191219101334870)
 
 GitHub的忽略特殊文件的模板地址：{{c1: https://github.com/github/gitignore }}
 
-### 配置别名 [	](git_main_1576498712337)
+### 配置别名  [	](git_main_20191219101334871)
 
 ```shell
 #{{c1::
@@ -382,7 +443,7 @@ git ci -m "bala bala bala...”
 git config --global alias.unstage 'reset HEAD'
 ```
 
-### 配置版本历史显示效果 [	](git_main_1576498712338)
+### 配置版本历史显示效果  [	](git_main_20191219101334874)
 
 ```shell
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"

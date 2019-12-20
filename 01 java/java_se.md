@@ -1,12 +1,12 @@
-# java FX
+# java FX [	](java_se_20191219101334709)
 
-## Java FX程序的基本结构
+## Java FX程序的基本结构 [	](java_se_20191219101334711)
 
-### 一个最基本结构java FX程序
+### 一个最基本结构java FX程序 [	](java_se_20191219101334713)
 
 图：
 
-![image-20191216221654589](java%20se.assets/image-20191216221654589.png)
+![image-20191216221654589](java_se.assets/image-20191216221654589.png)
 
 ```java
 public class MyJavaFX extends Application {
@@ -30,9 +30,9 @@ public class MyJavaFX extends Application {
 
 命令行执行javaFX程序时会自动{{c1::调用`AppliApplication.launch(args);`方法。}}
 
-### 一个javaFX程序显示多个舞台
+### 一个javaFX程序显示多个舞台 [	](java_se_20191219101334714)
 
-![image-20191216221951820](java%20se.assets/image-20191216221951820.png)
+![image-20191216221951820](java_se.assets/image-20191216221951820.png)
 
 核心代码：
 
@@ -47,7 +47,9 @@ public class MyJavaFX extends Application {
 
 - **stage.setResizable(false)**方法：{{c1:禁止改变舞台大小}}
 
-### 使用javaFX类库在一个面版中央显示圆：
+### 使用javaFX类库在一个面版中央显示圆： [	](java_se_20191219101334715)
+
+{{c1::
 
 ```java
     public void start(Stage primaryStage) throws Exception {
@@ -69,16 +71,18 @@ public class MyJavaFX extends Application {
     }
 ```
 
-### javaFX中各个类的关系。
+}}
+
+### javaFX中各个类的关系。 [	](java_se_20191219101334717)
 
 - Stage组合{{c1::Scene}}
 - Scene组合{{c1::Parent}},因此Scenne不能直接{{c1::包含Shape与ImageView}}
 - {{c1::Shape}}与{{c1::ImageView}}继承自Node
 - {{c1::Control}}与{{c1::Pane}}继承自Parent
 
-{{c1::![image-20191216224429952](java%20se.assets/image-20191216224429952.png)}}
+{{c1::![image-20191216224429952](java_se.assets/image-20191216224429952.png)}}
 
-### Java FX的绑定属性
+### Java FX的绑定属性 [	](java_se_20191219101334719)
 
 - 例：{{c1:: `targetProperty.bind(source)`}}
 
@@ -98,12 +102,16 @@ public class MyJavaFX extends Application {
   
   }}
 
-### 绑定属性应该具有的3个方法
+### 绑定属性应该具有的3个方法 [	](java_se_20191219101334721)
+
+{{c1::
 
 - getter与setter方法
 - `public propertyType xProperty()`
 
-### java FX中Node类的通用方法
+}}
+
+### java FX中Node类的通用方法 [	](java_se_20191219101334722)
 
 - ` setStyle(String value)`:{{c1:: 设置css样式}}
 - `setRotate()`:{{c1:: 可以设置旋转的角度}}
@@ -119,7 +127,7 @@ b.setRotate(80);
 //}}
 ```
 
-### java FX中Color类用法
+### java FX中Color类用法 [	](java_se_20191219101334724)
 
 - 使用构造方法:
 
@@ -133,9 +141,9 @@ public Color(double r, double g ,double b double opacity);
 
 - 使用{{c1::Color.RED之类的标准颜色}}
 
-### java FX中Font类用法
+### java FX中Font类用法 [	](java_se_20191219101334725)
 
-![image-20191217210937741](java%20se.assets/image-20191217210937741.png)
+![image-20191217210937741](java_se.assets/image-20191217210937741.png)
 
 核心代码：{{c1::
 
@@ -150,9 +158,9 @@ pane.getChildren().add(label);
 
 }}
 
-### 一个图像通过面版中的三个图像视图显示
+### 一个图像通过面版中的三个图像视图显示 [	](java_se_20191219101334727)
 
-![image-20191217213019505](java%20se.assets/image-20191217213019505.png)
+![image-20191217213019505](java_se.assets/image-20191217213019505.png)
 
 `ShowImage`类核心代码：
 
@@ -176,11 +184,11 @@ pane.getChildren().add(label);
 
 }}
 
-### GridPane的用法
+### GridPane的用法 [	](java_se_20191219101334729)
 
 图示：
 
-![image-20191217214418469](java%20se.assets/image-20191217214418469.png)
+![image-20191217214418469](java_se.assets/image-20191217214418469.png)
 
 `ShowGridPane`核心代码：
 
@@ -207,7 +215,7 @@ pane.getChildren().add(label);
 
 }}
 
-### JavaFx中布局面板
+### JavaFx中布局面板 [	](java_se_20191219101334731)
 
 |    Pane    | {{c1::布局面板的基类.getChildren方法来返回面板中的节点列表}} |
 | :--------: | ------------------------------------------------------------ |
@@ -218,15 +226,15 @@ pane.getChildren().add(label);
 |    HBox    | {{c1::节点放在単行中}}                                       |
 |    VBox    | {{c1::节点放在单列中}}                                       |
 
-## javaFX事件
+## javaFX事件 [	](java_se_20191219101334732)
 
-### 事件与事件源
+### 事件与事件源 [	](java_se_20191219101334733)
 
 - java中的事件类的根类是{{c1::`java.util.EventObject`}}
 - javaFX中的事件类的根类是{{c1::`javafx.event.Event`}}
 - 可以通过事件类的{{c1::`getSoource()`}}方法来确定一个事件的源对象。
 
-### JavaFx中为一个按钮注册处理器与处理事件
+### JavaFx中为一个按钮注册处理器与处理事件 [	](java_se_20191219101334735)
 
 {{c1::
 
@@ -252,30 +260,31 @@ btn.setOnAction(event -> circlePane.enlarge());
 
 }}
 
-### `MouseEvent`鼠标事件
+### `MouseEvent`鼠标事件 [	](java_se_20191219101334737)
 
-![image-20191217225338016](java%20se.assets/image-20191217225338016.png)
+![image-20191217225338016](java_se.assets/image-20191217225338016.png)
 
-{{c1::![image-20191217225333086](java%20se.assets/image-20191217225333086.png)}}
+{{c1::![image-20191217225333086](java_se.assets/image-20191217225333086.png)}}
 
-### 键盘事件
+### 键盘事件 [	](java_se_20191219101334741)
 
-![image-20191217225457041](java%20se.assets/image-20191217225457041.png)
+![image-20191217225457041](java_se.assets/image-20191217225457041.png)
 
-{{c1::![image-20191217225448723](java%20se.assets/image-20191217225448723.png)}}
+{{c1::![image-20191217225448723](java_se.assets/image-20191217225448723.png)}}
 
-### 可观察对象监听器
+### 可观察对象监听器 [	](java_se_20191219101334742)
 
 - Observable的实例，使用{{c1::`addListener`与`removeListener`}}添加或删除实现{{c1::`InvalidationListener`监听器}}对象
 - 每个绑定属性都是{{c1::Observable的实例}}
 - Observable与InvalidationListener接口源码：
 
 ```java
-//{{c1:
+//{{c1::
 public interface Observable {
     void addListener(InvalidationListener listener);
     void removeListener(InvalidationListener listener);
 }
+//}}
 
 @FunctionalInterface
 public interface InvalidationListener {
@@ -284,15 +293,15 @@ public interface InvalidationListener {
 //}}
 ```
 
-### javafx.animation.Animation类
+### javafx.animation.Animation类 [	](java_se_20191219101334760)
 
-![image-20191217234145104](java%20se.assets/image-20191217234145104.png)
+![image-20191217234145104](java_se.assets/image-20191217234145104.png)
 
-{{c1::![image-20191217234138105](java%20se.assets/image-20191217234138105.png)}}
+{{c1::![image-20191217234138105](java_se.assets/image-20191217234138105.png)}}
 
-### javafx.animation.PathTransition类的使用
+### javafx.animation.PathTransition类的使用 [	](java_se_20191219101334761)
 
-![image-20191217234638494](java%20se.assets/image-20191217234638494.png)
+![image-20191217234638494](java_se.assets/image-20191217234638494.png)
 
 PathTransitionDemo类核心代码：
 
@@ -318,9 +327,9 @@ pt.play(); // Start animation
 //}}
 ```
 
-### javafx.animation.FadeTransition类的使用
+### javafx.animation.FadeTransition类的使用 [	](java_se_20191219101334763)
 
-![image-20191217235155820](java%20se.assets/image-20191217235155820.png)
+![image-20191217235155820](java_se.assets/image-20191217235155820.png)
 
 FadeTransitionDemo核心代码：
 
@@ -352,10 +361,10 @@ ellipse.setOnMousePressed(e -> ft.pause());
 ellipse.setOnMouseReleased(e -> ft.play());
 ```
 
-###  javafx.animation.Timeline的使用
+###  javafx.animation.Timeline的使用 [	](java_se_20191219101334765)
 
 - PathTransition 和 FadeTransition 定义了特定的动画。Timeline 类可以用于通过使用一个或者更多的 KeyFrame (关键帧）来编写任意动画。每个 KeyFrame 在一个给定的时间间隔内顺序执行。Timeline 继承自 Animation。
-- ![image-20191218203918151](java%20se.assets/image-20191218203918151.png)
+- ![image-20191218203918151](java_se.assets/image-20191218203918151.png)
 
 核心代码：
 
@@ -377,9 +386,9 @@ animation.play();
 // }}
 ```
 
-## 内部类
+## 内部类 [	](java_se_20191219101334767)
 
-### 内部类的特征：
+### 内部类的特征： [	](java_se_20191219101334768)
 
 - 一个内部类被编译成{{c1::一个名为`OuterClassName$InnerClassName.class`的类}}
 - 一个内部类可以引用{{c1::定义在它所在的外部类中的数据和方法。}}
@@ -387,18 +396,18 @@ animation.play();
 
 - 可以被定义成{{c1::static}}
 
-### 创建一个内部类
+### 创建一个内部类 [	](java_se_20191219101334769)
 
 ```java
 //对象.new语法{{c1::
 OuterClass.InnerClass innerObject = outerObject.new InnerClass();
 //}}
 //如果内部类是静态的，使用以下语法{{c1::
-OuterClass.InnerClass innerObject = outerObject.InnerClass InnerClass();
+OuterClass.InnerClass innerObject = new OuterObject.InnerClass();
 //}}
 ```
 
-### 匿名内部类
+### 匿名内部类 [	](java_se_20191219101334771)
 
 - 匿名内部类一步实现定义内部类以及创建一个内部类实例。
 
@@ -413,9 +422,9 @@ OuterClass.InnerClass innerObject = outerObject.InnerClass InnerClass();
 
 - 匿名内部类别编译成名为`OuterClassName$InnerClassName.class`的类
 
-### Labeled类与Label类
+### Labeled类与Label类 [	](java_se_20191219101334772)
 
-![image-20191218205717224](java%20se.assets/image-20191218205717224.png)
+![image-20191218205717224](java_se.assets/image-20191218205717224.png)
 
 Label类的构造方法：{{c1::`public Label(String text, Node graphic)`}}
 
@@ -423,15 +432,15 @@ Label类的构造方法：{{c1::`public Label(String text, Node graphic)`}}
 
 
 
-![image-20191218205636656](java%20se.assets/image-20191218205636656.png)
+![image-20191218205636656](java_se.assets/image-20191218205636656.png)
 
-![image-20191218205747071](java%20se.assets/image-20191218205747071.png)
+![image-20191218205747071](java_se.assets/image-20191218205747071.png)
 
 }}
 
-### Button的使用
+### Button的使用 [	](java_se_20191219101334774)
 
-![image-20191218210431437](java%20se.assets/image-20191218210431437.png)
+![image-20191218210431437](java_se.assets/image-20191218210431437.png)
 
 核心代码：{{c1::
 
@@ -442,9 +451,9 @@ Button btRight = new Button("Right", new ImageView("image/right.gif"));
 
 }}
 
-### RadioButtion与CheckBox的使用例子
+### RadioButtion与CheckBox的使用例子 [	](java_se_20191219101334775)
 
-![image-20191218211531355](java%20se.assets/image-20191218211531355.png)
+![image-20191218211531355](java_se.assets/image-20191218211531355.png)
 
 CheckBox核心代码：
 
@@ -501,7 +510,7 @@ rbRed.setOnAction(e -> {
 
 }}
 
-### TextFiled类与PasswordFiled类的使用
+### TextFiled类与PasswordFiled类的使用 [	](java_se_20191219101334776)
 
 TextFiled类与PasswordFiled类区别在于：{{c1::PasswordFiled显示***隐藏了文本。}}
 
@@ -517,16 +526,16 @@ passwordField.setActionEvent(c -> passwordField.getText());
 
 }}
 
-### TextArea类
+### TextArea类 [	](java_se_20191219101334778)
 
 - prefColumnCount绑定属性：{{c1::指定文本的优先列数}}
 - prefRowCount绑定属性：{{c1::指定文本的优先列数}}
 - wrapText绑定属性：{{c1::指定文本是否折到下一行}}
 - 添加滚动功能：{{c1::`ScrollPane scrollPane=new ScrollPane(textArea);`}}
 
-### TextArea与ScrollPane 例子
+### TextArea与ScrollPane 例子 [	](java_se_20191219101334780)
 
-![image-20191218222600951](java%20se.assets/image-20191218222600951.png)
+![image-20191218222600951](java_se.assets/image-20191218222600951.png)
 
 核心代码：
 
@@ -553,11 +562,11 @@ setPadding(new Insets(5, 5, 5, 5));
 
 }}
 
-### 下拉框
+### 下拉框 [	](java_se_20191219101334782)
 
 JavaFX 提供了⼀个静态⽅法{{c1::` FXCollections.observableArrayList ( arrayOfElements )`}}来从⼀个元素数组中创建⼀个ObservableList。
 
-例子：![image-20191218223804555](java%20se.assets/image-20191218223804555.png)
+例子：![image-20191218223804555](java_se.assets/image-20191218223804555.png)
 
 核心代码：{{c1::
 
@@ -574,9 +583,9 @@ cbo.setOnAction(e -> setDisplay(items.indexOf(cbo.getValue())));
 
 }}
 
-### ListViewDemo例子：
+### ListViewDemo例子： [	](java_se_20191219101334784)
 
-![image-20191218224831187](java%20se.assets/image-20191218224831187.png)
+![image-20191218224831187](java_se.assets/image-20191218224831187.png)
 
 核心代码：{{c1::
 
@@ -602,15 +611,15 @@ lv.getSelectionModel().selectedItemProperty().addListener(
 
 }}
 
-### ScrollBar类
+### ScrollBar类 [	](java_se_20191219101334785)
 
-![image-20191218225024959](java%20se.assets/image-20191218225024959.png)
+![image-20191218225024959](java_se.assets/image-20191218225024959.png)
 
-{{c1::![image-20191218225018747](java%20se.assets/image-20191218225018747.png)}}
+{{c1::![image-20191218225018747](java_se.assets/image-20191218225018747.png)}}
 
-### ScrollBar类使用实例
+### ScrollBar类使用实例 [	](java_se_20191219101334786)
 
-![image-20191218225150780](java%20se.assets/image-20191218225150780.png)
+![image-20191218225150780](java_se.assets/image-20191218225150780.png)
 
 ScrollBarDemo核心代码{{c1::
 
@@ -634,15 +643,15 @@ vScrollBar.setOrientation(Orientation.VERTICAL);
 
 }}
 
-### SliderDemo类
+### SliderDemo类 [	](java_se_20191219101334788)
 
-![image-20191218230909629](java%20se.assets/image-20191218230909629.png)
+![image-20191218230909629](java_se.assets/image-20191218230909629.png)
 
-![image-20191218230903557](java%20se.assets/image-20191218230903557.png)
+![image-20191218230903557](java_se.assets/image-20191218230903557.png)
 
-### SliderDemo例子：
+### SliderDemo例子： [	](java_se_20191219101334789)
 
-![image-20191218230654239](java%20se.assets/image-20191218230654239.png)
+![image-20191218230654239](java_se.assets/image-20191218230654239.png)
 
 核心代码：
 
@@ -669,37 +678,37 @@ vScrollBar.setOrientation(Orientation.VERTICAL);
     
 ```
 
-### Media类
+### Media类 [	](java_se_20191219101334791)
 
-![image-20191218231926055](java%20se.assets/image-20191218231926055.png)
+![image-20191218231926055](java_se.assets/image-20191218231926055.png)
 
 {{c1::
 
-![image-20191218231919537](java%20se.assets/image-20191218231919537.png)}}
+![image-20191218231919537](java_se.assets/image-20191218231919537.png)}}
 
-### MediaPlayer类
+### MediaPlayer类 [	](java_se_20191219101334792)
 
-![image-20191218232016072](java%20se.assets/image-20191218232016072.png)
+![image-20191218232016072](java_se.assets/image-20191218232016072.png)
 
-{{c1::![image-20191218232010780](java%20se.assets/image-20191218232010780.png)}}
+{{c1::![image-20191218232010780](java_se.assets/image-20191218232010780.png)}}
 
-### MediaView类
+### MediaView类 [	](java_se_20191219101334793)
 
-![image-20191218232054298](java%20se.assets/image-20191218232054298.png)
+![image-20191218232054298](java_se.assets/image-20191218232054298.png)
 
-{{c1::![image-20191218232045835](java%20se.assets/image-20191218232045835.png)}}
+{{c1::![image-20191218232045835](java_se.assets/image-20191218232045835.png)}}
 
-### Media MediaPlayer  MediaView之间的关系
+### Media MediaPlayer  MediaView之间的关系 [	](java_se_20191219101334795)
 
 {{c1:
 
-![image-20191218232335953](java%20se.assets/image-20191218232335953.png)
+![image-20191218232335953](java_se.assets/image-20191218232335953.png)
 
 }}
 
-### javaFX视频与音频的例子：
+### javaFX视频与音频的例子： [	](java_se_20191219101334797)
 
-![image-20191218232438407](java%20se.assets/image-20191218232438407.png)
+![image-20191218232438407](java_se.assets/image-20191218232438407.png)
 
 核心代码：
 
@@ -713,4 +722,3 @@ MediaView mediaView = new MediaView(mediaPlayer);
 ```
 
 }}
-
