@@ -420,7 +420,7 @@ OuterClass.InnerClass innerObject = new OuterObject.InnerClass();
   //}}
   ```
 
-- 匿名内部类别编译成名为`OuterClassName$InnerClassName.class`的类
+- 匿名内部类别编译成名为`OuterClassName$n.class`的类
 
 ### Labeled类与Label类 [	](java_se_20191219101334772)
 
@@ -510,7 +510,7 @@ rbRed.setOnAction(e -> {
 
 }}
 
-### TextFiled类与PasswordFiled类的使用 [	](java_se_20191219101334776)
+### TextField类与PasswordField类的使用 [	](java_se_20191219101334776)
 
 TextFiled类与PasswordFiled类区别在于：{{c1::PasswordFiled显示***隐藏了文本。}}
 
@@ -700,7 +700,7 @@ vScrollBar.setOrientation(Orientation.VERTICAL);
 
 ### Media MediaPlayer  MediaView之间的关系 [	](java_se_20191219101334795)
 
-{{c1:
+{{c1:：
 
 ![image-20191218232335953](java_se.assets/image-20191218232335953.png)
 

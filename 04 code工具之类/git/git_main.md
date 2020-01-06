@@ -149,31 +149,32 @@ git difftool commit1 commit2 -- somefile.js
 
 ### git 回退单个文件 [	](git_main_20191219101334827)
 
-- 1.进入到文件所在文件目录，或者能找到文件的路径
+- 1.查看要回退的文件的历史版本
+  
   ```shell
-  # {{c1:
-  $ git log MainActivity.java
-#}}
+  # {{c1::
+$ git log MainActivity.java
+  #}}
   ```
   
 - 2.回退到指定的版本
   
   ```shell
-  # {{c1:
+  # {{c1::
   $ git reset a4e215234aa4927c85693dca7b68e9976948a35e MainActivity.java
   #}}
   ```
 - 3.提交到本地参考，注意不需要git add。
   
   ```shell
-  # {{c1:
-  $ git commit -m ``"revert old file because yjl commmit have a bug"
+  # {{c1::
+  $ git commit -m "revert old file because yjl commmit have a bug"
   #}}
   ```
 - 4.更新到工作目录
   
   ```shell
-  # {{c1:
+  # {{c1::
   $ git checkout MainActivity.java
   #}}
   ```
@@ -214,6 +215,7 @@ git reset HEAD readme.txt }}
    ```shell  
   $ git rm test
   ```
+
 	}}
 
 - 从版本库撤销普通删除：
@@ -370,7 +372,7 @@ git push easyExcel/dev }}
 #如果推送失败，则重新拉取最新版{{c1::
 git pull }}
 #如果提示”no tracking information“则指定本地DEV分支与远程easyExcel/dev的链接{{c1:: 
-git branch --set-upstream dev easyExcel/dev }}
+git branch --set-upstream-to=origin/remote_branch  your_branch }}
 #再次拉取{{c1:: 
 git pull }}
 #如果有冲突，解决冲突后再次推送{{c1:: 
@@ -405,7 +407,7 @@ git tag -d v0.1 }}
 git push origin v1.0 }}
 #一次性推送全部标签到远程{{c1:: 
 git push origin --tags }}
-#删除已经推送到远程的标签{{c10::
+#删除已经推送到远程的标签{{c1::
 #第一步：先删除本地标签
 git tag -d v0.9
 #第二步：

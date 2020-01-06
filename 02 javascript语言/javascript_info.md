@@ -1,5 +1,3 @@
-### 与用户交互的 3 个浏览器指定的函数：  [	](javascript_info_20191219101334387)
-
 我们使用浏览器作为工作环境，所以基本的 UI 功能将是：
 
 -  {{c1::  prompt(question[, default])}}
@@ -308,21 +306,6 @@ user.sayHi(); // Ilya
 
 }}
 
-### 这段代码的结果是什么？  [	](javascript_info_20191219101334430)
-
-```javascript
-let user = {
-  name: "John",
-  go: function() { alert(this.name) }
-}
-
-(user.go)()
-```
-
----
-
-**{{c1::  出现此错误是因为在 user = {...} 之后遗漏了一个分号。}}**
-
 ### 在对象字面量中使用 "this"  [	](javascript_info_20191219101334432)
 
 这里 `makeUser` 函数返回了一个对象。
@@ -348,54 +331,6 @@ alert( user.ref.name ); // What's the result?
 1. 这里的this实际上取得的是window对象，也就是说user.ref.name被看作成window的属性。
 2. 严格模式下的这里的 `this` 值为 `undefined`
 3. 在方法中的this返回的是该方法所属的对象。
-}}
-
-### 链式（调用)  [	](javascript_info_20191219101334434)
-
-有一个可以上下移动的 `ladder` 对象：
-
-```javascript
-let ladder = {
-  step: 0,
-  up() {
-    this.step++;
-  },
-  down() {
-    this.step--;
-  },
-  showStep: function() { // shows the current step
-    alert( this.step );
-  }
-};
-```
-
-修改 `up` 和 `down` 的代码让调用可以链接，就像这样：
-
-```javascript
-ladder.up().up().down().showStep(); // 1
-```
-
-此种方法在 JavaScript 库中被广泛使用。
-
----
-{{c1::  
-```js
-let ladder = {
-    step: 0,
-    up() {
-        this.step++
-        return this;
-    },
-    down() {
-        this.step--;
-        return this;
-    },
-    showStep: function () { // shows the current step
-        alert(this.step);
-    }
-};
-ladder.up().up().down().showStep(); // 1
-```
 }}
 
 ### `Symbol.toPrimitive` 对象原始值转换的使用？  [	](javascript_info_20191219101334436)
@@ -525,7 +460,7 @@ obj.go();               // (1) [object Object]
 
 }}
 
-{{c2::  
+{{c1::  
 
 除了方法调用之外的任何操作（如赋值 `=` 或 `||` 等）把它变为了一个没有设定 `this` 信息的普通值。
 
@@ -558,7 +493,7 @@ obj.go();               // (1) [object Object]
 
 如果没有参数我们 `new` 可以省略括号：
 
-{{c2::  
+{{c1::  
 
 ```javascript
 let user = new User; // <-- no parentheses
@@ -772,7 +707,7 @@ alert( num.toFixed(1) ); {{c1::// "12.4"}}
 `Number.isNaN`与`isNaN`最的区别是，`Number.isNaN` 不存在类型转换的行为。
 
 ```java
-console.log(isNaN('测试')) //true
+console.log(isNaN('测试')) //true 因为字符串是有可能转换成数字的
 console.log(Number.isNaN('测试')) //false
 alert( NaN === NaN ); // false
 ```
@@ -904,7 +839,7 @@ let arr = [];
 
 ### 数组可以存储任何类型的元素。  [	](javascript_info_20191219101334485)
 
-- 数组和对象一样，{{c1:: 都可以在末尾冗余一个逗号。}}
+- 数组和对象一样， 都可以在末尾{{c1::冗余一个逗号。}}
 - 数组是一种特殊的对象。{{c1:: 使用方括号来访问属性 `arr[0]` 实际上是来自于对象的语法。这个数字被用作键值。他们扩展了对象，提供了特殊的方法来处理有序的数据集合，还添加了 `length` 属性。但是核心还是一个对象。}}
 - 数组有自己的 `toString` 方法的实现，会返回以逗号隔开的元素列表。
 
@@ -929,30 +864,21 @@ arr[3](); // hello
 
 ### 数组误用的几种方式:  [	](javascript_info_20191219101334489)
 
-- 添加一个非数字的属性比如 `arr.test = 5`。
-- 制造空洞，比如：添加 `arr[0]` 后添加 `arr[1000]` (它们中间什么都没有)。
-- 以倒序填充数组, 比如 `arr[1000]`，`arr[999]` 等等。
+- 添加一个非数字的属性比如    `arr.test = 5`。}}
+- 制造空洞，比如：{{c1::  添加 `arr[0]` 后添加 `arr[1000]` (它们中间什么都没有)。}}
+- 以倒序填充数组, {{c1::  比如 `arr[1000]`，`arr[999]` 等等。}}
 
 ### 2种简化for循环的格式区别：  [	](javascript_info_20191219101334491)
 
 - `for..in`： {{c1::  遍历对象的属性名。}}
 - `for..of `： {{c1::  遍历数据元素。}}
 
-### 关于 `length`  [	](javascript_info_20191219101334492)
+### `length` 代表数组的大小 [	](javascript_info_20191219101334492)
 
-当我们修改数组的时候，`length` 属性会自动更新。准确来说，它实际上不是数组里元素的个数，{{c1::  而是最大的数字索引值加一。}}
+`length` 属性的特点是：
 
-`length` 属性的另一个有意思的点是 {{c1::它是可写的。}}
-
-```javascript
-let arr = [1, 2, 3, 4, 5];
-
-arr.length = 2; // 只剩 2 个元素
-alert( arr ); // [1, 2]
-
-arr.length = 5; // 又把 length 加回来
-alert( arr[3] ); // undefined: 被截断的那些数值并没有回来
-```
+-  {{c1::它是可写的。}}
+- {{c1::且自动更新。}}
 
 所以，清空数组最好的方法就是： {{c1::  ``arr.length = 0;``   }}。
 
@@ -1007,10 +933,10 @@ alert( arr.concat(arrayLike) ); // 1,2,something,else
 
 | [filter()](https://www.runoob.com/jsref/jsref-filter.html)   | {{c1::检测数值元素，并返回符合条件所有元素的数组。}}         |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [find()](https://www.runoob.com/jsref/jsref-find.html)       | {{c2::返回符合传入测试（函数）条件的数组元素。}}             |
-| [findIndex()](https://www.runoob.com/jsref/jsref-findindex.html) | {{c3::返回符合传入测试（函数）条件的数组元素索引。}}         |
-| [forEach()](https://www.runoob.com/jsref/jsref-foreach.html) | {{c4::数组每个元素都执行一次回调函数。}}                     |
-| [map()](https://www.runoob.com/jsref/jsref-map.html)         | {{c5::通过指定函数处理数组的每个元素，并返回处理后的数组。}} |
+| [find()](https://www.runoob.com/jsref/jsref-find.html)       | {{c1::返回符合传入测试（函数）条件的数组元素。}}             |
+| [findIndex()](https://www.runoob.com/jsref/jsref-findindex.html) | {{c1::返回符合传入测试（函数）条件的数组元素索引。}}         |
+| [forEach()](https://www.runoob.com/jsref/jsref-foreach.html) | {{c1::数组每个元素都执行一次回调函数。}}                     |
+| [map()](https://www.runoob.com/jsref/jsref-map.html)         | {{c1::通过指定函数处理数组的每个元素，并返回处理后的数组。}} |
 ``` js
 //参数函数
 //{{c1:: 
@@ -1171,78 +1097,17 @@ alert(youngerUsers.length); // 2
 
 ## `Symbol.iterator`（可迭代对象）  [	](javascript_info_20191219101334513)
 
-数组和字符串是应用最广泛的内建可迭代对象。
-
 ### 可迭代对象概念  [	](javascript_info_20191219101334515)
 
 - `obj[Symbol.iterator]` 方法返回的结果被称为   {{c1::   **迭代器**}}。由它处理更深入的迭代过程。
 - 一个迭代器必须有    {{c1::   `next()` 方法}}，它返回一个    {{c1::   `{done: Boolean, value: any}`，这里 `done:true` 表明迭代结束，否则 `value` 就是下一个值。}}
 
-### `Symbol.iterator` 的实现例子  [	](javascript_info_20191219101334516)
+### 实现`Symbol.iterator` 的两种方式  [	](javascript_info_20191219101334516)
 
-第一种情况：{{c1::  每次调用`obj[Symbol.iterator]`都返回一个实现了next()方法的新对象
-
-```javascript
-let range = {
-  from: 1,
-  to: 5
-};
-
-// 1. 使用 for..of 将会首先调用它：
-range[Symbol.iterator] = function() {
-
-  // 2. ...它返回一个迭代器：
-  return {
-    current: this.from,
-    last: this.to,
-
-    // 3. next() 将在 for..of 的每一轮循环迭代中被调用
-    next() {
-      // 4. 它将会返回 {done:.., value :...} 格式的对象
-      if (this.current <= this.last) {
-        return { done: false, value: this.current++ };
-      } else {
-        return { done: true };
-      }
-    }
-  };
-};
-
-// 现在它可以运行了！
-for (let num of range) {
-  alert(num); // 1, 然后 2, 3, 4, 5
-}
-```
-
-}}
-
-第二种：{{c2::   每次调用`obj[Symbol.iterator]`都返回`this`,对象本身实现了next方法
-
-```javascript
-let range = {
-  from: 1,
-  to: 5,
-
-  [Symbol.iterator]() {
-    this.current = this.from;
-    return this;
-  },
-
-  next() {
-    if (this.current <= this.to) {
-      return { done: false, value: this.current++ };
-    } else {
-      return { done: true };
-    }
-  }
-};
-
-for (let num of range) {
-  alert(num); // 1, 然后 2, 3, 4, 5
-}
-```
-
-}}
+- 第一种：{{c1::每次调用`obj[Symbol.iterator]`都返回一个实现了next()方法的新对象。}}
+  - 特点：{{c1::每次会返回新的迭代器从头开始迭代。}}
+- 第二种:   每次调用`obj[Symbol.iterator]`都返回`this`,对象本身实现了next方法。
+  - 特点：{{c1::对象内部会记住迭代的状态。}}
 
 ### 显式调用字符串的迭代器  [	](javascript_info_20191219101334518)
 
@@ -1369,72 +1234,6 @@ let map = new Map(Object.entries({
 - `WeakSet` ——  {{c1::  `Set` 的一个变体，仅存储对象，并且当对象由于其他原因不可引用的时候将其删除。
 - 同样不支持 `size/clear()` 和迭代器。}}
 
-### task:过滤 anagrams  [	](javascript_info_20191219101334533)
-
-[Anagrams](https://en.wikipedia.org/wiki/Anagram) 是有相同数量相同字母但是顺序不同的单词。
-
-例如：
-
-```none
-nap - pan
-ear - are - era
-cheaters - hectares - teachers
-```
-
-写一个函数 `aclean(arr)`，它返回的数组中 anagrams 被删除。
-
-例如：
-
-```javascript
-let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
-
-alert( aclean(arr) ); // "nap,teachers,ear" or "PAN,cheaters,era"
-```
-
-对于所有的 anagram 组，需要保留任意一个单词。
-
----
- {{c1:: 
-```javascript
-function aclean(arr) {
-  let map = new Map();
-
-  for (let word of arr) {
-    // 将单词打散为字母，排序然后拼接回来
-    let sorted = word.toLowerCase().split('').sort().join(''); // (*)
-    map.set(sorted, word);
-  }
-
-  return Array.from(map.values());
-}
-
-let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
-
-alert( aclean(arr) );
-```
-
-这里我们也可以使用一般的对象而不用 `Map`，因为键就是字符串：
-
-```javascript
-function aclean(arr) {
-  let obj = {};
-
-  for (let i = 0; i < arr.length; i++) {
-    let sorted = arr[i].toLowerCase().split("").sort().join("");
-    obj[sorted] = arr[i];
-  }
-
-  return Array.from(Object.values(obj));
-}
-
-let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
-
-alert( aclean(arr) );
-```
-}}
-
-
-
 ## 对象的键、值、项  [	](javascript_info_20191219101334535)
 
 ### `Object.keys、values、entries` 三个方法  [	](javascript_info_20191219101334538)
@@ -1453,41 +1252,6 @@ alert( aclean(arr) );
 `Object.keys/values/entries` 忽略  {{c1:: Symbol 类型}}的属性
 
 ## 解构赋值  [	](javascript_info_20191219101334540)
-
-### 数组解构  [	](javascript_info_20191219101334541)
-
-```javascript
-// 有一个存放了名字和姓氏的数组
- //{{c1:: 
-let arr = ["Ilya", "Kantor"] 
-}}
-// 解构赋值
-//{{c1:: 
-let [firstName, surname] = arr;
-}}
-//与 split 函数（或其他返回值是数组的函数）结合使用时
-//{{c1:: 
-let [firstName, surname] = "Ilya Kantor".split(' '); 
-}}
-// 不需要第一个和第二个元素
-//{{c1:: 
-let [, , title] = ["Julius", "Caesar", "Consul", "of the Roman Republic"]; 
-}}
-//用于等号右侧的任何可迭代对象
-//{{c1:: 
-let [a, b, c] = "abc"; // ["a", "b", "c"]
-}}
-//{{c1:: 
-let [one, two, three] = new Set([1, 2, 3]);
-}}
-//赋值给等号左侧的任何类型
-//{{c1:: 
-let user = {}; }}
-[user.name, user.surname] = "Ilya Kantor".split(' '); }}
-//剩余的 ‘…’
-//rest 变量的值就是数组中剩下的元素组成的数组。
-{{c1:: let [name1, name2, ...rest] = ["Julius", "Caesar", "Consul", "of the Roman Republic"]; }}
-```
 
 ### 在方法参数列表中使用解构赋值  [	](javascript_info_20191219101334543)
 
@@ -1586,10 +1350,10 @@ showMenu(options);
 ###  JavaScript 日期对象小结  [	](javascript_info_20191219101334552)
 
 - 在 JavaScript 中，日期和时间使用 [Date](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Date) 对象来表示{{c1:: 。不能只创建日期，或者只创建时间，`Date` 对象总是两个都创建。}}
-- 月份从 {{c2:: 0 开始计数（对，一月是 0）。}}
-- 一周的某一天 `getDay()` 同样从{{c3::  0 开始计算（0 代表星期天）。}}
-- 当超出范围的信息被设置时，{{c4:: `Date` 会做自我校准。这一点对于日/月/小时 的加减很有效。}}
-- 日期可以相减{{c5:: ，得到的是两者的差值，用毫秒表示。因为当转化为数字时，`Date` 对象变为时间戳。}}
+- 月份从 {{c1:: 0 开始计数（对，一月是 0）。}}
+- 一周的某一天 `getDay()` 同样从{{c1::  0 开始计算（0 代表星期天）。}}
+- 当超出范围的信息被设置时，{{c1:: `Date` 会做自我校准。这一点对于日/月/小时 的加减很有效。}}
+- 日期可以相减{{c1:: ，得到的是两者的差值，用毫秒表示。因为当转化为数字时，`Date` 对象变为时间戳。}}
 
 ## JSON 方法，toJSON  [	](javascript_info_20191219101334554)
 
@@ -1614,7 +1378,7 @@ let student = {
 };
 //{{c1::
 let json = JSON.stringify(student);
-
+//}}
 alert(typeof json); // we've got a string!
  }
 alert(json);
@@ -1652,7 +1416,7 @@ alert( JSON.stringify(user) ); // {} (empty object)
 
 }}
 
-### `JSON.stringify` 完整语法是：  [	](javascript_info_20191219101334560)
+### `JSON.stringify` 的方法签名：  [	](javascript_info_20191219101334560)
 
 {{c1::
 
@@ -1725,9 +1489,8 @@ showName("Julius", "Caesar", "Consul", "Imperator");
 
 ### arguments变量  [	](javascript_info_20191219101334566)
 
-- 函数的上下文会提供一个非常特殊的{{c1::类数组且可遍历对象 `arguments`，所有的参数被按序放置。}}
-
-- 即使 `arguments` 是一个类数组且可遍历的变量，但它终究{{c1::不是数组。它没有数组原型链上的函数，我们没法直接调用诸如 `arguments.map(...)` 等这样的函数,而Rest 参数可以}}
+- 含义：{{c1::所有的参数被按序放置的类数组且可遍历的对象}}
+- 类数组且可遍历的对象不是数组，{{c1::不能调用对应的数组方法}}
 
 
 ###  `Array.from(obj)` 和 `[...obj]` 的2点差别：  [	](javascript_info_20191219101334567)
@@ -1749,15 +1512,19 @@ showName("Julius", "Caesar", "Consul", "Imperator");
 
 ###  `<script type="module">  `的作用？  [	](javascript_info_20191219101334573)
 
+{{c1::
+
 可以将作用域与顶级作用域（window对象）分开。
 
 `<script>` 与页面中的`JS`中的作用域默认为顶级作用域。
+
+}}
 
 ## 函数对象  [	](javascript_info_20191219101334575)
 
 ### 函数对象的属性  [	](javascript_info_20191219101334576)
 
-- name:{{c1::该函数的名字}}
+- name:{{c1::该函数的名字}}  
 - length:{{c1::该函数的参数个数}}
 
 - 自定义属性{{c1::
@@ -1791,6 +1558,24 @@ let sayHi = function func(who) {
 ```
 
 }}
+
+### Lexical Environment [	](javascript_info_20191230080406348)
+
+在 JavaScript 中，每个运行的函数、代码块或整个程序，都有一个称为{{c1:: **词法环境（Lexical Environment）** }}的关联对象。
+
+词法环境对象由两部分组成：
+
+1. **环境记录（Environment Record）**—— {{c1::  一个把所有局部变量作为其属性（包括一些额外信息，比如 `this` 值）的对象。}}
+2. **外部词法环境（outer lexical environment）**的引用 —— {{c1::通常是嵌套当前代码（当前花括号之外）之外代码的词法环境。}}
+
+总结一下：
+
+- 变量是特定内部对象的属性，与当前执行的（代码）块/函数/脚本有关。
+- 操作变量实际上操作的是该对象的属性。
+
+**当代码试图访问一个变量时 —— 它首先会在内部词法环境中进行搜索，然后是外部环境，然后是更外部的环境，直到（词法环境）链的末尾。**
+
+![image-20191224125817435](javascript_info.assets/image-20191224125817435.png)
 
 ### task: 为 `counter` 添加 `set` 和 `decrease` 方法  [	](javascript_info_20191219101334579)
 
@@ -1853,7 +1638,7 @@ P.S. 你也可以使用闭包或者函数属性来保持当前的计数，或者
 
 }}
 
-### task:任意多个括号求和 *  [	](javascript_info_20191219101334581)
+### task:任意多个括号求和   [	](javascript_info_20191219101334581)
 
 写一个函数 `sum`，它有这样的功能：
 
@@ -1904,11 +1689,11 @@ alert( sum(0)(1)(2)(3)(4)(5) ); // 15
 
 ## new Function 语法  [	](javascript_info_20191219101334583)
 
-###  使用 `new Function` 创建函数   [	](javascript_info_20191219101334584)
+###  使用构造函数 `new Function` 创建函数   [	](javascript_info_20191219101334584)
+
+构造方法签名如下：
 
 {{c1::
-
-语法：
 
 ```javascript
 let func = new Function(arg1, arg2, ..., body);
@@ -1928,31 +1713,15 @@ new Function('a , b', 'return a + b'); // 逗号和空格分隔
 
 ###  new Function 语法的闭包  [	](javascript_info_20191219101334586)
 
-{{c1::
-
-使用 `new Function` 创建函数，函数的 `[[Environment]]` 并不指向当前的词法环境，而是指向全局环境。 
-
-```javascript
-function getFunc() {
-  let value = "test";
-
-  let func = function() { alert(value); };
-
-  return func;
-}
-
-getFunc()(); // "test"，变量值取自 getFunc 的词法环境
-```
-
-}}
+使用 `new Function` 创建出来的函数，它的{{c1:: `[[Environment]]` 指向全局词法环境}}，而不是函数所在的外部词法环境。因此，我们不能在新函数中直接使用外部变量。不过这样也挺好，这有助于{{c1::减少我们代码中可能出现的错误}}。同时使用参数显式地传值也有助于维护良好的代码结构且避免了因使用 minifier 带来的问题。
 
 ## 调度：`setTimeout`和`setInterval`  [	](javascript_info_20191219101334588)
 
 ### `setTimeout`  [	](javascript_info_20191219101334589)
 
-{{c1::
 
-用法：
+
+方法签名：{{c1::
 
 ```javascript
 let timerId = setTimeout(func|code, delay[, arg1, arg2...])
@@ -2074,15 +1843,7 @@ alert("Hello");
 </script>
 ```
 
-## 浏览器内部的定时器会因各种原因而出现降速情况，譬如：  [	](javascript_info_20191219101334601)
 
- {{c1:: 
-
-- CPU 过载。
-- 浏览器页签切换到了后台模式。
-- 笔记本电脑用的是电池供电（译者注：使用电池会以降低性能为代价提升续航）。
-
-如果出现以上情况，定时器的最高精度（最高精确延时）可能会降到 300 毫秒，甚至是 1000 毫秒，具体以浏览器及其设置为准。}}
 
 ## 装饰和转发，call/apply  [	](javascript_info_20191219101334602)
 
@@ -2185,15 +1946,16 @@ alert( worker.slow(2) ); // 生效了, 不会调用原始的函数了。被缓�
 
 ### 使用 `“func.apply” `来传递多参数  [	](javascript_info_20191219101334608)
 
- `call` 和 `apply` 之间唯一的语法区别是 `call` 接受一个参数列表，而 `apply` 则接受带有一个类似数组的对象。 
+ `call` 和 `apply` 之间唯一的语法区别是 {{c1::`call` 接受一个参数列表，而 `apply` 则接受带有一个类似数组的对象。 }}
 
 这两个调用结果几乎相同：
 
 ```javascript
 let args = [1, 2, 3];
-
-func.call({{c1:: context, ...args}}); // 使用 spread 运算符将数组作为参数列表传递
-func.apply({{c1:: context, args}});   // 与使用 apply 相同
+//{{c1::
+func.call( context, ...args); //}} 使用 spread 运算符将数组作为参数列表传递
+{{c1::
+func.apply( context, args);   //}} 与使用 apply 相同
 ```
 
 ###  `func.call` 和 `func.apply` 细微的差别。  [	](javascript_info_20191219101334609)
@@ -2221,17 +1983,15 @@ let wrapper = function() {
 
 ## 函数绑定  [	](javascript_info_20191219101334612)
 
-### task:二次` bind`  [	](javascript_info_20191219101334614)
+### task:对同一个函数调用两次` bind`  [	](javascript_info_20191219101334614)
 
-我们可以通过附加的 bind 改变 `this` 吗？
-
-输出将会是什么？
+下面代码输出是什么？
 
 ```javascript
 function f() {
   alert(this.name);
 }
-
+//第二次调用` bind `改变 `this` 吗
 f = f.bind( {name: "John"} ).bind( {name: "Ann" } );
 
 f();
@@ -2253,36 +2013,38 @@ f = f.bind( {name: "John"} ).bind( {name: "Pete"} );
 f(); // John
 ```
 
-`f.bind(...)` 返回的外来的 [绑定函数](https://tc39.github.io/ecma262/#sec-bound-function-exotic-objects) 对象仅在创建的时候记忆上下文（如果提供了参数）。
+`f.bind(...)` 返回的外来的 [绑定函数](https://tc19.github.io/ecma262/#sec-bound-function-exotic-objects) 对象仅在创建的时候记忆上下文（如果提供了参数）。
 
 一个函数不能作为重复边界。
 
 }}
 
-
-
 ### task:`bind` 过后的函数属性  [	](javascript_info_20191219101334615)
 
-函数有一个包含某个值的属性。`bind` 之后它会改变吗？为什么，阐述一下？
+下面代码输出是什么？
 
 ```javascript
 function sayHi() {
   alert( this.name );
 }
-sayHi.test = 5;
+sayHi.test = 5; //添加一个属性
 
-let bound = sayHi.bind({
+let bound = sayHi.bind({  //调用bind
   name: "John"
 });
 
-alert( bound.test ); // 输出将会是什么？为什么？
+alert( bound.test ); // 输出会是什么?
 ```
 
 ---
 
+{{c1:: 
+
 答案：`undefined`.
 
 `bind` 的结果是另一个对象，它并没有 `test` 属性。
+
+}}
 
 ### task:为什么 `this `会丢失  [	](javascript_info_20191219101334617)
 
@@ -2310,60 +2072,37 @@ let user = {
 
 };
 
-askPassword(user.loginOk, user.loginFail);
+askPassword(user.loginOk, user.loginFail);  //修改这一行代码,让一切开始正常运行
 ```
 
 ---
 
 {{c1:: 
 
-发生了错误是因为 `ask` 的参数是没有绑定对象的 `loginOk/loginFail` 函数。
-
-当它调用这两个函数，它们自然的会认定 `this=undefined`。
-
-让我们 `bind` 上下文：
+ `bind` 上下文：
 
 ```javascript
-function askPassword(ok, fail) {
-  let password = prompt("Password?", '');
-  if (password == "rockstar") ok();
-  else fail();
-}
-
-let user = {
-  name: 'John',
-
-  loginOk() {
-    alert(`${this.name} logged in`);
-  },
-
-  loginFail() {
-    alert(`${this.name} failed to log in`);
-  },
-
-};
-
 askPassword(user.loginOk.bind(user), user.loginFail.bind(user));
 ```
 
-现在它能正常工作了。
+}}
 
 另一个可以用来替换的解决办法是：
+
+{{c1:: 
 
 ```javascript
 //...
 askPassword(() => user.loginOk(), () => user.loginFail());
 ```
 
-通常情况下它也能正常运行，但是可能会在更复杂的场景下失效，例如在 asking 到运行 `() => user.loginOk()` 之间，`user` 可能会被重写。
-
 }}
 
-## 柯里化和偏函数  [	](javascript_info_20191219101334618)
+通常情况下它也能正常运行，但是可能会·在更复杂的场景下失效，例如在{{c1::  asking 到运行 `() => user.loginOk()` 之间，`user` 可能会被重写。}}
 
 ### 利用 `bind`  实现偏函数  [	](javascript_info_20191219101334621)
 
-`bind` 的完整语法：
+`bind` 的方法签名：
 
 {{c1:: 
 
@@ -2371,7 +2110,7 @@ askPassword(() => user.loginOk(), () => user.loginFail());
 let bound = func.bind(context, arg1, arg2, ...);
 ```
 
-可以看出，它允许将上下文绑定到 `this`，以及函数的前几个参数。
+}}
 
 举个例子，我们有一个做乘法运算的函数 `mul(a,b)`：
 
@@ -2391,139 +2130,17 @@ alert( double(4) ); // = mul(2, 4) = 8
 alert( double(5) ); // = mul(2, 5) = 10
 ```
 
-}}
-
-### 无上下文使用偏函数  [	](javascript_info_20191219101334623)
-
-```javascript
-function partial(func, ...argsBound) {
-//{{c1:: 
-    return function(...args) { // (*)
-      return func.call(this, ...argsBound, ...args);
-    }
-  }}
-}
-
-// 用法：
-let user = {
-  firstName: "John",
-  say(time, phrase) {
-    alert(`[${time}] ${this.firstName}: ${phrase}!`);
-  }
-};
-
-// 添加一个偏函数方法，现在 say 这个函数可以作为第一个函数
-user.sayNow = partial(user.say, new Date().getHours() + ':' + new Date().getMinutes());
-
-user.sayNow("Hello");
-// 结果就像这样：
-// [10:00] John: Hello!
-```
-
-`partial(func[, arg1, arg2...])` 调用的结果是一个基于 `func` 的封装函数，以及：
-
-- 和它传入的函数一致的 `this` (对于 `user.sayNow` 调用是 `user`)
-- 然后传入 `...argsBound` —— 来自偏函数调用传入的参数（`"10:00"`）
-- 然后传入 `...args` —— 传入封装函数的参数（`Hello`）
-
-### 柯里化  [	](javascript_info_20191219101334624)
-
- **柯里化（ Currying ）**是将 `f(a,b,c)` 可以被以 `f(a)(b)(c)` 的形式被调用的转化。JavaScript 实现版本通常保留函数被正常调用和在参数数量不够的情况下返回偏函数这两个特性。 
-
-```javascript
-//{{c1:: 
-function curry(func) {
-  return function(a) {
-    return function(b) {
-      return func(a, b);
-    };
-  };
-}
-}}
-
-// 用法
-function sum(a, b) {
-  return a + b;
-}
-
-let carriedSum = curry(sum);
-
-alert(carriedSum(1)(2)); // 3
-```
-
-### 高级柯里化实现  [	](javascript_info_20191219101334625)
-
-```javascript
-//{{c1:: 
-function curry(func) {
-  return function curried(...args) {
-    if (args.length >= func.length) {
-      return func.apply(this, args);
-    } else {
-      return function(...args2) {
-        return curried.apply(this, args.concat(args2));
-      }
-    }
-  };
-}
-}}
-
-function sum(a, b, c) {
-  return a + b + c;
-}
-
-let curriedSum = curry(sum);
-
-// 依然可以被正常调用
-alert( curriedSum(1, 2, 3) ); // 6
-
-// 得到 curried(1) 的偏函数，然后用另外两个参数调用它
-alert( curriedSum(1)(2,3) ); // 6
-
-// 完全柯里化形式
-alert( curriedSum(1)(2)(3) ); // 6
-```
-
-## 箭头函数  [	](javascript_info_20191219101334627)
-
-### `defer(f, ms)`函数演示：箭头函数没有 “arguments”例子  [	](javascript_info_20191219101334629)
-
-例如，`defer(f, ms)` 得到一个函数，并返回一个包装函数，以 `毫秒` 为单位延迟调用：
-
-```javascript
-//{{c1:: 
-  function defer(f, ms) {
-    return function() {
-      setTimeout(() => f.apply(this, arguments), ms)
-    };
-  }
-}}
-function sayHi(who) {
-  alert('Hello, ' + who);
-}
-
-let sayHiDeferred = defer(sayHi, 2000);
-sayHiDeferred("John"); // 2 秒后打印 Hello, John
-```
-
-没有箭头功能的情况如下所示：
-
-```javascript
-//{{c1:: 
-  function defer(f, ms) {
-    return function(...args) {
-      let ctx = this;
-      setTimeout(function() {
-        return f.apply(ctx, args);
-      }, ms);
-    };
-  }
-}}
-```
-
-在这里，我们必须创建额外的变量 `args` 和 `ctx`，以便 `setTimeout` 内部的函数可以接收它们。
-
 ##  [属性的标志和描述符](https://zh.javascript.info/property-descriptors)       [	](javascript_info_20191219101334630)
+
+### 对象属性除 **`value`** 外还有三个特殊属性（所谓的“标志”）： [	](javascript_info_20191230080406353)
+
+{{c1::
+
+- **`writable`** — 如果为 `true`，则可以修改，否则它是只读的。
+- **`enumerable`** — 如果是 `true`，则可在循环中列出，否则不列出。
+- **`configurable`** — 如果是 `true`，则此属性可以被删除，相应的特性也可以被修改，否则不可以。
+
+}}
 
 ### 获得属性的标志  [	](javascript_info_20191219101334632)
 
@@ -2585,7 +2202,7 @@ alert( JSON.stringify(descriptor, null, 2 ) );
  */
 ```
 
- 在非严格模式下，写入只读属性等时不会发生错误。但操作仍然不会成功。非严格模式下违反标志的行为只是默默地被忽略。 
+ 在非严格模式下，写入只读属性等时不会发生错误。但操作仍然不会成功。非严格模式下违反标志的行为只是默默地被忽略。
 
 ### `Object.defineProperties`  [	](javascript_info_20191219101334636)
 
@@ -2629,7 +2246,7 @@ for (let key in user) {
 
 ## 属性的 getter 和 setter  [	](javascript_info_20191219101334640)
 
-### getter 和 setter  [	](javascript_info_20191219101334641)
+### getter 和 setter简单使用  [	](javascript_info_20191219101334641)
 
 ```javascript
 let user = {
@@ -2694,47 +2311,15 @@ for(let key in user) alert(key); // name, surname
 
 ## 原型继承  [	](javascript_info_20191219101334648)
 
-###  JS中的原型继承  [	](javascript_info_20191219101334654)
+###  JS中的原型继承总结  [	](javascript_info_20191219101334654)
 
-- {{c1:: `[[Prototype]]` }}引用的对象称为“原型”。
-- 我们可以使用{{c1::  `obj.__proto__` }}进行访问（还有其他方法，但很快就会被覆盖）。
+- JavaScript 中，所有的对象都有一个隐藏的 `[[Prototype]]` 属性，它可以是另一个对象或者 `null`。
+- 我们可以使用 `obj.__proto__` 进行访问`[[Prototype]]` ，`[[Prototype]]` 引用的对象称为“原型”。
 
-### 使用 `__proto__`  [	](javascript_info_20191219101334656)
+- 请注意 `__proto__` 与 `[[Prototype]]` **不一样**。这是一个 getter/setter。
+- 如果我们想要读取 `obj` 属性或者调用一个方法，而且它不存在，那么 {{c1:: JavaScript 就会尝试在原型中查找它。写/删除直接在对象上进行操作，它们不使用原型（除非属性实际上是一个 setter）。}}
+- 如果我们调用 `obj.method()`，而且 `method` 是从原型中获取的， {{c1::`this` 仍然会引用 `obj`。因此方法总是与当前对象一起工作，即使它们是继承的。}}
 
-```javascript
-let animal = {
-  eats: true,
-  walk() {
-    alert("Animal walk");
-  }
-};
-
-let rabbit = {
-//{{c1:: 
-  jumps: true,
-  __proto__: animal
-//}}
-};
-
-let longEar = {
-//{{c1:: 
-  earLength: 10,
-  __proto__: rabbit
-//}}
-}
-
-// walk is taken from the prototype chain
-longEar.walk(); // Animal walk
-alert(longEar.jumps); // true (from rabbit)
-```
-
-### 原型的读写规则?  [	](javascript_info_20191219101334658)
-
-- {{c1:: 如果我们想要读取 `obj` 属性或者调用一个方法，而且它不存在，那么 JavaScript 就会尝试在原型中查找它。}}
-
-### 原型中方法的this引用哪个对象的值?  [	](javascript_info_20191219101334659)
-
-- {{c1:: 如果我们调用 `obj.method()`，而且 `method` 是从原型中获取的，`this` 仍然会引用 `obj`。因此方法总是与当前对象一起工作，即使它们是继承的。}}
 
 ### task: 与原型一起工作  [	](javascript_info_20191219101334660)
 
@@ -2791,9 +2376,9 @@ let rabbit = new Rabbit("White Rabbit"); //  rabbit.__proto__ == animal
 alert( rabbit.eats ); // true
 ```
 
- `F.prototype`**仅用于**`new F`**时** 
+设置 `Rabbit.prototype = animal` 的这段代码表达的意思是：“当 `new Rabbit` 创建时，把它的 `[[Prototype]]` 赋值为 `animal`” 。
 
-###  函数默认的 `"prototype"`?  [	](javascript_info_20191219101334666)
+###  函数默认的 `"prototype"`是什么?  [	](javascript_info_20191219101334666)
 
  函数默认的 `"prototype"` 是{{c1::一个只有属性 `constructor` 的对象，它指向函数本身。 }}
 
@@ -2810,8 +2395,8 @@ Rabbit.prototype = { constructor: Rabbit };
 
 - `F.prototype` 属性与 `[[Prototype]]` 不同。`F.prototype` 唯一的作用是：{{c1::当 `new F()` 被调用时，它设置新对象的 `[[Prototype]]`。}}
 - `F.prototype` 的值应该是{{c1::一个对象或 null：其他值将不起作用。}}
-
-  
+- Person类的原型实例图{{c1::
+![image-20191226202831741](javascript_info.assets/image-20191226202831741.png)}}
 
 ### task:`new user.constructor('Pete')` 的工作原理是：  [	](javascript_info_20191219101334669)
 
@@ -2842,6 +2427,48 @@ alert( user2.name ); // undefined
 最后，我们有 `let user2 = new Object('Pete')`。内置的 `Object` 构造函数忽略参数，它总是创建一个空对象 —— 这就是我们在 `user2` 中所拥有的东西。
 
 }}
+
+## 验证内置原型[	](javascript_info_20191230080406355)
+
+```javascript
+let arr = [1, 2, 3];
+// it inherits from Array.prototype?
+// true 与第一层原型比较
+//{{c1::
+alert( arr.__proto__ === Array.prototype ); 
+//}}
+// then from Object.prototype?
+// true  与第二层原型比较
+//{{c1::
+alert( arr.__proto__.__proto__ === Object.prototype );
+//}}
+// and null on the top.
+// null 与第二层原型比较
+//{{c1::
+alert( arr.__proto__.__proto__.__proto__ ); 
+//}}
+```
+
+### 使用原型进行方法借用： [	](javascript_info_20191230080406356)
+
+```javascript
+function showArgs() {
+  // 从数组借用 join 方法并在 arguments 的上下文中调用
+  alert( [].join.call(arguments, " - ") );
+}
+
+showArgs("John", "Pete", "Alice"); // John - Pete - Alice
+```
+
+因为 `join` 方法在 `Array.prototype` 对象上，我们可以直接调用它并且重写上面的代码：
+
+```javascript
+function showArgs() {
+  //{{c1::
+  alert( Array.prototype.join.call(arguments, " - ") );
+	//}}
+}
+```
 
 ## 原生的原型总结  [	](javascript_info_20191219101334671)
 
@@ -2891,7 +2518,6 @@ f.defer(1000); // shows "Hello!" after 1 sec
 function f(a, b) {
   alert( a + b );
 }
-
 f.defer(1000)(1, 2); // 1 秒钟后显示 3
 ```
 
@@ -2918,58 +2544,704 @@ f.defer(1000)(1, 2); // shows 3 after 1 sec
 
 ## 原型方法  [	](javascript_info_20191219101334675)
 
+获取/设置原型的方式有很多，我们已知的有：
+
+- [Object.create(proto[, descriptors\])](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/create) —— {{c1::利用 `proto` 作为 `[[Prototype]]` 和可选的属性描述来创建一个空对象。}}
+- [Object.getPrototypeOf(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf) ——{{c1:: 返回 `obj` 对象的 `[[Prototype]]`。}}
+- [Object.setPrototypeOf(obj, proto)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf) ——{{c1:: 将 `obj` 对象的 `[[Prototype]]` 设置为 `proto`。}}
+
 对原型的操作
 
 ```js
 let animal = {
   eats: true
 };
-
 // 以 animal 为原型创建一个新对象
-let rabbit = {{c1::Object.create(animal)}};
-//Object.create 有一个可选的第二参数：属性描述。我们可以给新对象提供额外的属性，就像这样：
-//{{c1::
-    let rabbit = Object.create(animal, {
-      jumps: {
-        value: true
-      }
-    });
-//}}
-
+let rabbit = Object.create(animal);
 alert(rabbit.eats); // true
-alert(
-  //{{c1::
-  Object.getPrototypeOf(rabbit) }} === animal
-		  ); // 获取 rabbit 的原型
-
-//{{c1::
-Object.setPrototypeOf(rabbit, {});
-//}} // 将 rabbit 的原型更改为 {}
+alert(Object.getPrototypeOf(rabbit) === animal); // 获取 rabbit 的原型
+Object.setPrototypeOf(rabbit, {}); // 将 rabbit 的原型更改为 {}
 ```
 
 ### 我们可以利用 `Object.create` 来实现比 `for..in` 循环赋值属性方式更强大的对象复制功能：  [	](javascript_info_20191219101334676)
 
 ```javascript
 // obj 对象的浅复制
+
 let clone = //{{c1::
 	Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
 //}}
 ```
 
+### 「极简」对象 [	](javascript_info_20191230080406358)
+
+```javascript
+//创建没有原型的极简对象
+//{{c1::
+let chineseDictionary = Object.create(null);
+//}}
+chineseDictionary.hello = "ni hao";
+chineseDictionary.bye = "zai jian";
+
+//和对象关系最密切的方法是 Object.something(...),极简对象也可以使用Object中的工具方法
+//获取极简对象的键集合 {{c1::
+alert(Object.keys(chineseDictionary)); // hello,bye}}
+```
+
 ### 获取所有属性  [	](javascript_info_20191219101334677)
 
-- {{c1::[Object.keys(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/keys) / [Object.values(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/values) / [Object.entries(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/entries) }}——返回一个数组，包含所有可枚举字符串属性名称/值/键值对。这些方法只会列出**可枚举**属性，而且它们**键名为字符串形式**。
+- [Object.keys(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/keys) / [Object.values(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/values) / [Object.entries(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/entries) ——{{c1::返回一个数组，包含所有可枚举字符串属性名称/值/键值对。这些方法只会列出**可枚举**属性，而且它们**键名为字符串形式**。}}
 
 如果我们想要 symbol 属性：
 
-- {{c1::[Object.getOwnPropertySymbols(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols) }}—— 返回包含所有 symbol 属性名称的数组。
+- [Object.getOwnPropertySymbols(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols) —— {{c1::返回包含所有 symbol 属性名称的数组。}}
 
 如果我们想要非可枚举属性：
 
-- {{c1::[Object.getOwnPropertyNames(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames) }}—— 返回包含所有字符串属性名的数组。
+- [Object.getOwnPropertyNames(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames) —— {{c1::返回包含所有字符串属性名的数组。}}
 
 如果我们想要**所有**属性：
 
-- {{c1::[Reflect.ownKeys(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Reflect/ownKeys) }}—— 返回包含所有属性名称的数组。
+- [Reflect.ownKeys(obj)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Reflect/ownKeys) —— {{c1::返回包含所有属性名称的数组。}}
 
--  如果我们想要区分继承属性，有一个内置方法{{c1: [obj.hasOwnProperty(key)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Obje
+-  [obj.hasOwnProperty(key)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty)：{{c1::如果 `obj` 有名为 `key` 的自身属性（而非继承），返回值为 `true`。}}
+
+### task:原型中方法调用方式的差异 [	](javascript_info_20191230080406360)
+
+让我们创建一个新的 `rabbit` 对象：
+
+```javascript
+function Rabbit(name) {
+  this.name = name;
+}
+Rabbit.prototype.sayHi = function() {
+  alert(this.name);
+};
+
+let rabbit = new Rabbit("Rabbit");
+```
+
+以下调用得到的结果是否相同？javascript_info_20191230080406370
+
+```javascript
+rabbit.sayHi();
+Rabbit.prototype.sayHi();
+Object.getPrototypeOf(rabbit).sayHi();
+rabbit.__proto__.sayHi();
+```
+
+{{c1::
+
+第一个调用中 `this == rabbit`，其他的 `this` 等同于 `Rabbit.prototype`，因为它是逗号之前的对象。
+
+```javascript
+function Rabbit(name) {
+  this.name = name;
+}
+Rabbit.prototype.sayHi = function() {
+  alert( this.name );
+}
+
+let rabbit = new Rabbit("Rabbit");
+
+rabbit.sayHi();                        // Rabbit
+Rabbit.prototype.sayHi();              // undefined
+Object.getPrototypeOf(rabbit).sayHi(); // undefined
+rabbit.__proto__.sayHi();              // undefined
+```
+
+}}
+
+## 类 [	](javascript_info_20191230080406363)
+
+### 什么是 class？ [	](javascript_info_20191230080406365)
+
+```javascript
+class User {
+  constructor(name) { this.name = name; }
+  sayHi() { alert(this.name); }
+}
+//{{c1::
+// 类是函数
+alert(typeof User); // function}}
+//{{c1::
+// ...或者，更确切地说是构造方法
+alert(User === User.prototype.constructor); // true}}
+//{{c1::
+// User.prototype 中的方法，比如：
+alert(User.prototype.sayHi); // alert(this.name);}}
+//{{c1::
+// 实际上在原型中有两个方法
+alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi}}
+```
+
+### 基本的类语法看起来是这样的： [	](javascript_info_20191230080406367)
+
+```javascript
+class MyClass {
+  //{{c1::
+  prop = value; // field
+
+  constructor(...) { // 构造器
+    // ...
+  }
+
+  method(...) {} // 方法
+
+  get something(...) {} // getter 方法
+  set something(...) {} // setter 方法
+
+  [Symbol.iterator]() {} // 计算 name/symbol 名方法
+  // ...}}
+}
+```
+
+技术上来说，`MyClass` 是一个函数（我们提供作为 `constructor` 的那个），而 methods，getters 和 settors 都被写入 `MyClass.prototype`。
+
+### 调用父类的方法 [	](javascript_info_20191230080406369)
+
+- 执行{{c1:: `super.method(...)` }}调用父类方法。
+- 执行{{c1:: `super(...)` }}调用父类构造函数（只能在子类的构造函数中运行）
+
+### 如果一个类继承了另一个类并且没有 `constructor`，那么将生成以下“空” `constructor`： [	](javascript_info_20191230080406370)
+
+```javascript
+class Rabbit extends Animal {
+  // 为没有构造函数的继承类生成以下的构造函数
+  //{{c1::
+  constructor(...args) {
+    super(...args);
+  }
+  //}}
+}
+```
+
+### 调用父类方法时`Error: Maximum call stack size exceeded`的原因,以及如何解决? [	](javascript_info_20191230080406373)
+
+```javascript
+let animal = {
+  name: "Animal",
+  eat() {
+    alert(`${this.name} eats.`);
+  }
+};
+
+let rabbit = {
+  __proto__: animal,
+  eat() {
+    // ...围绕 rabbit-style 和 调用父类（animal）方法
+    this.__proto__.eat.call(this); // (*)
+  }
+};
+
+let longEar = {
+  __proto__: rabbit, 
+  eat() {
+    // ...用长耳朵做一些事情，并调用父类（rabbit）的方法
+    this.__proto__.eat.call(this); // (**)
+  }
+};
+
+longEar.eat(); // Error: Maximum call stack size exceeded
+```
+
+- {{c1::为了提供解决方法，JavaScript 为函数额外添加了一个特殊的内部属性：`[[HomeObject]]`。
+
+  当一个函数被定义为类或者对象方法时，它的 `[[HomeObject]]` 属性就成为那个对象。
+
+  然后 `super` 使用它来解析父类原型和它自己的方法。}}
+
+- {{c1::在 (*) 和 (**) 这两行中，`this.__proto__` 的值是完全相同的：都是 `rabbit`。在这个无限循环中，他们都调用了 `rabbit.eat`，而不是在原型链上向上寻找方法。}}
+
+### 方法，不是函数属性，以下代码出错原因 [	](javascript_info_20191230080406377)
+
+```javascript
+let animal = {
+  eat: function() { // 可以使用简短写法：eat() {...}
+    // ...
+  }
+};
+
+let rabbit = {
+  __proto__: animal,
+  eat: function() {
+    super.eat();
+  }
+};
+
+rabbit.eat();  // 错误调用 super（因为这里并没有 [[HomeObject]]）
+```
+
+{{c1::
+
+- `[[HomeObject]]` 是为类和普通对象中的方法定义的。但是对于对象来说，方法必须确切指定为 `method()`，而不是 `"method: function()"`。
+- 这个差别对我们来说可能不重要，但是对 JavaScript 来说却是非常重要的。}}
+
+### JS中的类继承 [	](javascript_info_20191230080406379)
+
+1. 扩展类：
+
+   ```javascript
+   class Child extends Parent
+   ```
+
+   - 这就意味着{{c1:: `Child.prototype.__proto__` 将是 `Parent.prototype`}}，所以方法被继承。
+
+2. 重写构造函数：
+
+   - 在使用 `this` 之前，我们必须在{{c1::  `Child` 构造函数中将父构造函数调用为 `super()`。}}
+
+3. 重写方法：
+
+   - 我们可以在 `Child` 方法中使用{{c1::  `super.method()` }}来调用 `Parent` 方法。
+
+4. 内部工作：
+
+   - 方法在内部{{c1::  `[[HomeObject]]` }}属性中记住它们的类/对象。这就是 `super` 如何解析父类方法的。
+   - 因此，将一个带有 `super` 的方法从一个对象复制到另一个对象是不安全的。
+
+补充：
+
+- 箭头函数没有自己的 `this` 或 `super`，所以它们能融入到就近的上下文，像透明似的。
+
+### `class Rabbit`与`class Rabbit extends Object`声明的区别 [	](javascript_info_20191230080406381)
+
+| class Rabbit                                      | class Rabbit extends Object                    |
+| :------------------------------------------------ | :--------------------------------------------- |
+| {{c1:: – }}                                       | {{c1::needs to call `super()` in constructor}} |
+| {{c1::`Rabbit.__proto__ === Function.prototype`}} | {{c1::`Rabbit.__proto__ === Object`}}          |
+
+### js中的静态类 [	](javascript_info_20191230080406383)
+
+```javascript
+class MyClass {
+  static property = ...;
+
+  static method() {
+    ...
+  };
+}
+```
+
+技术上来说，静态声明等同于直接给类本身赋值：
+
+```javascript
+//如下所示
+//{{c1::
+MyClass.property = ...
+MyClass.method = ...
+//}}
+```
+
+静态属性和方法是可以被继承的。
+
+### 私有的受保护属性 [	](javascript_info_20191230080406385)
+
+为了隐藏内部接口，我们使用受保护的或私有的属性：
+
+- 受保护的字段以 {{c1::`_`}} 开头。
+- 私有字段以 {{c1::`#` }}开头。JavaScript 确保我们只能访问类中的内容。
+- 私有字段不与公共字段发生冲突。{我们可以同时拥有{c1::私有属性 `#waterAmount` 和公共属性 `waterAmount`。}}
+
+目前，在各浏览器中不支持私有字段，但可以用 polyfill 解决。
+
+### 继承内置类 [	](javascript_info_20191230080406386)
+
+如果我们希望类似 `map` 或者 `filter` 这样的内置方法返回常规的数组，我们应该在 `Symbol.species` 中返回 `Array`，就像这样：
+
+```javascript
+class PowerArray extends Array {
+  isEmpty() {
+    return this.length === 0;
+  }
+
+  // 内置方法会使用这个作为构造函数 (constructor)
+  //{{c1::
+  static get [Symbol.species]() {
+    return Array;
+  }
+  //}}
+}
+
+let arr = new PowerArray(1, 2, 5, 10, 50);
+alert(arr.isEmpty()); // false
+
+// filter 使用 arr.constructor[Symbol.species] 作为构造函数 (constructor) 创建新数组
+let filteredArr = arr.filter(item => item >= 10);
+
+// filteredArr 不是 PowerArray, 而是 Array
+alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty is not a function
+```
+
+### 内置类的静态方法不被继承 [	](javascript_info_20191230080406387)
+
+- 比如，`Array` 和 `Data` 都是继承自 `Object`，所以它们的实例都有来自 `Object.prototype` 的方法
+- 但是{{c1:: `Array.[[Prototype]]` 不指向 `Object`，所以它们没有例如 `Array.keys()`(或者 `Data.keys()`)的静态方法。}}
+
+### 类型检测：自定义"instanceof"的使用 [	](javascript_info_20191230080406389)
+
+静态方法 `Symbol.hasInstance` 的使用
+
+```javascript
+// 假设具有 canEat 属性的对象为动物类
+class Animal {
+  //{{c1::
+  static [Symbol.hasInstance](obj) {
+    if (obj.canEat) return true;
+  }
+  //}}
+}
+
+let obj = { canEat: true };
+alert(obj instanceof Animal); // 返回 true：调用 Animal[Symbol.hasInstance](obj)
+```
+
+### `obj instanceof Class` 语句的大致执行过程如下： [	](javascript_info_20191230080406391)
+
+- {{c1::如果提供了静态方法 `Symbol.hasInstance`，那就直接用这个方法进行检测}}
+
+- {{c1::没有 `Symbol.hasInstance` 方法，这时会检查 `Class.prototype` 是否与 `obj` 的原型链中的任何一个原型相等。}}
+
+-  [objA.isPrototypeOf(objB)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/object/isPrototypeOf):{{c1::如果 `objA` 处在 `objB` 的原型链中，调用结果为 `true`。}}
+
+
+### 技巧：使用 Object 的 toString 方法来揭示类型 [	](javascript_info_20191230080406393)
+
+```javascript
+let s = Object.prototype.toString;
+//注意这里是调用的call，参数作为context用。{{c1::
+alert( s.call(123) ); // [object Number]
+alert( s.call(null) ); // [object Null]
+alert( s.call(alert) ); // [object Function]}}
+```
+
+### 自定义 obj.toString 方法中揭示类型[	](javascript_info_20191230080406395)
+
+- 使用 Symbol.toStringTag这个特殊的对象属性进行自定义输出。
+
+```javascript
+//{{c1::
+let user = {
+  [Symbol.toStringTag]: "User"
+};
+//}}
+alert( {}.toString.call(user) ); // [object User]
+```
+
+### 类型检测的方式 [	](javascript_info_20191230080406397)
+
+| 类型检测方式  | 用于                                                         | 返回               |
+| :------------ | :----------------------------------------------------------- | ------------------ |
+| `typeof`      | {{c1::基本数据类型}}                                         | {{c1::string}}     |
+| `{}.toString` | {{c1::基本数据类型、内置对象以及包含 `Symbol.toStringTag` 属性的对象}} | {{c1::string}}     |
+| `instanceof`  | {{c1::任意对象}}                                             | {{c1::true/false}} |
+
+`{}.toString` 基本就是一增强版 `typeof`。
+
+`instanceof` 在涉及多层类结构的场合中比较实用，这种情况下需要将类的继承关系考虑在内。
+
+### EventMixin [	](javascript_info_20191230080406400)
+
+> 思考拓展:如果同时订阅多个相同`select`事件，不同事件处理器，处理器的执行顺序如何自定义?
+
+- `.on(eventName, handler)` — 分配给事件处理器给某个事件。
+- `.off(eventName, handler)` — 在事件处理函数列表中移除指定的函数。
+- `.trigger(eventName, ...args)` — 触发事件：所有被指定到对应事件的事件处理函数都会被调用并且 `args` 会被作为参数传递给它们。
+
+```javascript
+let eventMixin = {
+  /**
+   * 订阅事件，用法：
+   *  menu.on('select', function(item) { ... }
+  */
+  on(eventName, handler) {
+    //{{c1::
+    if (!this._eventHandlers) this._eventHandlers = {};
+    if (!this._eventHandlers[eventName]) {
+      this._eventHandlers[eventName] = [];
+    }
+    this._eventHandlers[eventName].push(handler);
+    //}}
+  },
+
+  /**
+   * 取消订阅，用法：
+   *  menu.off('select', handler)
+   */
+  off(eventName, handler) {
+    //{{c1::
+    let handlers = this._eventHandlers && this._eventHandlers[eventName];
+    if (!handlers) return;
+    for (let i = 0; i < handlers.length; i++) {
+      if (handlers[i] === handler) {
+        handlers.splice(i--, 1);
+      }
+    }
+    //}}
+  },
+
+  /**
+   * 触发事件并传递参数
+   *  this.trigger('select', data1, data2);
+   */
+  trigger(eventName, ...args) {
+    //{{c1::
+    if (!this._eventHandlers || !this._eventHandlers[eventName]) {
+      return; // 对应事件名没有事件处理函数。
+    }
+
+    // 调用事件处理函数
+    this._eventHandlers[eventName].forEach(handler => handler.apply(this, args));
+    //}}
+  }
+};
+```
+
+使用例：
+
+```javascript
+// 新建一个 class
+class Menu {
+  choose(value) {
+    this.trigger("select", value);
+  }
+}
+// 添加 mixin
+Object.assign(Menu.prototype, eventMixin);
+
+let menu = new Menu();
+
+// 被选中时调用事件处理函数：
+menu.on("select", value => alert(`Value selected: ${value}`));
+
+// 触发事件 => 展示被选中的值：123
+menu.choose("123"); // 被选中的值
+```
+
+## `try..catch` 结构 [	](javascript_info_20191230080406402)
+
+语法如下：{{c1::
+
+```javascript
+try {
+    // 执行此处代码
+  } catch(err) {
+    // 如果发生异常，跳到这里
+    // err 是一个异常对象
+  } finally {
+    // 不管 try/catch 怎样都会执行
+  }
+```
+
+}} 
+
+可能会没有 `catch` 代码块，或者没有 `finally` 代码块。所以 `try..catch` 或者 `try..finally` 都是可用的。
+
+异常对象包含下列属性：
+
+- `message` —— {{c1::我们能阅读的异常提示信息。}} 
+- `name` ——{{c1:: 异常名称（异常对象的构造函数的名称）。}} 
+- `stack`（没有标准） ——{{c1:: 异常发生时的调用栈。}} 
+
+### 全局 catch  ` window.onerror`的使用
+
+```js
+  window.onerror = function(message, url, line, col, error) {
+    alert(`${message}\n At ${line}:${col} of ${url}`);
+  };
+
+  function readData() {
+    badFunc(); // 哦，出问题了！
+  }
+
+  readData();
+```
+
+### task:自定义异常：继承 SyntaxError 
+
+创造一个继承自内置类 `SyntaxError` 的 `FormatError` 类。
+
+它应该支持 `message`，`name` 和 `stack` 属性。
+
+用例：
+
+```javascript
+let err = new FormatError("formatting error");
+
+alert( err.message ); // formatting error
+alert( err.name ); // FormatError
+alert( err.stack ); // stack
+
+alert( err instanceof FormatError ); // true
+alert( err instanceof SyntaxError ); // true（因为它继承自 SyntaxError）
+```
+
+解决方案:{{c1::
+
+```javascript
+class FormatError extends SyntaxError {
+  constructor(message) {
+    super(message);
+    this.name = "FormatError"; 
+    // 更通用的方式，使之后继承的类不必再次设置this.name
+    // this.name = this.constructor.name; 
+  }
+}
+
+let err = new FormatError("formatting error");
+
+alert( err.message ); // formatting error
+alert( err.name ); // FormatError
+alert( err.stack ); // stack
+
+alert( err instanceof SyntaxError ); // true
+```
+
+}}
+
+### Promise 对象的构造语法是：
+
+```javascript
+//{{c1::
+let promise = new Promise(function(resolve, reject) {
+  // executor (生产者代码，"singer")
+});
+//}}
+```
+
+### `promise` 对象有内部属性：
+
+- `state` —— {{c1:: 最初是 “pending”，然后被改为 “fulfilled” 或 “rejected” }}
+- `result` —— {{c1:: 一个任意值，最初是 `undefined`。}}
+
+### 当 executor 完成任务时，应调用以下两个方法之一：
+
+`resolve(value)` ——{{c1:: 说明任务已经完成：}}
+
+  - {{c1:: 将 `state` 设置为 `"fulfilled"` }}
+  - {{c1:: 将`result` 设置为 `value` }}
+
+
+
+ `reject(error)` —— {{c1:: 表明有错误发生：}}
+
+  - {{c1:: 将 `state` 设置为 `"rejected"`}}
+  - {{c1:: 将 `result` 设置为 `error`}}
+
+## 使用promise示例：loadScript
+
+```javascript
+function loadScript(src) {
+  //{{c1::
+  return new Promise(function(resolve, reject) {
+    let script = document.createElement('script');
+    script.src = src;
+
+    script.onload = () => resolve(script);
+    script.onerror = () => reject(new Error("Script load error: " + src));
+
+    document.head.append(script);
+  });
+  //}}
+}
+```
+
+用法：
+
+```javascript
+let promise = loadScript("https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js");
+
+promise.then(
+  script => alert(`${script.src} is loaded!`),
+  error => alert(`Error: ${error.message}`)
+);
+
+promise.then(script => alert('One more handler to do something else!'));
+```
+
+### task:下列代码会输出什么？
+
+```javascript
+let promise = new Promise(function(resolve, reject) {
+  resolve(1);
+
+  setTimeout(() => resolve(2), 1000);
+});
+
+promise.then(alert);
+```
+
+---
+
+{{c1::
+
+输出为：`1`。
+
+对 `resolve` 的第二次调用会被忽略，因为只有对 `reject/resolve` 的第一次调用会被处理。更深层的调用都会被忽略。
+
+}}
+
+### **The `state` and `result` are internal**
+
+{{c1::
+
+Promise 的 `state` 和 `result` 属性是内部的。我们不能从代码中直接访问它们，但是我们可以使用 `.then/catch` 来访问，下面是对此的描述。
+
+调用 `.catch(f)` 是 `.then(null, f)` 的模拟，这只是一个简写。
+
+}}
+
+### promises链中，`.then`方法3种返回值
+
+- {{c1:: 作为`result`传给下一个then的属性}}
+- {{c1:: 原生的`Promise`的对象 }}
+- {{c1:: thenable 对象（一个具有 `.then` 方法的任意对象）}}
+
+### promises链中，如果`.then`方法返回的thenable 对象
+
+- 执行流程
+  - {{c1:: JavaScript 会检查 promises链中`.then` 方法返回的对象。}}
+  - {{c1:: 如果它有一个名为 `then` 的可调用方法，那么它会调用该方法并提供原生函数 `resolve`，`reject `作为参数（类似于 executor）并在它被调用前一直等待。}}
+
+### fetch的promises链调用示例
+
+- 作为一个规律，一个异步动作应该永远返回一个 promise。
+
+```javascript
+function loadJson(url) {
+  // {{c1::
+  return fetch(url)
+    .then(response => response.json());
+  // }}
+}
+
+function loadGithubUser(name) {
+  // {{c1::
+  return fetch(`https://api.github.com/users/${name}`)
+    .then(response => response.json());
+  // }}
+}
+
+function showAvatar(githubUser) {
+  // {{c1::
+  return new Promise(function(resolve, reject) {
+    let img = document.createElement('img');
+    img.src = githubUser.avatar_url;
+    img.className = "promise-avatar-example";
+    document.body.append(img);
+
+    setTimeout(() => {
+      img.remove();
+      resolve(githubUser);
+    }, 3000);
+  });
+  // }}
+}
+
+// 使用它们
+loadJson('/article/promise-chaining/user.json')
+  .then(user => loadGithubUser(user.name))
+  .then(showAvatar)
+  .then(githubUser => alert(`Finished showing ${githubUser.name}`));
+  // ...
+```
