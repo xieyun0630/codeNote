@@ -3114,14 +3114,12 @@ let promise = new Promise(function(resolve, reject) {
 - `state` —— {{c1:: 最初是 “pending”，然后被改为 “fulfilled” 或 “rejected” }}
 - `result` —— {{c1:: 一个任意值，最初是 `undefined`。}}
 
-### 当 executor 完成任务时，应调用以下两个方法之一：
+### 当`promise`中`executor` 完成任务时，应调用以下两个方法之一：
 
 `resolve(value)` ——{{c1:: 说明任务已经完成：}}
 
   - {{c1:: 将 `state` 设置为 `"fulfilled"` }}
   - {{c1:: 将`result` 设置为 `value` }}
-
-
 
  `reject(error)` —— {{c1:: 表明有错误发生：}}
 
@@ -3245,3 +3243,99 @@ loadJson('/article/promise-chaining/user.json')
   .then(githubUser => alert(`Finished showing ${githubUser.name}`));
   // ...
 ```
+
+### `unhandledrejection` 事件来捕获Promise中的异常 
+
+```javascript
+window.addEventListener('unhandledrejection', function(event) {
+  // the event object has two special properties:
+  alert(event.promise); // [object Promise] - 产生错误的 promise
+  alert(event.reason); // Error: Whoops! - 未处理的错误对象
+});
+
+new Promise(function() {
+  throw new Error("Whoops!");
+}); // 没有 catch 处理错误
+```
+
+### Promise中setTimeout 里的异常
+
+你怎么看？`.catch` 会触发么？解释你的答案。
+
+```javascript
+new Promise(function(resolve, reject) {
+  setTimeout(() => {
+    throw new Error("Whoops!");
+  }, 1000);
+}).catch(alert);
+```
+
+---
+
+答案是：**不，它不会触发**：
+
+```javascript
+new Promise(function(resolve, reject) {
+  setTimeout(() => {
+    throw new Error("Whoops!");
+  }, 1000);
+}).catch(alert);
+```
+
+正如本章所述，函数代码周围有个“隐式 `try..catch`”。所以所有同步错误都被处理。
+
+但是这里的错误并不是在执行阶段生成的，而是在执行阶段之后才生成错误。所以 promise 无法处理它。
+
+## 静态方法：`Promise.resolve`
+
+用途：{{c1:: 当我们已经有一个 value 的时候，就会使用该方法，但希望将它“封装”进 promise。}}
+
+例如，下面的 `loadCached` 函数会获取 `url` 并记住结果，以便以后对同一 URL 进行调用时可以立即返
+
+```javascript
+function loadCached(url) {
+  let cache = loadCached.cache || (loadCached.cache = new Map());
+	//{{c1::
+  if (cache.has(url)) {
+    return Promise.resolve(cache.get(url)); // (*)
+  }
+  //}}
+  //{{c1::
+  return fetch(url)
+    .then(response => response.text())
+    .then(text => {
+      cache.set(url,text);
+      return text;
+    });
+  //}}
+}
+```
+
+## Promise.reject
+
+语法：
+
+```javascript
+let promise = Promise.reject(error);
+```
+
+等价于：
+
+```javascript
+// {{c1::
+let promise = new Promise((resolve, reject) => reject(error));
+// }}
+```
+
+## Promise.all
+
+用途:假设我想要并行执行多个 promise，并等待所有 promise 准备就绪。
+
+```javascript
+Promise.all([
+  new Promise(resolve => setTimeout(() => resolve(1), 3000)), // 1
+  new Promise(resolve => setTimeout(() => resolve(2), 2000)), // 2
+  new Promise(resolve => setTimeout(() => resolve(3), 1000))  // 3
+]).then(alert); // 1,2,3 当 promise 就绪：每一个 promise 即成为数组中的一员
+```
+
