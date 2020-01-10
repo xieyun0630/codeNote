@@ -2606,22 +2606,9 @@ alert(Object.keys(chineseDictionary)); // hello,bye}}
 
 -  [obj.hasOwnProperty(key)](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty)：{{c1::如果 `obj` 有名为 `key` 的自身属性（而非继承），返回值为 `true`。}}
 
-### task:原型中方法调用方式的差异 [	](javascript_info_20191230080406360)
+### task:原型方法调用方式的差异 [	](javascript_info_20191230080406360)
 
-让我们创建一个新的 `rabbit` 对象：
-
-```javascript
-function Rabbit(name) {
-  this.name = name;
-}
-Rabbit.prototype.sayHi = function() {
-  alert(this.name);
-};
-
-let rabbit = new Rabbit("Rabbit");
-```
-
-以下调用得到的结果是否相同？javascript_info_20191230080406370
+以下调用得到的结果是否相同？
 
 ```javascript
 rabbit.sayHi();
@@ -2661,17 +2648,17 @@ class User {
   constructor(name) { this.name = name; }
   sayHi() { alert(this.name); }
 }
-//{{c1::
 // 类是函数
+//{{c1::
 alert(typeof User); // function}}
-//{{c1::
 // ...或者，更确切地说是构造方法
+//{{c1::
 alert(User === User.prototype.constructor); // true}}
-//{{c1::
 // User.prototype 中的方法，比如：
-alert(User.prototype.sayHi); // alert(this.name);}}
 //{{c1::
+alert(User.prototype.sayHi); // alert(this.name);}}
 // 实际上在原型中有两个方法
+//{{c1::
 alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi}}
 ```
 
@@ -2806,10 +2793,10 @@ rabbit.eat();  // 错误调用 super（因为这里并没有 [[HomeObject]]）
 
 ### `class Rabbit`与`class Rabbit extends Object`声明的区别 [	](javascript_info_20191230080406381)
 
-| class Rabbit                                      | class Rabbit extends Object                    |
-| :------------------------------------------------ | :--------------------------------------------- |
-| {{c1:: – }}                                       | {{c1::needs to call `super()` in constructor}} |
-| {{c1::`Rabbit.__proto__ === Function.prototype`}} | {{c1::`Rabbit.__proto__ === Object`}}          |
+|                                         | class Rabbit                                      | class Rabbit extends Object                    |
+| --------------------------------------- | :------------------------------------------------ | :--------------------------------------------- |
+| **构造器：**                            | {{c1:: – }}                                       | {{c1::needs to call `super()` in constructor}} |
+| **原型：                             ** | {{c1::`Rabbit.__proto__ === Function.prototype`}} | {{c1::`Rabbit.__proto__ === Object`}}          |
 
 ### js中的静态类 [	](javascript_info_20191230080406383)
 
@@ -2917,7 +2904,7 @@ alert( s.call(alert) ); // [object Function]}}
 
 ### 自定义 obj.toString 方法中揭示类型[	](javascript_info_20191230080406395)
 
-- 使用 Symbol.toStringTag这个特殊的对象属性进行自定义输出。
+- 使用{{c1::  Symbol.toStringTag }}这个特殊的对象属性进行自定义输出。
 
 ```javascript
 //{{c1::
