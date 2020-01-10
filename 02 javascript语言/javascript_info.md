@@ -3272,6 +3272,8 @@ new Promise(function(resolve, reject) {
 
 ---
 
+{{c1::
+
 答案是：**不，它不会触发**：
 
 ```javascript
@@ -3285,6 +3287,8 @@ new Promise(function(resolve, reject) {
 正如本章所述，函数代码周围有个“隐式 `try..catch`”。所以所有同步错误都被处理。
 
 但是这里的错误并不是在执行阶段生成的，而是在执行阶段之后才生成错误。所以 promise 无法处理它。
+
+}}
 
 ## 静态方法：`Promise.resolve`
 
@@ -3329,13 +3333,17 @@ let promise = new Promise((resolve, reject) => reject(error));
 
 ## Promise.all
 
-用途:假设我想要并行执行多个 promise，并等待所有 promise 准备就绪。
+用途:{{c1:: 假设我想要并行执行多个 promise，并等待所有 promise 准备就绪。}}
 
 ```javascript
-Promise.all([
-  new Promise(resolve => setTimeout(() => resolve(1), 3000)), // 1
-  new Promise(resolve => setTimeout(() => resolve(2), 2000)), // 2
-  new Promise(resolve => setTimeout(() => resolve(3), 1000))  // 3
-]).then(alert); // 1,2,3 当 promise 就绪：每一个 promise 即成为数组中的一员
+Promise.all(
+    //{{c1::
+      [
+      new Promise(resolve => setTimeout(() => resolve(1), 3000)), // 1
+      new Promise(resolve => setTimeout(() => resolve(2), 2000)), // 2
+      new Promise(resolve => setTimeout(() => resolve(3), 1000))  // 3	
+	  ]
+    //}}
+).then(alert); // 1,2,3 当 promise 就绪：每一个 promise 即成为数组中的一员
 ```
 
