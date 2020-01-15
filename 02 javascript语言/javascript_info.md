@@ -43,42 +43,6 @@ let sayHi = function(name) {  // (*) no magic any more
 
 }}
 
-### 用箭头函数重写   [	](javascript_info_20191219101334392)
-
-用箭头函数重写下面的函数表达式：
-
-```javascript
-function ask(question, yes, no) {
-  if (confirm(question)) yes()
-  else no();
-}
-
-ask(
-  "Do you agree?",
-  function() { alert("You agreed."); },
-  function() { alert("You canceled the execution."); }
-);
-```
-
----
-
- {{c1::  
-
-```js
-function ask(question, yes, no) {
-  if (confirm(question)) yes()
-  else no();
-}
-
-ask(
-  "Do you agree?",
-  () => alert("You agreed."),
-  () => alert("You canceled the execution.")
-);
-```
-
-}}
-
 ### `typeof` 运算符返回值的类型，但有两个例外：  [	](javascript_info_20191219101334394)
 
  {{c1::  
@@ -3030,7 +2994,7 @@ try {
 - `name` ——{{c1:: 异常名称（异常对象的构造函数的名称）。}} 
 - `stack`（没有标准） ——{{c1:: 异常发生时的调用栈。}} 
 
-### 全局 catch  ` window.onerror`的使用
+### 全局 catch  ` window.onerror`的使用 [	](javascript_info_20200114084259605)
 
 ```js
   window.onerror = function(message, url, line, col, error) {
@@ -3044,7 +3008,7 @@ try {
   readData();
 ```
 
-### task:自定义异常：继承 SyntaxError 
+### task:自定义异常：继承 SyntaxError  [	](javascript_info_20200114084259607)
 
 创造一个继承自内置类 `SyntaxError` 的 `FormatError` 类。
 
@@ -3086,7 +3050,9 @@ alert( err instanceof SyntaxError ); // true
 
 }}
 
-### Promise 对象的构造语法是：
+## 异步编程 [	](javascript_info_20200114084259608)
+
+### Promise 对象的构造方法签名是： [	](javascript_info_20200114084259610)
 
 ```javascript
 //{{c1::
@@ -3096,12 +3062,12 @@ let promise = new Promise(function(resolve, reject) {
 //}}
 ```
 
-### `promise` 对象有内部属性：
+### `promise` 对象有内部属性： [	](javascript_info_20200114084259612)
 
 - `state` —— {{c1:: 最初是 “pending”，然后被改为 “fulfilled” 或 “rejected” }}
 - `result` —— {{c1:: 一个任意值，最初是 `undefined`。}}
 
-### 当`promise`中`executor` 完成任务时，应调用以下两个方法之一：
+### 当`promise`中`executor` 完成任务时，应调用以下两个方法之一： [	](javascript_info_20200114084259614)
 
 `resolve(value)` ——{{c1:: 说明任务已经完成：}}
 
@@ -3113,7 +3079,7 @@ let promise = new Promise(function(resolve, reject) {
   - {{c1:: 将 `state` 设置为 `"rejected"`}}
   - {{c1:: 将 `result` 设置为 `error`}}
 
-## 使用promise示例：loadScript
+### 使用promise示例：loadScript [	](javascript_info_20200114084259616)
 
 ```javascript
 function loadScript(src) {
@@ -3144,7 +3110,7 @@ promise.then(
 promise.then(script => alert('One more handler to do something else!'));
 ```
 
-### task:下列代码会输出什么？
+### task:下列代码会输出什么？ [	](javascript_info_20200114084259618)
 
 ```javascript
 let promise = new Promise(function(resolve, reject) {
@@ -3166,29 +3132,29 @@ promise.then(alert);
 
 }}
 
-### **The `state` and `result` are internal**
+### **The `state` and `result` are internal** [	](javascript_info_20200114084259620)
 
 {{c1::
 
-Promise 的 `state` 和 `result` 属性是内部的。我们不能从代码中直接访问它们，但是我们可以使用 `.then/catch` 来访问，下面是对此的描述。
+Promise 的 `state` 和 `result` 属性是内部的。我们不能从代码中直接访问它们，但是我们可以使用 `.then/catch` 来访问
 
 调用 `.catch(f)` 是 `.then(null, f)` 的模拟，这只是一个简写。
 
 }}
 
-### promises链中，`.then`方法3种返回值
+### promises链中，`.then`方法3种返回值 [	](javascript_info_20200114084259621)
 
 - {{c1:: 作为`result`传给下一个then的属性}}
 - {{c1:: 原生的`Promise`的对象 }}
 - {{c1:: thenable 对象（一个具有 `.then` 方法的任意对象）}}
 
-### promises链中，如果`.then`方法返回的thenable 对象
+### promises链中，如果`.then`方法返回的thenable 对象 [	](javascript_info_20200114084259623)
 
 - 执行流程
   - {{c1:: JavaScript 会检查 promises链中`.then` 方法返回的对象。}}
   - {{c1:: 如果它有一个名为 `then` 的可调用方法，那么它会调用该方法并提供原生函数 `resolve`，`reject `作为参数（类似于 executor）并在它被调用前一直等待。}}
 
-### fetch的promises链调用示例
+### fetch的promises链调用示例 [	](javascript_info_20200114084259624)
 
 - 作为一个规律，一个异步动作应该永远返回一个 promise。
 
@@ -3231,21 +3197,22 @@ loadJson('/article/promise-chaining/user.json')
   // ...
 ```
 
-### `unhandledrejection` 事件来捕获Promise中的异常 
+### 全局`unhandledrejection` 事件来捕获Promise中的异常  [	](javascript_info_20200114084259626)
 
 ```javascript
+//{{c1::
 window.addEventListener('unhandledrejection', function(event) {
   // the event object has two special properties:
   alert(event.promise); // [object Promise] - 产生错误的 promise
   alert(event.reason); // Error: Whoops! - 未处理的错误对象
 });
-
+//}}
 new Promise(function() {
   throw new Error("Whoops!");
 }); // 没有 catch 处理错误
 ```
 
-### Promise中setTimeout 里的异常
+### Promise中setTimeout 里的异常 [	](javascript_info_20200114084259627)
 
 你怎么看？`.catch` 会触发么？解释你的答案。
 
@@ -3277,7 +3244,9 @@ new Promise(function(resolve, reject) {
 
 }}
 
-## 静态方法：`Promise.resolve`
+## `Promise` 类的 5 种静态方法
+
+### `Promise.resolve`静态方法 [	](javascript_info_20200114084259629)
 
 用途：{{c1:: 当我们已经有一个 value 的时候，就会使用该方法，但希望将它“封装”进 promise。}}
 
@@ -3302,7 +3271,7 @@ function loadCached(url) {
 }
 ```
 
-## Promise.reject
+### `Promise.reject`静态方法 [	](javascript_info_20200114084259630)
 
 语法：
 
@@ -3318,9 +3287,12 @@ let promise = new Promise((resolve, reject) => reject(error));
 // }}
 ```
 
-## Promise.all
+### `Promise.all`静态方法 [	](javascript_info_20200114084259632)
 
-用途:{{c1:: 假设我想要并行执行多个 promise，并等待所有 promise 准备就绪。}}
+- 用途:假设我想要并行执行多个 promise，并等待所有 promise 准备就绪。
+- 它们的相对顺序是相同的。
+- **如果任意一个 promise 为 reject，`Promise.all` 返回的 promise 就会立即 reject 这个错误。**
+- **如果出现错误，其他 promise 就会被忽略**
 
 ```javascript
 Promise.all(
@@ -3334,3 +3306,189 @@ Promise.all(
 ).then(alert); // 1,2,3 当 promise 就绪：每一个 promise 即成为数组中的一员
 ```
 
+### `Promise.all(iterable)` 允许“迭代”中的非 promise（non-promise）的 “常规“
+
+```javascript
+Promise.all([
+  new Promise((resolve, reject) => {
+    setTimeout(() => resolve(1), 1000)
+  }),
+  2, // 视为 Promise.resolve(2)
+  3  // 视为 Promise.resolve(3)
+]).then(alert); // 1, 2, 3
+```
+
+### `Promise.allSettled`静态方法
+
+- 返回所有promise的处理结果，返回的数组元素有2种类型：
+  - `{status:"fulfilled", value:result}` 对于成功的响应。
+  - `{status:"rejected", reason:error}` 对于错误的响应。
+
+```javascript
+let urls = [
+  'https://api.github.com/users/iliakan',
+  'https://api.github.com/users/remy',
+  'https://no-such-url'
+];
+//使用promise异步访问以上3个链接，并打印出链接与状态码或者错误。
+// {{c1::
+Promise.allSettled(
+   
+   urls.map(url => fetch(url)))
+  .then(results => { // (*)
+    results.forEach((result, num) => {
+      if (result.status == "fulfilled") {
+        alert(`${urls[num]}: ${result.value.status}`);
+      }
+      if (result.status == "rejected") {
+        alert(`${urls[num]}: ${result.reason}`);
+      }
+    });
+  });
+//}}
+```
+
+### 如果浏览器不支持 `Promise.allSettled`的使用`promise.all`的替代方式
+
+```js
+if(!Promise.allSettled) {
+  Promise.allSettled = function(promises) {
+    return Promise.all(promises.map(p => Promise.resolve(p).then(v => ({
+      state: 'fulfilled',
+      value: v,
+    }), r => ({
+      state: 'rejected',
+      reason: r,
+    }))));
+  };
+}
+```
+
+### `Promise.race`
+
+- 在第一个 promise 被解决（“赢得比赛[wins the race]”）后，所有后面的结果/错误都会被忽略。
+
+```js
+Promise.race([
+  new Promise((resolve, reject) => setTimeout(() => resolve(1), 1000)),
+  new Promise((resolve, reject) => setTimeout(() => reject(new Error("Whoops!")), 2000)),
+  new Promise((resolve, reject) => setTimeout(() => resolve(3), 3000))
+]).then(alert); // 1
+```
+
+### `Promise` 类有 5 种静态方法：
+- `Promise.resolve(value)` – 根据给定值返回 resolved promise。
+- `Promise.reject(error)` – 根据给定错误返回 rejected promise。
+- `Promise.all(promises)` – 等待所有的 promise 为 resolve 时返回存放它们结果的数组。如果任意给定的 promise 为 reject，那么它就会变成 `Promise.all` 的错误结果，所有的其他结果都会被忽略。
+- `Promise.allSettled(promises)`
+   （新方法） – 等待所有 promise resolve 或者 reject，并以对象形式返回它们结果数组：
+   - `state`：`‘fulfilled’` 或 `‘rejected’`
+   - `value`（如果 fulfilled）或 `reason`（如果 rejected）
+- `Promise.race(promises)` – 等待第一个 promise 被解决，其结果/错误即为结果。
+
+### 将带回调的函数转换成promise异步风格，promisify包装方法的实现
+
+```javascript
+// 设定为 promisify(f, true) 来获取结果数组
+function promisify(f, manyArgs = false) {
+  // {{c1::
+  return function (...args) {
+    return new Promise((resolve, reject) => {
+      function callback(err, ...results) { // 给 f 用的自定义回调
+        if (err) {
+          return reject(err);
+        } else {
+          // 如果 manyArgs 被指定值，则 resolve 所有回调结果
+          resolve(manyArgs ? results : results[0]);
+        }
+      }
+      args.push(callback);
+
+      f.call(this, ...args);
+    });
+  };
+  // }}
+};
+
+// 用法：
+f = promisify(f, true);
+f(...).then(arrayOfResults => ..., err => ...)
+```
+
+### 微任务队列（Microtasks queue）
+
+Promise 处理始终是异步的，因为所有 promise 操作都被放入内部的“promise jobs”队列执行，也被称为“微任务队列”（v8 术语）。
+
+**因此，`.then/catch/finally` 处理程序总是{{c1::在当前代码完成后才被调用。**}}
+
+如果我们需要确保一段代码在 `.then/catch/finally` 之后被执行，最好将它添加到 `.then` 的链式调用中。
+
+以下程序的结果?
+
+```javascript
+let promise = Promise.reject(new Error("Promise Failed!"));
+setTimeout(() => promise.catch(err => alert('caught')));
+window.addEventListener('unhandledrejection', event => alert(event.reason));
+```
+
+{{c1:: 先会看到 `Promise Failed!` 的消息，然后才是 `caught` }}
+
+### `async`关键值的作用：
+
+```javascript
+async function f() {
+  return 1;
+}
+f().then(alert); // 1
+```
+
+相当于以下代码：
+
+```javascript
+//{{c1::
+new Promise(resolve ->{
+	resolve(1);
+}).then(alert);
+//}}
+```
+
+### Await关键值的作用:
+
+最简单的例子：
+
+```javascript
+async function f() {
+
+  let promise = new Promise((resolve, reject) => {
+    setTimeout(() => resolve("done!"), 1000)
+  });
+
+  let result = await promise; // 等待直到 promise 决议 (*)
+
+  alert(result); // "done!"
+}
+
+f();
+```
+
+**不能在普通函数中使用** `await`
+
+### `await` **不能在顶层代码运行**
+
+```javascript
+// 用在顶层代码中会报语法错误
+let response = await fetch('/article/promise-chaining/user.json');
+let user = await response.json();
+```
+
+解决办法：可以将其包裹在一个匿名 async 函数中
+
+```javascript
+//{{c1::
+(async () => {
+  let response = await fetch('/article/promise-chaining/user.json');
+  let user = await response.json();
+  ...
+})();
+// }}
+```
