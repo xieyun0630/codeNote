@@ -27,7 +27,7 @@ public static void main(String[] args) {
 
 接下来就是写 hellovelocity.vm 文件了，这个文件实际定义了 Velocity 的输出内容和格式。hellovelocity.vm 的内容如下：
 
-```vm
+```velocity
 #set( $iAmVariable = "good!" )
 Welcome $name to velocity.com
 today is $date.
@@ -39,7 +39,7 @@ $iAmVariable
 
 输出结果如下：
 
-```
+```velocity
 Welcome velocity to velocity.com
 today is Sun Mar 23 19:19:04 CST 2014.
 1
@@ -53,13 +53,13 @@ good!
 
 在 Velocity 中所有的关键字都是以 # 开头的，而所有的变量则是以$开头。
 
-```
+```velocity
 #set($name =“velocity”)
 ```
 
 等号后面的字符串 Velocity 引擎将重新解析，例如出现以$开始的字符串时，将做变量的替换。
 
-```
+```velocity
 #set($hello =“hello $name”)
 ```
 
@@ -83,7 +83,7 @@ good!
 - 字面数字
 - 数组列表
 
-```
+```velocity
 #set($foo = $bar)
 #set($foo =“hello”)
 #set($foo.name = $bar.name)
@@ -96,7 +96,7 @@ good!
 
 Velocity 引擎会将 list 中的值循环赋给 element 变量，同时会创建一个$velocityCount 的变量作为计数，从 1 开始，每次循环都会加 1.
 
-```
+```velocity
 #foreach($element in $list)
  This is $element
  $velocityCount
@@ -105,7 +105,7 @@ Velocity 引擎会将 list 中的值循环赋给 element 变量，同时会创�
 
 ### 条件语句的语法
 
-```
+```velocity
 #if(condition)
 ...
 #elseif(condition)
@@ -119,14 +119,14 @@ Velocity 引擎会将 list 中的值循环赋给 element 变量，同时会创�
 
 Velocity 引擎提供了 AND、OR 和 NOT 操作符，分别对应&&、||和! 例如：
 
-```
+```velocity
 #if($foo && $bar)
 #end
 ```
 
 ### 宏的定义与使用
 
-```java
+```velocity
 // 这里的参数之间使用空格隔开
 #macro(macroName arg1 arg2 …)
 ...
@@ -135,13 +135,13 @@ Velocity 引擎提供了 AND、OR 和 NOT 操作符，分别对应&&、||和! �
 
 调用这个宏的语法是：
 
-```
+```velocity
 #macroName(arg1 arg2 …)
 ```
 
 使用 Velocity 宏的例子：
 
-```java
+```velocity
 #macro(sayHello $name)
 hello $name 
 #end
@@ -151,7 +151,7 @@ hello $name
 
 ### \#parse 和 #include
 
-```java
+```velocity
 #parse(“foo.vm”)
 // 输出结果为：velocity
     
