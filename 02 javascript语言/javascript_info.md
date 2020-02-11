@@ -1,3 +1,24 @@
+### 动态脚本是什么
+
+**默认情况下，{{c1:: 动态脚本（Dynamic scripts）表现为“异步”行为。}}**
+
+```javascript
+//{{c1::
+let script = document.createElement('script');
+script.src = "/article/script-async-defer/long.js";
+document.body.append(script); // (*)
+//}}
+```
+
+### `async` 和 `defer` 属性区别
+
+| 类型    | 顺序                                                         | `DOMContentLoaded`                                           |
+| :------ | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| `async` | **{{c1::加载优先顺序**。脚本在文档中的顺序不重要 —— 先加载完成先运行}} | {{c1::无关紧要。可能在文档还未完全下载前加载执行。如果脚本很小或者来自于缓存，同时文档又足够长，就会发生这种情况。}} |
+| `defer` | **{{c1::文档顺序**（它们在文档中的位置）}}                   | {{c1::在 `DOMContentLoaded` 之前且在文档加载解析之后执行（可能需要等待）。}} |
+
+### 与用户交互的 3 个浏览器指定的函数：[	](javascript_info_20191219101334387)
+
 我们使用浏览器作为工作环境，所以基本的 UI 功能将是：
 
 -  {{c1::  prompt(question[, default])}}
@@ -156,7 +177,7 @@ alert( bag.apple ); // 5 如果 fruit="apple"
 
 }}
 
-### 用存在的变量当做属性名时的简写  [	](javascript_info_20191219101334407)
+### 定义对象属性的简写[	](javascript_info_20191219101334407)
 {{c1::  
 我们可以把简写方式和正常方式混用：
 
@@ -3433,6 +3454,8 @@ window.addEventListener('unhandledrejection', event => alert(event.reason));
 
 {{c1:: 先会看到 `Promise Failed!` 的消息，然后才是 `caught` }}
 
+## async与await
+
 ### `async`关键值的作用：
 
 ```javascript
@@ -3491,4 +3514,418 @@ let user = await response.json();
   ...
 })();
 // }}
+```
+
+### `await` **可以接收「thenables」**
+
+含义：如果 `await` 接收了一个非 promise 的但是提供了 `.then` 方法的对象，它就会调用这个 then 方法，并将原生函数 `resolve`，`reject` 作为参数传入。
+
+例子：{{c1::
+
+```javascript
+class Thenable {
+  constructor(num) {
+    this.num = num;
+  }
+  then(resolve, reject) {
+    alert(resolve);
+    // 1 秒后决议为 this.num*2
+    setTimeout(() => resolve(this.num * 2), 1000); // (*)
+  }
+};
+
+async function f() {
+  // 等待 1 秒, result 变为 2
+  let result = await new Thenable(1);
+  alert(result);
+}
+
+f();
+```
+
+}}
+
+### 用 async/await 来重写异步函数
+
+```javascript
+function loadJson(url) {
+  return fetch(url)
+    .then(response => {
+      if (response.status == 200) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+}
+
+loadJson('no-such-user.json') // (3)
+  .catch(alert); // Error: 404
+```
+
+结果如下：
+
+```javascript
+//{{c1::
+async function loadJson(url) { // (1)
+  let response = await fetch(url); // (2)
+
+  if (response.status == 200) {
+    let json = await response.json(); // (3)
+    return json;
+  }
+
+  throw new Error(response.status);
+}
+
+loadJson('no-such-user.json')
+  .catch(alert); // Error: 404 (4)
+//}}
+```
+
+### 我们在一个「普通的」函数中，如何调用另一个 `async` 函数并且拿到返回值？
+
+```javascript
+async function wait() {
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+  return 10;
+}
+
+function f() {
+  // ...这里怎么写？
+  // 我们需要调用 async wait() 等待并拿到结果 10
+  // 记住, 我们不能使用 「await」
+}
+```
+
+答案：{{c1::
+
+```
+async function wait() {
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+  return 10;
+}
+
+function f() {
+  // 一秒后显示 10
+  wait().then(result => alert(result));
+}
+
+f();
+```
+
+}}
+
+## Generators，高级 iteration
+
+### Generator 组合（composition）
+
+生成一个序列：
+
+- 数字 `0..9`（ASCII 可显示字符代码为 48…57），
+- 后跟字母 `a..z`（ASCII 可显示字符代码为 65…90）
+- 后跟大写字母 `A..Z`（ASCII 可显示字符代码为 97…122）
+
+代码：{{c1::
+
+```javascript
+function* generateSequence(start, end) {
+  for (let i = start; i <= end; i++) yield i;
+}
+
+function* generatePasswordCodes() {
+
+  // 0..9
+  yield* generateSequence(48, 57);
+  // 相当于
+  // for (let i = 48; i <= 57; i++) yield i;   
+  // A..Z
+  yield* generateSequence(65, 90);
+
+  // a..z
+  yield* generateSequence(97, 122);
+
+}
+
+let str = '';
+
+for(let code of generatePasswordCodes()) {
+  str += String.fromCharCode(code);
+}
+
+alert(str); // 0..9A..Za..z
+```
+
+}}
+
+### 外部代码和 generator 可能会通过调用 `next/yield` 交换结果。
+
+以下程序的输出是什么
+
+```javascript
+function* gen() {
+  let ask1 = yield "2 + 2?";
+
+  alert(ask1); // 4
+
+  let ask2 = yield "3 * 3?"
+
+  alert(ask2); // 9
+}
+
+let generator = gen();
+
+alert( generator.next().value ); 
+
+alert( generator.next(4).value ); 
+
+alert( generator.next(9).done ); 
+```
+
+输出：{{c1::
+
+```java
+// "2 + 2?"
+// "3 * 3?"
+// true
+```
+
+}}
+
+### generator.throw
+
+```javascript
+function* gen() {
+  try {
+    let result = yield "2 + 2?"; // (1)
+
+    alert("The execution does not reach here, because the exception is thrown above");
+  } catch(e) {
+    alert(e); // 显示错误
+  }
+}
+
+let generator = gen();
+
+let question = generator.next().value;
+//{{c1::
+generator.throw(new Error("The answer is not found in my database")); // (2)
+//}}
+```
+
+/{{c1::在 `(2)` 行引入 generator 的错误导致 `(1)` 行 `yield` 出现异常。在上面例子中，`try..catch` 可以捕获并显示错误。如果我们没有捕获它，就像其他的异常，它将从 generator “掉出”到调用代码中。}}
+
+### task:伪随机（Pseudo-random）generator]
+
+一个公式示例如下，它生成一些统一分布的值：
+
+```none
+next = previous * 16807 % 2147483647
+```
+
+如果我们使用 `1` 作为种子，它的值将会是：
+
+1. `16807`
+2. `282475249`
+3. `1622650073`
+4. ……等等……
+
+使用例子：
+
+```javascript
+let generator = pseudoRandom(1);
+
+alert(generator.next().value); // 16807
+alert(generator.next().value); // 282475249
+alert(generator.next().value); // 1622650073
+```
+
+答案：{{c1:: 
+
+```
+function* pseudoRandom(seed) {
+  let value = seed;
+
+  while(true) {
+    value = value * 16807 % 2147483647
+    yield value;
+  }
+
+};
+
+let generator = pseudoRandom(1);
+
+alert(generator.next().value); // 16807
+alert(generator.next().value); // 282475249
+alert(generator.next().value); // 1622650073
+```
+
+}}
+
+### 异步迭代器与常规迭代器的语法区别：
+
+|                            | 迭代器                    | 异步迭代器                     |
+| :------------------------- | :------------------------ | :----------------------------- |
+| 提供 `iterator` 的对象方法 | {{c1::`Symbol.iterator`}} | {{c1::`Symbol.asyncIterator`}} |
+| `next()` 返回的值是        | {{c1::任意值}}            | {{c1::`Promise}}`              |
+| 使用的循环语法是           | {{c1::`for..of`}}         | {{c1::`for await..of`}}        |
+| **展开运算符** `...`       | {{c1::可以展开}}          | {{c1::**无法执行异步操作**}}   |
+
+### 异步生成器与常规生成器的语法区别：
+
+|                     | 常规生成器                            | 异步生成器                                                  |
+| :------------------ | :------------------------------------ | :---------------------------------------------------------- |
+| 声明方式            | {{c1::`function*`}}                   | {{c1::`async function*`}}                                   |
+| `next()` 返回的值是 | {{c1::`{value:…, done: true/false}`}} | {{c1::被解析成 `{value:…, done: true/false}` 的 `Promise`}} |
+
+## 模块
+
+### 模块的核心概念：
+
+1. 模块就是文件。浏览器需要使用`<script type="module">`属性以使`import/export`可用，这里有几点差别：
+  
+   - 默认是延迟解析的
+   
+     - 
+   
+       ```javascript
+       //{{c1::
+       <script type="module">
+         alert(typeof button); // object: 脚本可以‘看见’下面的 button
+         // 当脚本模块延迟时，脚本在整个页面加载完成之后才执行
+       </script>
+       
+       相较于普通脚本：
+       <script>
+         alert(typeof button); // Error: button is undefined，脚本不能“看到”下面的元素
+         // 普通脚本在剩余页面加载完成前就执行了
+       </script>
+       ```
+   
+    <button id="button">Button</button>
+    //}}
+    ```
+   
+   - 内联脚本是异步的
+   
+     - ```javascript
+       //{{c1::
+       <!-- 所有依赖都获取(analytics.js)脚本，然后运行 -->
+       <!-- 不会等待 HTML 文档或者其他 <script> 标签 -->
+       <script async type="module">
+         import {counter} from './analytics.js';
+         counter.count();
+       </script>
+       //}}
+    ```
+   
+   - 加载外部不同源（domain/protocol/port）脚本时，必须提供 CORS 响应头
+   
+   - 重复的外部脚本会被忽略
+   
+2. 模块有自己的{{c1::本地顶级}}作用域，可以通过 `import/export` 交换功能
+
+3. 模块始终使用 {{c1::`use strict`}}模式
+
+4. 模块代码只执行一次。{{c1::导出的代码创建一次然后会在各导入之间共享}}
+
+### 默认导出与命名导出的区别
+
+|          | 命名导出                            | 默认导出                                  |
+| -------- | :---------------------------------- | :---------------------------------------- |
+| **导出** | {{c1:: `export class User {...}` }} | {{c1::`export default class User {...}`}} |
+| **导入** | {{c1::`import {User} from ...`}}    | {{c1::`import User from ...`}}            |
+
+### “default”关键字的使用
+
+```javascript
+function sayHi(user) {
+  alert(`Hello, ${user}!`);
+}
+//导出
+//{{c1::
+export {sayHi as default}; // 和我们在函数前添加“export default”一样}}
+```
+
+### 默认与命名混合导出
+
+假设模块 `user.js` 导出一个默认导出“default”和几个命名导出（虽然很少出现，但是会发生）：
+
+```javascript
+// 📁 user.js
+export default class User {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+export function sayHi(user) {
+  alert(`Hello, ${user}!`);
+}
+```
+
+那么，如何导入默认导出和命名导出：
+
+```javascript
+// 📁 main.js
+//{{c1::
+import {default as User, sayHi} from './user.js';
+new User('John');
+//}}
+```
+
+### 导出 `export` 类型有以下几种：
+
+- 声明之前：
+  - {{c1::`export [default] class/function/variable ...`
+- 单个导出：
+  - {{c1::`export {x [as y], ...}`.}}
+- 重新导出：
+  - {{c1::`export {x [as y], ...} from "mod"`}}
+  - {{c1:: `export * from "mod"`（不会重新导出 default）}}
+  - {{c1::`export {default [as y]} from "mod"`（重新导出 default）}}
+
+### 导入 `import` 类型有以下几种：
+
+- 模块中的命名导出：
+  - {{c1::`import {x [as y], ...} from "mod"`}}
+- 默认导出：
+  - {{c1::`import x from "mod"`}}
+  - {{c1:: `import {default as x} from "mod"`}}
+- 导入全部导出：
+  - {{c1::`import * as obj from "mod"`}}
+- 导入模块（可运行），但是没有将其赋值给变量：
+  - {{c1::`import "mod"`}}
+
+### import() 函数
+
+作用：{{c1:: 返回一个解析为模块对象的 promise。}}
+
+```javascript
+export function hi() {
+  alert(`Hello`);
+}
+
+export function bye() {
+  alert(`Bye`);
+}
+
+export default function() {
+  alert("Module loaded (export default)!");
+}
+// 以下是调用
+//{{c1::
+<!doctype html>
+<script>
+  async function load() {
+    let say = await import('./say.js');
+    say.hi(); // Hello!
+    say.bye(); // Bye!
+    say.default(); // Module loaded (export default)!
+  }
+</script>
+<button onclick="load()">Click me</button>
+//}}
 ```
